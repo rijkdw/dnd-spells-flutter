@@ -47,35 +47,35 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: SettingsDrawer(),
-        appBar: AppBar(
-          elevation: 0,
-          actions: <Widget>[
-            IconButton(
-              icon: FaIcon(
-                FontAwesomeIcons.filter,
-                size: 20,
-              ),
-              onPressed: () {},
+      appBar: AppBar(
+        elevation: 0,
+        actions: <Widget>[
+          IconButton(
+            icon: FaIcon(
+              FontAwesomeIcons.filter,
+              size: 20,
             ),
-            IconButton(
-              icon: Icon(
-                _displayMode == DisplayMode.list ? Icons.view_module : Icons.view_list,
-                size: 30,
-              ),
-              onPressed: () {
-                _switchDisplayMode();
-                Scaffold.of(context).removeCurrentSnackBar();
-                Scaffold.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Switched to ${_displayMode.toString().split('.')[1]} mode'),
-                    duration: Duration(seconds: 2),
-                  ),
-                );
-              },
-            )
-          ],
-        ),
-        body: _buildList());
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: Icon(
+              _displayMode == DisplayMode.list ? Icons.view_module : Icons.view_list,
+              size: 30,
+            ),
+            onPressed: () {
+              _switchDisplayMode();
+              Scaffold.of(context).removeCurrentSnackBar();
+              Scaffold.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Switched to ${_displayMode.toString().split('.')[1]} mode'),
+                  duration: Duration(seconds: 2),
+                ),
+              );
+            },
+          )
+        ],
+      ),
+      body: _buildList(),
+    );
   }
 }

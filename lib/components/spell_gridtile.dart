@@ -41,34 +41,63 @@ class SpellGridTile extends StatelessWidget {
           Text(
             spell.subtitle,
             style: TextStyle(
-              fontStyle: FontStyle.italic,
+//              fontStyle: FontStyle.italic,
               fontSize: 16,
+              color: Colors.black54,
             ),
           ),
-          SizedBox(height: 4),
-          Row(
-            children: <Widget>[
-              SpellAttributeLine(
-                leading: FaIcon(FontAwesomeIcons.draftingCompass, size: 14),
-                content: '60 ft.',
-              ),
-              SpellAttributeLine(
-                leading: FaIcon(FontAwesomeIcons.mortarPestle, size: 14),
-                content: 'VSM',
-              ),
-            ],
-          )
+          SizedBox(height: 8),
+
+          // casting time
+          Expanded(
+            child: CompactSpellAttributeLine(
+              leading: FaIcon(FontAwesomeIcons.hourglassHalf, size: 14),
+              content: spell.castingTime,
+            ),
+          ),
+
+          // components
+          Expanded(
+            child: CompactSpellAttributeLine(
+              leading: FaIcon(FontAwesomeIcons.mortarPestle, size: 14),
+              content: spell.components,
+            ),
+          ),
+
+          // range
+          Expanded(
+            child: CompactSpellAttributeLine(
+              leading: FaIcon(FontAwesomeIcons.draftingCompass, size: 14),
+              content: spell.range,
+            ),
+          ),
+
+          // duration
+          Expanded(
+            child: CompactSpellAttributeLine(
+              leading: FaIcon(FontAwesomeIcons.hourglassEnd, size: 14),
+              content: spell.duration,
+            ),
+          ),
+
+          // classes
+          Expanded(
+            child: CompactSpellAttributeLine(
+              leading: FaIcon(FontAwesomeIcons.hatWizard, size: 14),
+              content: spell.classes.join(', '),
+            ),
+          ),
         ],
       ),
     );
   }
 }
 
-class SpellAttributeLine extends StatelessWidget {
+class CompactSpellAttributeLine extends StatelessWidget {
   final Widget leading;
   final String content;
 
-  SpellAttributeLine({@required this.leading, @required this.content});
+  CompactSpellAttributeLine({@required this.leading, @required this.content});
 
   @override
   Widget build(BuildContext context) {
@@ -77,9 +106,14 @@ class SpellAttributeLine extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          leading,
-          SizedBox(width: 6),
-          Text(content),
+          SizedBox(
+            width: 22,
+            child: leading,
+          ),
+          Text(
+            content,
+            softWrap: true,
+          ),
         ],
       ),
     );
