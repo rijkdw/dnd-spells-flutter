@@ -47,6 +47,7 @@ class SpellInfoScreen extends StatelessWidget {
     ));
 
     return RichText(
+//      textAlign: TextAlign.justify,
       text: TextSpan(
         text: '',
         style: Theme.of(context).textTheme.bodyText1.copyWith(
@@ -68,8 +69,8 @@ class SpellInfoScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.only(
-            left: 10,
-            right: 10,
+            left: 13,
+            right: 13,
             top: 10,
           ),
           child: Column(

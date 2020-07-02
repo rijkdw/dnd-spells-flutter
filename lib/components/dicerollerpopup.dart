@@ -1,5 +1,4 @@
-import 'package:dnd_spells_flutter/utilities/diceutils.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:dnd_spells_flutter/utilities/utils.dart';
 import 'package:flutter/material.dart';
 
 class DiceRollerDialog extends StatefulWidget {

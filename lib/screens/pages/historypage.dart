@@ -7,6 +7,10 @@ class HistoryPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
+        leading: IconButton(
+          onPressed: () => Scaffold.of(context).openDrawer(),
+          icon: Icon(Icons.keyboard_arrow_right),
+        ),
       ),
       body: Center(
         child: Text('History Page'),

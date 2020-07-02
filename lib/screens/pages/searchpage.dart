@@ -2,8 +2,10 @@ import 'package:dnd_spells_flutter/components/drawer.dart';
 import 'package:dnd_spells_flutter/components/spell_gridtile.dart';
 import 'package:dnd_spells_flutter/components/spell_listtile.dart';
 import 'package:dnd_spells_flutter/models/spell.dart';
+import 'package:dnd_spells_flutter/services/searchmanager.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -24,31 +26,43 @@ class _SearchPageState extends State<SearchPage> {
     });
   }
 
-  List<Spell> _spells = List.generate(5, (index) => FakeSpell());
-
-  Widget _buildList() {
-    switch (_displayMode) {
-      case DisplayMode.list:
-        return ListView(
-          children: _spells.map((spell) => SpellListTile(spell: spell)).toList(),
-        );
-      case DisplayMode.grid:
-        return Container(
-          padding: EdgeInsets.all(2),
-          child: GridView.count(
-            crossAxisCount: 2,
-            children: _spells.map((spell) => SpellGridTile(spell: spell)).toList(),
-          ),
-        );
-    }
-    return Container();
-  }
-
   @override
   Widget build(BuildContext context) {
+
+    Widget _buildList() {
+      return Consumer<SearchManager>(
+        builder: (context, searchManager, child) {
+          if (searchManager.searchResults.isEmpty) {
+            return Center(
+              child: Text('Loading...'),
+            );
+          }
+          switch (_displayMode) {
+            case DisplayMode.list:
+              return ListView(
+                children: searchManager.searchResults.map((spell) => SpellListTile(spell: spell)).toList(),
+              );
+            case DisplayMode.grid:
+              return Container(
+                padding: EdgeInsets.all(2),
+                child: GridView.count(
+                  crossAxisCount: 2,
+                  children: searchManager.searchResults.map((spell) => SpellGridTile(spell: spell)).toList(),
+                ),
+              );
+          }
+          return Container();
+        },
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
+        leading: IconButton(
+          onPressed: () => Scaffold.of(context).openDrawer(),
+          icon: Icon(Icons.keyboard_arrow_right),
+        ),
         actions: <Widget>[
           IconButton(
             icon: FaIcon(
