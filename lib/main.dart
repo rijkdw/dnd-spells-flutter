@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'D&D 5e Spell Seeker',
         theme: ThemeData(
-          primaryColor: Colors.red,
+          primaryColor: Colors.blue,
           accentColor: Colors.white,
         ),
         home: MainScreen(),

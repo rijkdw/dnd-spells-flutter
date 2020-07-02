@@ -13,15 +13,20 @@ class Spell {
     return '${ordinal(map['level'])}-level ${map['school'].toString().toLowerCase()}';
   }
 
-  String get range => '';
+  // TODO: fix range
+  String get range => '30 feet';
 
-  String get castingTime => '';
+  // TODO: fix casting time
+  String get castingTime => '1 action';
 
-  String get duration => '';
+  // TODO: fix duration
+  String get duration => '1 hour';
 
-  String get components => '';
+  // TODO: fix components
+  String get components => 'VSM (a cup of bat guano and a cup of sulphur)';
 
-  List<String> get classes => [];
+  // TODO: fix classes
+  List<String> get classes => ['Wizard', 'Sorcerer', 'Warlock'];
 
   List<String> get description {
     List<dynamic> entries = map['entries'];

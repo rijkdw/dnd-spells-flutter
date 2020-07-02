@@ -6,6 +6,7 @@ import 'package:dnd_spells_flutter/models/spell.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SpellInfoScreen extends StatelessWidget {
   final Spell spell;
@@ -31,7 +32,6 @@ class SpellInfoScreen extends StatelessWidget {
           ),
           recognizer: TapGestureRecognizer()
             ..onTap = () {
-              print('Tapped on ${hits[i]}');
               showDialog(
                 context: context,
                 builder: (context) => DiceRollerDialog(
@@ -46,15 +46,51 @@ class SpellInfoScreen extends StatelessWidget {
       text: splits.last,
     ));
 
-    return RichText(
-//      textAlign: TextAlign.justify,
-      text: TextSpan(
-        text: '',
-        style: Theme.of(context).textTheme.bodyText1.copyWith(
-              fontSize: 18,
-              fontWeight: FontWeight.normal,
+    return Container(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: RichText(
+        text: TextSpan(
+          style: Theme.of(context).textTheme.bodyText1.copyWith(
+                fontSize: 18,
+                fontWeight: FontWeight.normal,
+              ),
+          children: textSpanList,
+        ),
+      ),
+    );
+  }
+
+  Widget buildSpellDetail(BuildContext context, Widget icon, String key, String value) {
+    return Container(
+      padding: const EdgeInsets.only(bottom: 4),
+      child: RichText(
+        text: TextSpan(
+          style: Theme.of(context).textTheme.bodyText1.copyWith(
+                fontSize: 18,
+                fontWeight: FontWeight.normal,
+              ),
+          children: [
+            WidgetSpan(
+              child: SizedBox(
+                width: 20,
+                child: Align(
+                  alignment: Alignment.center,
+                  child: icon,
+                ),
+              ),
             ),
-        children: textSpanList,
+            WidgetSpan(
+              child: SizedBox(
+                width: 7,
+              ),
+            ),
+            TextSpan(
+              text: '$key: ',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            TextSpan(text: value),
+          ],
+        ),
       ),
     );
   }
@@ -90,9 +126,12 @@ class SpellInfoScreen extends StatelessWidget {
                     color: Colors.black54,
                   ),
                 ),
-                SizedBox(
-                  height: 14,
-                ),
+                SizedBox(height: 14),
+                buildSpellDetail(context, FaIcon(FontAwesomeIcons.stopwatch, size: 18), 'Casting Time', spell.castingTime),
+                buildSpellDetail(context, FaIcon(FontAwesomeIcons.draftingCompass, size: 18), 'Range', spell.range),
+                buildSpellDetail(context, FaIcon(FontAwesomeIcons.mortarPestle, size: 18), 'Components', spell.components),
+                buildSpellDetail(context, FaIcon(FontAwesomeIcons.hourglassEnd, size: 18), 'Duration', spell.duration),
+                SizedBox(height: 10),
               ],
               ...spell.description.map((entry) => _buildEntryLine(context, entry)).toList()
             ],
