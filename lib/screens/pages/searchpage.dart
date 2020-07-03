@@ -3,9 +3,11 @@ import 'package:dnd_spells_flutter/components/spell_gridtile.dart';
 import 'package:dnd_spells_flutter/components/spell_listtile.dart';
 import 'package:dnd_spells_flutter/models/spell.dart';
 import 'package:dnd_spells_flutter/services/searchmanager.dart';
+import 'package:dnd_spells_flutter/services/spellsrepository.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:dnd_spells_flutter/services/singletons.dart' as singletons;
 
 class SearchPage extends StatefulWidget {
   @override
@@ -30,9 +32,9 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
 
     Widget _buildList() {
-      return Consumer<SearchManager>(
-        builder: (context, searchManager, child) {
-          if (searchManager.searchResults.isEmpty) {
+      return Consumer<SpellRepository>(
+        builder: (context, spellRepo, child) {
+          if (spellRepo.allSpells.isEmpty) {
             return Center(
               child: Text('Loading...'),
             );
@@ -40,14 +42,14 @@ class _SearchPageState extends State<SearchPage> {
           switch (_displayMode) {
             case DisplayMode.list:
               return ListView(
-                children: searchManager.searchResults.map((spell) => SpellListTile(spell: spell)).toList(),
+                children: spellRepo.allSpells.map((spell) => SpellListTile(spell: spell)).toList(),
               );
             case DisplayMode.grid:
               return Container(
                 padding: EdgeInsets.all(2),
                 child: GridView.count(
                   crossAxisCount: 2,
-                  children: searchManager.searchResults.map((spell) => SpellGridTile(spell: spell)).toList(),
+                  children: spellRepo.allSpells.map((spell) => SpellGridTile(spell: spell)).toList(),
                 ),
               );
           }

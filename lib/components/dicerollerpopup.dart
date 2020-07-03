@@ -23,7 +23,6 @@ class _DiceRollerDialogState extends State<DiceRollerDialog> {
   }
 
   void _rollButtonPush() {
-
     setState(() {
       _initialState = false;
       _diceRolls = roll(_diceStringController.text);

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dnd_spells_flutter/utilities/utils.dart';
 
 class Spell {
@@ -28,9 +30,19 @@ class Spell {
   // TODO: fix classes
   List<String> get classes => ['Wizard', 'Sorcerer', 'Warlock'];
 
-  List<String> get description {
+  List<dynamic> get description {
     List<dynamic> entries = map['entries'];
-    List<String> entriesAsString = entries.map((e) => e.toString()).toList();
+    List<dynamic> entriesAsString = entries.map((e) {
+      if (e is String)
+        return e;
+      else
+        return Map<String, dynamic>.from(e);
+    }).toList();
     return entriesAsString;
+  }
+
+  List<String> get inflictsConditions {
+    List<String> conditions = List<String>.from(map['conditionInflict'] ?? []);
+    return conditions;
   }
 }

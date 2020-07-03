@@ -12,6 +12,7 @@ class SpellListTile extends StatelessWidget {
     return InkWell(
       onTap: () {
         // TODO:  Add this spell to the view history
+        Scaffold.of(context).removeCurrentSnackBar();
         return Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => SpellInfoScreen(
             spell: spell,
