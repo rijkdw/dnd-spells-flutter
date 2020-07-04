@@ -257,7 +257,7 @@ class SpellInfoScreen extends StatelessWidget {
                 buildSpellDetail(context, FaIcon(FontAwesomeIcons.stopwatch, size: 18), 'Casting Time', spell.castingTime),
                 buildSpellDetail(context, FaIcon(FontAwesomeIcons.draftingCompass, size: 18), 'Range', spell.range),
                 buildSpellDetail(context, FaIcon(FontAwesomeIcons.mortarPestle, size: 18), 'Components', spell.components),
-                buildSpellDetail(context, FaIcon(FontAwesomeIcons.hourglassEnd, size: 18), 'Duration', spell.duration),
+                buildSpellDetail(context, FaIcon(FontAwesomeIcons.hourglassEnd, size: 18), 'Duration', spell.durationAndConcentration),
                 SizedBox(height: 12),
               ],
               ...spell.description.map((entry) => buildEntryLine(entry)).toList()

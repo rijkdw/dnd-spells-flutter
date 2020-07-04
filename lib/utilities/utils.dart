@@ -16,6 +16,8 @@ String ordinal(int number) {
       return '${number}st';
     case 2:
       return '${number}nd';
+    case 3:
+      return '${number}rd';
     default:
       return '${number}th';
   }

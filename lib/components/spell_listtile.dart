@@ -1,7 +1,9 @@
 import 'package:dnd_spells_flutter/models/spell.dart';
 import 'package:dnd_spells_flutter/screens/spellinfoscreen.dart';
+import 'package:dnd_spells_flutter/services/historymanager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SpellListTile extends StatelessWidget {
   final Spell spell;
@@ -11,7 +13,7 @@ class SpellListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        // TODO:  Add this spell to the view history
+        Provider.of<HistoryManager>(context, listen: false).addToHistory(spell);
         Scaffold.of(context).removeCurrentSnackBar();
         return Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => SpellInfoScreen(

@@ -21,6 +21,7 @@ class SpellRepository extends ChangeNotifier {
     String jsonString = await rootBundle.loadString('assets/spells.json');
     List<dynamic> jsonList = json.decode(jsonString);
     _allSpells = jsonList.map((map) => Spell(map)).toList();
+    _allSpells.forEach((spell) => _nameToSpellMap[spell.name] = spell);
     notifyListeners();
   }
 

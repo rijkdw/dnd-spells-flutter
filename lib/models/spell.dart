@@ -10,22 +10,146 @@ class Spell {
 
   String get subtitle {
     // eg. Evocation cantrip
-    if (map['level'] == 0) return '${capitaliseFirst('${map['school']} cantrip')}';
+    String levelAndSchool = '';
+    if (map['level'] == 0) levelAndSchool = '${capitaliseFirst('${map['school']} cantrip')}';
     // eg. 1st-level evocation
-    return '${ordinal(map['level'])}-level ${map['school'].toString().toLowerCase()}';
+    else levelAndSchool = '${ordinal(map['level'])}-level ${map['school'].toString().toLowerCase()}';
+
+    return '$levelAndSchool${isRitual ? ' (ritual)' : ''}';
   }
 
   // TODO: fix range
-  String get range => '30 feet';
+  String get range {
+    String type = map['range']['type'];
+    switch (type) {
+      // if it's a point spell
+      case 'point':
+        String pointType = map['range']['distance']['type'];
+        switch (pointType) {
+          case 'self':
+            return 'Self';
+          case 'touch':
+            return 'Touch';
+          case 'feet':
+            return '${map['range']['distance']['amount']} feet';
+          case 'miles':
+            return '${map['range']['distance']['amount']} miles';
+          case 'sight':
+            return 'Sight';
+          case 'unlimited':
+            return 'Unlimited';
+        }
+        return 'point_undefined';
+      case 'radius':
+      case 'hemisphere':
+        // it's either feet or miles
+        String radiusUnit = map['range']['distance']['type'];
+        dynamic radiusNumber = map['range']['distance']['amount'];
+        return 'Self ($radiusNumber-$radiusUnit radius)';
+      case 'sphere':
+        // it's either feet or miles
+        String radiusUnit = map['range']['distance']['type'];
+        dynamic radiusNumber = map['range']['distance']['amount'];
+        return 'Self ($radiusNumber-$radiusUnit sphere)';
+      case 'cone':
+        // it's either feet or miles
+        String radiusUnit = map['range']['distance']['type'];
+        dynamic radiusNumber = map['range']['distance']['amount'];
+        return 'Self ($radiusNumber-$radiusUnit cone)';
+      case 'special':
+        return 'Special';
+      case 'line':
+        // it's either feet or miles
+        String radiusUnit = map['range']['distance']['type'];
+        dynamic radiusNumber = map['range']['distance']['amount'];
+        return 'Self ($radiusNumber-$radiusUnit line)';
+      case 'cube':
+      // it's either feet or miles
+        String radiusUnit = map['range']['distance']['type'];
+        dynamic radiusNumber = map['range']['distance']['amount'];
+        return 'Self ($radiusNumber-$radiusUnit cube)';
+      default:
+        return '??';
+    }
+  }
 
-  // TODO: fix casting time
-  String get castingTime => '1 action';
+  String get castingTime {
+    bool flagSeeBelow = false;
+    List<String> castingTimes = [];
+    map['time'].forEach((time) {
+      String timeUnit = time['unit'];
+      dynamic timeNumber = time['number'];
+      castingTimes.add('$timeNumber $timeUnit');
+    });
+    if (castingTimes.length > 1) flagSeeBelow = true;
+    String clause = flagSeeBelow ? ' (see below)' : '';
+    return capitaliseFirst('${castingTimes.join(' or ')}$clause');
+  }
 
-  // TODO: fix duration
-  String get duration => '1 hour';
+  String get duration {
+    bool flagSeeBelow = false;
+    List<String> durations = [];
+    map['duration'].forEach((dur) {
+      switch (dur['type']) {
+        case 'instant':
+          durations.add('instantaneous');
+          break;
+        case 'permanent':
+          durations.add('permanent');
+          break;
+        case 'timed':
+          String durUnits = dur['duration']['type'];
+          dynamic durNumber= dur['duration']['amount'];
+          durations.add('$durNumber $durUnits');
+          break;
+        case 'special':
+          flagSeeBelow = true;
+          durations.add('other');
+          break;
+        default:
+          durations.add('??');
+          break;
+      }
+    });
+    if (durations.length > 1) flagSeeBelow = true;
+    String clause = flagSeeBelow ? ' (see below)' : '';
+    return capitaliseFirst('${durations.join(' or ')}$clause');
+  }
 
-  // TODO: fix components
-  String get components => 'VSM (a cup of bat guano and a cup of sulphur)';
+  bool get isConcentration {
+    if (map['duration'][0].keys.contains('concentration'))
+      return map['duration'][0]['concentration'] == true;
+    return false;
+  }
+
+  bool get isRitual {
+    if (!map.keys.contains('meta')) return false;
+    if (map['meta'].keys.contains('ritual'))
+      return map['meta']['ritual'] == true;
+    return false;
+  }
+
+  String get durationAndConcentration {
+    if (isConcentration)
+      return duration + ' (concentration)';
+    return duration;
+  }
+
+  String get vsm {
+    return map['components'].keys.toList().join(', ').toUpperCase();
+  }
+
+  String get materialComponents {
+    if (map['components']['m'].runtimeType == String)
+      return map['components']['m'] ?? 'no material components';
+    return map['components']['m']['text'];
+  }
+
+  String get components {
+    if (map['components']['m'] != null)
+      return '$vsm ($materialComponents)';
+    return vsm;
+  }
 
   // TODO: fix classes
   List<String> get classes => ['Wizard', 'Sorcerer', 'Warlock'];

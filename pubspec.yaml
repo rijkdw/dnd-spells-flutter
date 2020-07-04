@@ -15,6 +15,7 @@ dependencies:
   provider:
   font_awesome_flutter:
   path_provider:
+  flutter_sticky_header:
 
   cupertino_icons: ^0.1.3
 

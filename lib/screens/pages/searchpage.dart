@@ -2,6 +2,7 @@ import 'package:dnd_spells_flutter/components/drawer.dart';
 import 'package:dnd_spells_flutter/components/spell_gridtile.dart';
 import 'package:dnd_spells_flutter/components/spell_listtile.dart';
 import 'package:dnd_spells_flutter/models/spell.dart';
+import 'package:dnd_spells_flutter/services/appstatemanager.dart';
 import 'package:dnd_spells_flutter/services/searchmanager.dart';
 import 'package:dnd_spells_flutter/services/spellsrepository.dart';
 import 'package:flutter/material.dart';
@@ -14,42 +15,28 @@ class SearchPage extends StatefulWidget {
   _SearchPageState createState() => _SearchPageState();
 }
 
-enum DisplayMode { list, grid }
-
 class _SearchPageState extends State<SearchPage> {
-  DisplayMode _displayMode = DisplayMode.list;
-
-  void _switchDisplayMode() {
-    setState(() {
-      if (_displayMode == DisplayMode.list)
-        _displayMode = DisplayMode.grid;
-      else
-        _displayMode = DisplayMode.list;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-
     Widget _buildList() {
-      return Consumer<SpellRepository>(
-        builder: (context, spellRepo, child) {
-          if (spellRepo.allSpells.isEmpty) {
+      return Consumer2<SpellRepository, AppStateManager>(
+        builder: (context, spellRepository, appStateManager, child) {
+          if (spellRepository.allSpells.isEmpty) {
             return Center(
               child: Text('Loading...'),
             );
           }
-          switch (_displayMode) {
+          switch (appStateManager.globalDisplayMode) {
             case DisplayMode.list:
               return ListView(
-                children: spellRepo.allSpells.map((spell) => SpellListTile(spell: spell)).toList(),
+                children: spellRepository.allSpells.map((spell) => SpellListTile(spell: spell)).toList(),
               );
             case DisplayMode.grid:
               return Container(
                 padding: EdgeInsets.all(2),
                 child: GridView.count(
                   crossAxisCount: 2,
-                  children: spellRepo.allSpells.map((spell) => SpellGridTile(spell: spell)).toList(),
+                  children: spellRepository.allSpells.map((spell) => SpellGridTile(spell: spell)).toList(),
                 ),
               );
           }
@@ -75,18 +62,19 @@ class _SearchPageState extends State<SearchPage> {
           ),
           IconButton(
             icon: Icon(
-              _displayMode == DisplayMode.list ? Icons.view_module : Icons.view_list,
+              Provider.of<AppStateManager>(context).globalDisplayMode == DisplayMode.list ? Icons.view_module : Icons.view_list,
               size: 30,
             ),
             onPressed: () {
-              _switchDisplayMode();
-              Scaffold.of(context).removeCurrentSnackBar();
-              Scaffold.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('Switched to ${_displayMode.toString().split('.')[1]} mode'),
-                  duration: Duration(seconds: 2),
-                ),
-              );
+              Provider.of<AppStateManager>(context, listen: false).switchDisplayMode();
+//              Scaffold.of(context).removeCurrentSnackBar();
+//              Scaffold.of(context).showSnackBar(
+//                SnackBar(
+//                  content:
+//                      Text('Switched to ${Provider.of<AppStateManager>(context, listen: false).globalDisplayMode.toString().split('.')[1]} mode'),
+//                  duration: Duration(seconds: 2),
+//                ),
+//              );
             },
           )
         ],
