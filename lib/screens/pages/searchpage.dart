@@ -1,6 +1,7 @@
 import 'package:dnd_spells_flutter/components/headeredspell_list.dart';
 import 'package:dnd_spells_flutter/components/spell_gridtile.dart';
 import 'package:dnd_spells_flutter/components/spell_listtile.dart';
+import 'package:dnd_spells_flutter/screens/filterscreen.dart';
 import 'package:dnd_spells_flutter/services/appstatemanager.dart';
 import 'package:dnd_spells_flutter/services/spellsrepository.dart';
 import 'package:flutter/material.dart';
@@ -87,7 +88,11 @@ class _SearchPageState extends State<SearchPage> {
               FontAwesomeIcons.filter,
               size: 20,
             ),
-            onPressed: () {}, // TODO open filter page
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => FilterScreen(),
+              ));
+            }, // TODO open filter page
           ),
           IconButton(
             icon: Icon(
