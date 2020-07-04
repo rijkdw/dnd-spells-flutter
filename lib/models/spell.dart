@@ -10,12 +10,22 @@ class Spell {
 
   int get level => map['level'];
 
+  String get levelAsString {
+    if (level == 0)
+      return 'cantrip';
+    else return '$level${ordinal(level)}';
+  }
+
+  String get school => map['school'];
+
   String get subtitle {
     // eg. Evocation cantrip
     String levelAndSchool = '';
-    if (map['level'] == 0) levelAndSchool = '${capitaliseFirst('${map['school']} cantrip')}';
+    if (level == 0)
+      levelAndSchool = '${capitaliseFirst('$school cantrip')}';
     // eg. 1st-level evocation
-    else levelAndSchool = '${ordinal(map['level'])}-level ${map['school'].toString().toLowerCase()}';
+    else
+      levelAndSchool = '${ordinal(level)}-level ${school.toString().toLowerCase()}';
 
     return '$levelAndSchool${isRitual ? ' (ritual)' : ''}';
   }
@@ -66,7 +76,7 @@ class Spell {
         dynamic radiusNumber = map['range']['distance']['amount'];
         return 'Self ($radiusNumber-$radiusUnit line)';
       case 'cube':
-      // it's either feet or miles
+        // it's either feet or miles
         String radiusUnit = map['range']['distance']['type'];
         dynamic radiusNumber = map['range']['distance']['amount'];
         return 'Self ($radiusNumber-$radiusUnit cube)';
@@ -101,7 +111,7 @@ class Spell {
           break;
         case 'timed':
           String durUnits = dur['duration']['type'];
-          dynamic durNumber= dur['duration']['amount'];
+          dynamic durNumber = dur['duration']['amount'];
           durations.add('$durNumber $durUnits');
           break;
         case 'special':
@@ -119,21 +129,18 @@ class Spell {
   }
 
   bool get isConcentration {
-    if (map['duration'][0].keys.contains('concentration'))
-      return map['duration'][0]['concentration'] == true;
+    if (map['duration'][0].keys.contains('concentration')) return map['duration'][0]['concentration'] == true;
     return false;
   }
 
   bool get isRitual {
     if (!map.keys.contains('meta')) return false;
-    if (map['meta'].keys.contains('ritual'))
-      return map['meta']['ritual'] == true;
+    if (map['meta'].keys.contains('ritual')) return map['meta']['ritual'] == true;
     return false;
   }
 
   String get durationAndConcentration {
-    if (isConcentration)
-      return duration + ' (concentration)';
+    if (isConcentration) return duration + ' (concentration)';
     return duration;
   }
 
@@ -142,14 +149,12 @@ class Spell {
   }
 
   String get materialComponents {
-    if (map['components']['m'].runtimeType == String)
-      return map['components']['m'] ?? 'no material components';
+    if (map['components']['m'].runtimeType == String) return map['components']['m'] ?? 'no material components';
     return map['components']['m']['text'];
   }
 
   String get components {
-    if (map['components']['m'] != null)
-      return '$vsm ($materialComponents)';
+    if (map['components']['m'] != null) return '$vsm ($materialComponents)';
     return vsm;
   }
 

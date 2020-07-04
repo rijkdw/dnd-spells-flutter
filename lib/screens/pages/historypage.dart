@@ -1,4 +1,5 @@
 import 'package:dnd_spells_flutter/components/drawer.dart';
+import 'package:dnd_spells_flutter/components/spell_historytile.dart';
 import 'package:dnd_spells_flutter/components/spell_listtile.dart';
 import 'package:dnd_spells_flutter/services/historymanager.dart';
 import 'package:dnd_spells_flutter/services/spellsrepository.dart';
@@ -24,7 +25,7 @@ class HistoryPage extends StatelessWidget {
               );
             }
             return ListView(
-              children: historyManager.recentlyViewedSpells.map((spell) => SpellListTile(spell: spell)).toList(),
+              children: historyManager.recentlyViewedSpells.map((spell) => SpellHistoryTile(spell: spell)).toList(),
             );
           },
         ));

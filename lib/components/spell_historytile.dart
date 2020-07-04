@@ -5,16 +5,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class SpellListTile extends StatelessWidget {
+class SpellHistoryTile extends StatelessWidget {
   final Spell spell;
-  SpellListTile({@required this.spell});
+  SpellHistoryTile({@required this.spell});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Provider.of<HistoryManager>(context, listen: false).addToHistory(spell);
-        Scaffold.of(context).removeCurrentSnackBar();
         return Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => SpellInfoScreen(
             spell: spell,
@@ -24,8 +22,8 @@ class SpellListTile extends StatelessWidget {
       child: Container(
         width: double.infinity,
         padding: EdgeInsets.symmetric(
-          horizontal: 2,
-          vertical: 8,
+          horizontal: 10,
+          vertical: 6,
         ),
         decoration: BoxDecoration(
           border: Border(
@@ -37,26 +35,21 @@ class SpellListTile extends StatelessWidget {
         child: Row(
           children: <Widget>[
             Expanded(
-              flex: 1,
-              child: Icon(Icons.favorite_border),
-            ),
-            SizedBox(width: 2),
-            Expanded(
-              flex: 5,
+              flex: 14,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    spell.name,
+                    '${spell.name}',
                     style: TextStyle(
                       fontSize: 18,
                     ),
                   ),
                   Text(
-                    spell.subtitle,
+                    '${spell.subtitle}',
                     style: TextStyle(
-//                    fontStyle: FontStyle.italic,
-                      color: Colors.black54,
+                      fontSize: 14,
+                      color: Colors.black.withOpacity(0.6),
                     ),
                   ),
                 ],
@@ -65,9 +58,14 @@ class SpellListTile extends StatelessWidget {
             Expanded(
               flex: 1,
               child: InkWell(
+                onTap: () {
+                  Provider.of<HistoryManager>(context, listen: false).removeFromHistory(spell);
+                },
                 splashColor: Colors.transparent,
-                onTap: () => print('tapped trailing'),
-                child: Icon(Icons.add),
+                child: Icon(
+                  Icons.close,
+                  size: 20,
+                ),
               ),
             )
           ],
