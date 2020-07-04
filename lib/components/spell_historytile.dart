@@ -35,7 +35,7 @@ class SpellHistoryTile extends StatelessWidget {
         child: Row(
           children: <Widget>[
             Expanded(
-              flex: 14,
+              flex: 12,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -62,9 +62,15 @@ class SpellHistoryTile extends StatelessWidget {
                   Provider.of<HistoryManager>(context, listen: false).removeFromHistory(spell);
                 },
                 splashColor: Colors.transparent,
-                child: Icon(
-                  Icons.close,
-                  size: 20,
+                child: SizedBox(
+                  height: 37,
+                  width: 37,
+                  child: Center(
+                    child: Icon(
+                      Icons.close,
+                      size: 20,
+                    ),
+                  ),
                 ),
               ),
             )

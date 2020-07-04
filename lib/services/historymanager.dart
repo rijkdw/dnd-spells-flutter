@@ -14,11 +14,17 @@ class HistoryManager extends ChangeNotifier {
     if (_recentlyViewedSpells.length > maxSpellsInHistory) {
       _recentlyViewedSpells.removeAt(0);
     }
+    // finally
     notifyListeners();
   }
 
   void removeFromHistory(Spell spell) {
     _recentlyViewedSpells.remove(spell);
+    notifyListeners();
+  }
+
+  void clearHistory() {
+    _recentlyViewedSpells.clear();
     notifyListeners();
   }
 

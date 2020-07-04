@@ -50,7 +50,7 @@ class _MainScreenState extends State<MainScreen> {
         onTap: _navigationTapped,
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: FaIcon(FontAwesomeIcons.home),
             title: Text('Home'),
           ),
           BottomNavigationBarItem(
@@ -59,7 +59,7 @@ class _MainScreenState extends State<MainScreen> {
           ),
           BottomNavigationBarItem(
             icon: FaIcon(FontAwesomeIcons.history),
-            title: Text('History'),
+            title: Text('Recent'),
           ),
         ],
       ),

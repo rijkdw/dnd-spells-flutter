@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class ConditionPopup extends StatelessWidget {
-
   final String conditionName;
   ConditionPopup({@required this.conditionName});
 

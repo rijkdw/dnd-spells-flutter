@@ -106,7 +106,8 @@ class SpellInfoScreen extends StatelessWidget {
       itemsAsStrings.forEach((item) {
         // add the bullet
         allTextSpans.add(
-          WidgetSpan(child: Icon(Icons.keyboard_arrow_right, size: 20)),
+//          WidgetSpan(child: Icon(Icons.keyboard_arrow_right, size: 20)),
+          TextSpan(text: '\u2022  ', style: TextStyle(fontWeight: FontWeight.bold))
         );
         // add the item's text
         buildTextSpanChildren(item).forEach((textspan) => allTextSpans.add(textspan));

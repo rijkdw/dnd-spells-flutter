@@ -3,6 +3,7 @@ import 'package:dnd_spells_flutter/screens/spellinfoscreen.dart';
 import 'package:dnd_spells_flutter/services/historymanager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class SpellListTile extends StatelessWidget {
@@ -24,7 +25,7 @@ class SpellListTile extends StatelessWidget {
       child: Container(
         width: double.infinity,
         padding: EdgeInsets.symmetric(
-          horizontal: 2,
+          horizontal: 10,
           vertical: 8,
         ),
         decoration: BoxDecoration(
@@ -36,13 +37,15 @@ class SpellListTile extends StatelessWidget {
         ),
         child: Row(
           children: <Widget>[
-            Expanded(
-              flex: 1,
-              child: Icon(Icons.favorite_border),
-            ),
+//            Expanded(
+//              flex: 1,
+//              child: Center(
+//                child: FaIcon(FontAwesomeIcons.scroll, color: Color.fromRGBO(200, 0, 0, 1)),
+//              ),
+//            ),
             SizedBox(width: 2),
             Expanded(
-              flex: 5,
+              flex: 10,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -67,7 +70,10 @@ class SpellListTile extends StatelessWidget {
               child: InkWell(
                 splashColor: Colors.transparent,
                 onTap: () => print('tapped trailing'),
-                child: Icon(Icons.add),
+                child: Container(
+                  height: 30,
+                  child: Icon(Icons.add),
+                ),
               ),
             )
           ],

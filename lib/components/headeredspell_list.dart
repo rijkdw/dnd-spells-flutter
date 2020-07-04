@@ -22,18 +22,32 @@ class HeaderedSpellList extends StatelessWidget {
       header: InkWell(
         onTap: () => _scrollController.jumpTo(_scrollController.position.maxScrollExtent),
         child: Container(
-          height: 40.0,
+          height: 35.0,
           decoration: BoxDecoration(
             border: Border.all(
               color: Color.fromRGBO(150, 0, 0, 1),
             ),
             color: Color.fromRGBO(150, 0, 0, 1),
           ),
-          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          padding: EdgeInsets.symmetric(horizontal: 10.0),
           alignment: Alignment.centerLeft,
-          child: Text(
-            header,
-            style: const TextStyle(color: Colors.white),
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: Text(
+                  header.toUpperCase(),
+                  style: const TextStyle(color: Colors.white),
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  '${spellsInThisSublist.length} spells'.toUpperCase(),
+                  textAlign: TextAlign.right,
+                  style: const TextStyle(color: Colors.white),
+                ),
+              ),
+              SizedBox(width: 4),
+            ],
           ),
         ),
       ),
@@ -46,25 +60,91 @@ class HeaderedSpellList extends StatelessWidget {
   }
 
   List<SliverStickyHeader> _getAllSplits() {
-    spells.sort((a, b) => a.level.compareTo(b.level));
-    List<dynamic> values = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-    List<SliverStickyHeader> returnList = [];
+    List<SliverStickyHeader> splitByLevel() {
+      spells.sort((a, b) => a.level.compareTo(b.level));
+      List<dynamic> values = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+      List<SliverStickyHeader> returnList = [];
 
-    int valueIndex = 0;
-    List<Spell> spellsWithCurrentValue = [];
-    for (Spell spell in spells) {
-      if (spell.level != values[valueIndex]) {
-        // end of this list
-        returnList.add(_buildSpellSubList('Level ${values[valueIndex]}', spellsWithCurrentValue));
-        // reset step
-        valueIndex++;
-        spellsWithCurrentValue = [];
+      int valueIndex = 0;
+      List<Spell> spellsWithCurrentValue = [];
+      for (Spell spell in spells) {
+        if (spell.level != values[valueIndex]) {
+          // end of this list
+          returnList.add(_buildSpellSubList('Level ${values[valueIndex]}', spellsWithCurrentValue));
+          // reset step
+          valueIndex++;
+          spellsWithCurrentValue = [];
+        }
+        spellsWithCurrentValue.add(spell);
       }
-      spellsWithCurrentValue.add(spell);
-    }
-    returnList.add(_buildSpellSubList('Level ${values.last}', spellsWithCurrentValue));
+      returnList.add(_buildSpellSubList('Level ${values.last}', spellsWithCurrentValue));
 
-    return returnList;
+      return returnList;
+    }
+
+    List<SliverStickyHeader> splitByName() {
+      spells.sort((a, b) => a.name.compareTo(b.name));
+      List<dynamic> values = [];
+      spells.forEach((spell) {
+        String firstLetter = spell.name[0];
+        if (!values.contains(firstLetter))
+          values.add(firstLetter);
+      });
+      List<SliverStickyHeader> returnList = [];
+
+      int valueIndex = 0;
+      List<Spell> spellsWithCurrentValue = [];
+      for (Spell spell in spells) {
+        if (spell.name[0] != values[valueIndex]) {
+          // end of this list
+          returnList.add(_buildSpellSubList('${values[valueIndex].toString().toUpperCase()}', spellsWithCurrentValue));
+          // reset step
+          valueIndex++;
+          spellsWithCurrentValue = [];
+        }
+        spellsWithCurrentValue.add(spell);
+      }
+      returnList.add(_buildSpellSubList('${values[valueIndex].toString().toUpperCase()}', spellsWithCurrentValue));
+
+      return returnList;
+    }
+
+    List<SliverStickyHeader> splitBySchool() {
+      spells.sort((a, b) => a.school.compareTo(b.school));
+      List<dynamic> values = [];
+      spells.forEach((spell) {
+        if (!values.contains(spell.school))
+          values.add(spell.school);
+      });
+      List<SliverStickyHeader> returnList = [];
+
+      int valueIndex = 0;
+      List<Spell> spellsWithCurrentValue = [];
+      for (Spell spell in spells) {
+        if (spell.school != values[valueIndex]) {
+          // end of this list
+          returnList.add(_buildSpellSubList('${values[valueIndex]}', spellsWithCurrentValue));
+          // reset step
+          valueIndex++;
+          spellsWithCurrentValue = [];
+        }
+        spellsWithCurrentValue.add(spell);
+      }
+      returnList.add(_buildSpellSubList('${values.last}', spellsWithCurrentValue));
+
+      return returnList;
+    }
+
+    switch (this.orderBy) {
+      case OrderBy.level:
+        return splitByLevel();
+      case OrderBy.name:
+        return splitByName();
+      case OrderBy.school:
+        return splitBySchool();
+      default:
+        return splitByLevel();
+    }
   }
 
   @override

@@ -1,15 +1,11 @@
-import 'package:dnd_spells_flutter/components/drawer.dart';
 import 'package:dnd_spells_flutter/components/headeredspell_list.dart';
 import 'package:dnd_spells_flutter/components/spell_gridtile.dart';
 import 'package:dnd_spells_flutter/components/spell_listtile.dart';
-import 'package:dnd_spells_flutter/models/spell.dart';
 import 'package:dnd_spells_flutter/services/appstatemanager.dart';
-import 'package:dnd_spells_flutter/services/searchmanager.dart';
 import 'package:dnd_spells_flutter/services/spellsrepository.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:dnd_spells_flutter/services/singletons.dart' as singletons;
 
 class SearchPage extends StatefulWidget {
   @override
@@ -17,6 +13,24 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  OrderBy orderBy = OrderBy.level;
+
+  void _pressCarrotButton() {
+    setState(() {
+      switch (orderBy) {
+        case OrderBy.level:
+          orderBy = OrderBy.name;
+          break;
+        case OrderBy.name:
+          orderBy = OrderBy.school;
+          break;
+        case OrderBy.school:
+          orderBy = OrderBy.level;
+          break;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget _buildList() {
@@ -56,34 +70,38 @@ class _SearchPageState extends State<SearchPage> {
         actions: <Widget>[
           IconButton(
             icon: FaIcon(
+              FontAwesomeIcons.carrot,
+              size: 20,
+            ),
+            onPressed: () => _pressCarrotButton(),
+          ),
+          IconButton(
+            icon: FaIcon(
+              FontAwesomeIcons.search,
+              size: 20,
+            ),
+            onPressed: () {}, // TODO quicksearch
+          ),
+          IconButton(
+            icon: FaIcon(
               FontAwesomeIcons.filter,
               size: 20,
             ),
-            onPressed: () {},
+            onPressed: () {}, // TODO open filter page
           ),
           IconButton(
             icon: Icon(
               Provider.of<AppStateManager>(context).globalDisplayMode == DisplayMode.list ? Icons.view_module : Icons.view_list,
               size: 30,
             ),
-            onPressed: () {
-              Provider.of<AppStateManager>(context, listen: false).switchDisplayMode();
-//              Scaffold.of(context).removeCurrentSnackBar();
-//              Scaffold.of(context).showSnackBar(
-//                SnackBar(
-//                  content:
-//                      Text('Switched to ${Provider.of<AppStateManager>(context, listen: false).globalDisplayMode.toString().split('.')[1]} mode'),
-//                  duration: Duration(seconds: 2),
-//                ),
-//              );
-            },
+            onPressed: () => Provider.of<AppStateManager>(context, listen: false).switchDisplayMode(),
           )
         ],
       ),
       // body: _buildList(),
       body: HeaderedSpellList(
         spells: Provider.of<SpellRepository>(context).allSpells,
-        orderBy: OrderBy.name,
+        orderBy: orderBy,
       ),
     );
   }
