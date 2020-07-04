@@ -6,7 +6,7 @@ class HistoryManager extends ChangeNotifier {
   int maxSpellsInHistory = 15;
 
   List<Spell> _recentlyViewedSpells = [];
-  List<Spell> get recentlyViewedSpells => _recentlyViewedSpells;
+  List<Spell> get recentlyViewedSpells => _recentlyViewedSpells.reversed.toList();
 
   void addToHistory(Spell spell) {
     bool wasRemoved = _recentlyViewedSpells.remove(spell);
@@ -18,7 +18,7 @@ class HistoryManager extends ChangeNotifier {
   }
 
   void removeFromHistory(Spell spell) {
-
+    _recentlyViewedSpells.remove(spell);
     notifyListeners();
   }
 
