@@ -8,6 +8,8 @@ class Spell {
 
   String get name => map['name'];
 
+  int get level => map['level'];
+
   String get subtitle {
     // eg. Evocation cantrip
     String levelAndSchool = '';

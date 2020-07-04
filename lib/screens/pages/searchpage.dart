@@ -1,4 +1,5 @@
 import 'package:dnd_spells_flutter/components/drawer.dart';
+import 'package:dnd_spells_flutter/components/headeredspell_list.dart';
 import 'package:dnd_spells_flutter/components/spell_gridtile.dart';
 import 'package:dnd_spells_flutter/components/spell_listtile.dart';
 import 'package:dnd_spells_flutter/models/spell.dart';
@@ -79,7 +80,11 @@ class _SearchPageState extends State<SearchPage> {
           )
         ],
       ),
-      body: _buildList(),
+      // body: _buildList(),
+      body: HeaderedSpellList(
+        spells: Provider.of<SpellRepository>(context).allSpells,
+        orderBy: OrderBy.name,
+      ),
     );
   }
 }

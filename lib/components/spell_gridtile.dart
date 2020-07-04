@@ -60,7 +60,7 @@ class SpellGridTile extends StatelessWidget {
           Expanded(
             child: CompactSpellAttributeLine(
               leading: FaIcon(FontAwesomeIcons.mortarPestle, size: 14),
-              content: spell.components,
+              content: spell.vsm,
             ),
           ),
 

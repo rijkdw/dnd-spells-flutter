@@ -1,4 +1,5 @@
 import 'package:dnd_spells_flutter/screens/mainscreen.dart';
+import 'package:dnd_spells_flutter/screens/pages/searchpage.dart';
 import 'package:dnd_spells_flutter/services/appstatemanager.dart';
 import 'package:dnd_spells_flutter/services/historymanager.dart';
 import 'package:dnd_spells_flutter/services/searchmanager.dart';

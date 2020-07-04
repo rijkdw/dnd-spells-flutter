@@ -9,7 +9,7 @@ class SpellRepository extends ChangeNotifier {
   List<Spell> _allSpells = [];
   Map<String, Spell> _nameToSpellMap = {};
 
-  List<Spell> get allSpells => _allSpells;
+  List<Spell> get allSpells => _allSpells.map((e) => e).toList();
 
   Spell getSpellFromName(String spellName) => _nameToSpellMap[spellName];
 

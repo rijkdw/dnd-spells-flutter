@@ -1,8 +1,11 @@
 import 'dart:convert';
 
 import 'package:dnd_spells_flutter/components/drawer.dart';
+import 'package:dnd_spells_flutter/components/headeredspell_list.dart';
+import 'package:dnd_spells_flutter/services/spellsrepository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 class ListsPage extends StatefulWidget {
   @override
@@ -21,9 +24,7 @@ class _ListsPageState extends State<ListsPage> {
         ),
       ),
       body: Center(
-        child: Text(
-          'Lists Page',
-        ),
+        child: Text('Lists Page'),
       ),
     );
   }
