@@ -16,6 +16,10 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   OrderBy orderBy = OrderBy.level;
 
+  void _updateSearchParameters() {
+
+  }
+
   void _pressCarrotButton() {
     setState(() {
       switch (orderBy) {
@@ -34,6 +38,7 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
+
     Widget _buildList() {
       return Consumer2<SpellRepository, AppStateManager>(
         builder: (context, spellRepository, appStateManager, child) {

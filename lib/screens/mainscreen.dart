@@ -23,7 +23,6 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void _navigationTapped(int page) {
-    //Animating Page
     _pageController.jumpToPage(page);
   }
 

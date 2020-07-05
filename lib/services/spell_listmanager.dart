@@ -3,6 +3,6 @@ import 'package:flutter/foundation.dart';
 
 class SpellListManager extends ChangeNotifier {
 
-  List<SpellList> spellLists = [];
+  List<SpellList> spellLists = List.generate(3, (index) => SpellList());
 
 }

@@ -1,15 +1,16 @@
 import 'package:dnd_spells_flutter/components/spell_listtile.dart';
 import 'package:dnd_spells_flutter/models/spell.dart';
+import 'package:dnd_spells_flutter/services/appstatemanager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
+import 'package:provider/provider.dart';
 
 enum OrderBy { name, level, school }
 
 class HeaderedSpellList extends StatelessWidget {
   final List<Spell> spells;
   final OrderBy orderBy;
-
-  final ScrollController _scrollController = ScrollController();
+  final ScrollController scrollController = ScrollController(keepScrollOffset: true);
 
   HeaderedSpellList({@required this.spells, @required this.orderBy}) : super(key: UniqueKey());
 
@@ -102,8 +103,8 @@ class HeaderedSpellList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
+      controller: scrollController,
       shrinkWrap: true,
-      controller: _scrollController,
       slivers: _getAllSplits(),
     );
   }
@@ -119,42 +120,53 @@ class _SliverExpandableStickyHeader extends StatefulWidget {
   _SliverExpandableStickyHeaderState createState() => _SliverExpandableStickyHeaderState();
 }
 
-class _SliverExpandableStickyHeaderState extends State<_SliverExpandableStickyHeader> {
-  bool _expanded = true;
+class _SliverExpandableStickyHeaderState extends State<_SliverExpandableStickyHeader> with SingleTickerProviderStateMixin {
+  bool _expanded;
+
+  @override
+  void initState() {
+    super.initState();
+    _expanded = Provider.of<AppStateManager>(context, listen: false).retractedHeaders.contains(widget.header) ? false : true;
+  }
 
   void _toggleShowExpanded() {
     setState(() {
       _expanded = !_expanded;
     });
+    if (_expanded)
+      Provider.of<AppStateManager>(context, listen: false).retractedHeaders.remove(widget.header);
+    else
+      Provider.of<AppStateManager>(context, listen: false).retractedHeaders.add(widget.header);
   }
 
   @override
   Widget build(BuildContext context) {
     widget.spells.sort((a, b) => a.name.compareTo(b.name));
+
     return SliverStickyHeader(
-      header: Container(
-        height: 35.0,
-        decoration: BoxDecoration(
-          border: Border.all(
+      header: InkWell(
+        onTap: () => _toggleShowExpanded(),
+        child: Container(
+          height: 35.0,
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Color.fromRGBO(150, 0, 0, 1),
+            ),
             color: Color.fromRGBO(150, 0, 0, 1),
           ),
-          color: Color.fromRGBO(150, 0, 0, 1),
-        ),
-        padding: EdgeInsets.symmetric(horizontal: 10.0),
-        alignment: Alignment.centerLeft,
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              flex: 10,
-              child: Text(
-                widget.header.toUpperCase(),
-                style: const TextStyle(color: Colors.white),
+          padding: EdgeInsets.symmetric(horizontal: 10.0),
+          alignment: Alignment.centerLeft,
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                flex: 10,
+                child: Text(
+                  widget.header.toUpperCase(),
+                  style: const TextStyle(color: Colors.white),
+                ),
               ),
-            ),
-            Expanded(
-              flex: 2,
-              child: InkWell(
-                onTap: () => _toggleShowExpanded(),
+              Expanded(
+                flex: 2,
                 child: Center(
                   child: Icon(
                     _expanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
@@ -162,17 +174,17 @@ class _SliverExpandableStickyHeaderState extends State<_SliverExpandableStickyHe
                   ),
                 ),
               ),
-            ),
-            Expanded(
-              flex: 10,
-              child: Text(
-                '${widget.spells.length} spells'.toUpperCase(),
-                textAlign: TextAlign.right,
-                style: const TextStyle(color: Colors.white),
+              Expanded(
+                flex: 10,
+                child: Text(
+                  '${widget.spells.length} spells'.toUpperCase(),
+                  textAlign: TextAlign.right,
+                  style: const TextStyle(color: Colors.white),
+                ),
               ),
-            ),
-            SizedBox(width: 4),
-          ],
+              SizedBox(width: 4),
+            ],
+          ),
         ),
       ),
       sliver: SliverList(

@@ -8,7 +8,6 @@ class FilterScreen extends StatefulWidget {
 }
 
 class _FilterScreenState extends State<FilterScreen> {
-
   TextEditingController _nameController = TextEditingController();
   TextEditingController _descController = TextEditingController();
 
@@ -94,11 +93,17 @@ class _ClearableTextField extends StatelessWidget {
             ),
           ),
         ),
-        IconButton(
-          onPressed: () {
+        InkWell(
+          onTap: () {
             this.controller.clear();
           },
-          icon: Icon(Icons.close),
+          child: Container(
+            width: 30,
+            height: 50,
+            child: Center(
+              child: Icon(Icons.close, size: 15),
+            ),
+          ),
         )
       ],
     );

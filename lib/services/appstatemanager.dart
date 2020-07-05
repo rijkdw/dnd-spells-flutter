@@ -16,4 +16,7 @@ class AppStateManager extends ChangeNotifier {
     notifyListeners();
   }
 
+  List<String> retractedHeaders = [];
+  double scrollPosition = 0;
+
 }
