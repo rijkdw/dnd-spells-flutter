@@ -30,7 +30,17 @@ class Spell {
     return '$levelAndSchool${isRitual ? ' (ritual)' : ''}';
   }
 
-  // TODO: fix range
+  String get subtitleWithMetaTags {
+    List<String> tags = [];
+    if (level == 0)
+      tags.add('${capitaliseFirst('$school cantrip')}');
+    else
+      tags.add('${ordinal(level)}-level ${school.toString().toLowerCase()}');
+    if (isConcentration) tags.add('C');
+    if (isRitual) tags.add('R');
+    return tags.join('  •  ');
+  }
+
   String get range {
     String type = map['range']['type'];
     switch (type) {

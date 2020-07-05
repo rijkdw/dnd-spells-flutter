@@ -65,7 +65,7 @@ class SpellListTile extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    spell.subtitle,
+                    spell.subtitleWithMetaTags,
                     style: TextStyle(
 //                    fontStyle: FontStyle.italic,
                       color: Colors.black54,

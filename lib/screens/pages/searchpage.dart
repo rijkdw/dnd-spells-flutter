@@ -1,4 +1,5 @@
 import 'package:dnd_spells_flutter/components/headeredspell_list.dart';
+import 'package:dnd_spells_flutter/components/quicksearchbottomsheet.dart';
 import 'package:dnd_spells_flutter/components/spell_gridtile.dart';
 import 'package:dnd_spells_flutter/components/spell_listtile.dart';
 import 'package:dnd_spells_flutter/screens/filterscreen.dart';
@@ -16,9 +17,7 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   OrderBy orderBy = OrderBy.level;
 
-  void _updateSearchParameters() {
-
-  }
+  void _updateSearchParameters() {}
 
   void _pressCarrotButton() {
     setState(() {
@@ -38,7 +37,6 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-
     Widget _buildList() {
       return Consumer2<SpellRepository, AppStateManager>(
         builder: (context, spellRepository, appStateManager, child) {
@@ -86,7 +84,10 @@ class _SearchPageState extends State<SearchPage> {
               FontAwesomeIcons.search,
               size: 20,
             ),
-            onPressed: () {}, // TODO quicksearch
+            onPressed: () => showModalBottomSheet( // TODO quicksearch
+              context: context,
+              builder: (context) => QuickSearchBottomSheet(),
+            ),
           ),
           IconButton(
             icon: FaIcon(
