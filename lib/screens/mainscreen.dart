@@ -2,10 +2,8 @@ import 'package:dnd_spells_flutter/components/drawer.dart';
 import 'package:dnd_spells_flutter/screens/pages/historypage.dart';
 import 'package:dnd_spells_flutter/screens/pages/listspage.dart';
 import 'package:dnd_spells_flutter/screens/pages/searchpage.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -22,23 +20,19 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
-  void _navigationTapped(int page) {
-    _pageController.jumpToPage(page);
-  }
+  List<Widget> children = [
+    SearchPage(),
+    ListsPage(),
+    HistoryPage(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: SettingsDrawer(),
-      body: PageView(
-        controller: _pageController,
-        onPageChanged: _onPageChanged,
-        children: <Widget>[
-          SearchPage(),
-          ListsPage(),
-          HistoryPage(),
-        ],
-        physics: NeverScrollableScrollPhysics(),
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: children,
       ),
       bottomNavigationBar: BottomNavigationBar(
         elevation: 0,
@@ -46,7 +40,7 @@ class _MainScreenState extends State<MainScreen> {
         selectedItemColor: Theme.of(context).accentColor,
         unselectedItemColor: Colors.black.withOpacity(0.7),
         currentIndex: _selectedIndex,
-        onTap: _navigationTapped,
+        onTap: _onPageChanged,
         items: [
           BottomNavigationBarItem(
             icon: FaIcon(FontAwesomeIcons.home),

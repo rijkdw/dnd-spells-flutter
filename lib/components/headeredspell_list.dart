@@ -7,22 +7,36 @@ import 'package:provider/provider.dart';
 
 enum OrderBy { name, level, school }
 
-class HeaderedSpellList extends StatelessWidget {
+class HeaderedSpellList extends StatefulWidget {
   final List<Spell> spells;
   final OrderBy orderBy;
-  final ScrollController scrollController = ScrollController(keepScrollOffset: true);
 
   HeaderedSpellList({@required this.spells, @required this.orderBy}) : super(key: UniqueKey());
 
+  @override
+  _HeaderedSpellListState createState() => _HeaderedSpellListState();
+}
+
+class _HeaderedSpellListState extends State<HeaderedSpellList> {
+
+  ScrollController scrollController = ScrollController(keepScrollOffset: true);
+  List<_SliverExpandableStickyHeader> headers;
+
+  @override
+  initState() {
+    super.initState();
+    headers = _getAllSplits();
+  }
+
   List<_SliverExpandableStickyHeader> _getAllSplits() {
     List<_SliverExpandableStickyHeader> splitByLevel() {
-      spells.sort((a, b) => a.level.compareTo(b.level));
+      widget.spells.sort((a, b) => a.level.compareTo(b.level));
       List<dynamic> values = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
       List<_SliverExpandableStickyHeader> returnList = [];
 
       int valueIndex = 0;
       List<Spell> spellsWithCurrentValue = [];
-      for (Spell spell in spells) {
+      for (Spell spell in widget.spells) {
         if (spell.level != values[valueIndex]) {
           // end of this list
           if (values[valueIndex] == 0)
@@ -41,9 +55,9 @@ class HeaderedSpellList extends StatelessWidget {
     }
 
     List<_SliverExpandableStickyHeader> splitByName() {
-      spells.sort((a, b) => a.name.compareTo(b.name));
+      widget.spells.sort((a, b) => a.name.compareTo(b.name));
       List<dynamic> values = [];
-      spells.forEach((spell) {
+      widget.spells.forEach((spell) {
         String firstLetter = spell.name[0];
         if (!values.contains(firstLetter)) values.add(firstLetter);
       });
@@ -51,7 +65,7 @@ class HeaderedSpellList extends StatelessWidget {
 
       int valueIndex = 0;
       List<Spell> spellsWithCurrentValue = [];
-      for (Spell spell in spells) {
+      for (Spell spell in widget.spells) {
         if (spell.name[0] != values[valueIndex]) {
           // end of this list
           returnList.add(_SliverExpandableStickyHeader('${values[valueIndex].toString().toUpperCase()}', spellsWithCurrentValue));
@@ -67,16 +81,16 @@ class HeaderedSpellList extends StatelessWidget {
     }
 
     List<_SliverExpandableStickyHeader> splitBySchool() {
-      spells.sort((a, b) => a.school.compareTo(b.school));
+      widget.spells.sort((a, b) => a.school.compareTo(b.school));
       List<dynamic> values = [];
-      spells.forEach((spell) {
+      widget.spells.forEach((spell) {
         if (!values.contains(spell.school)) values.add(spell.school);
       });
       List<_SliverExpandableStickyHeader> returnList = [];
 
       int valueIndex = 0;
       List<Spell> spellsWithCurrentValue = [];
-      for (Spell spell in spells) {
+      for (Spell spell in widget.spells) {
         if (spell.school != values[valueIndex]) {
           // end of this list
           returnList.add(_SliverExpandableStickyHeader('${values[valueIndex]}', spellsWithCurrentValue));
@@ -91,7 +105,7 @@ class HeaderedSpellList extends StatelessWidget {
       return returnList;
     }
 
-    switch (this.orderBy) {
+    switch (this.widget.orderBy) {
       case OrderBy.level:
         return splitByLevel();
       case OrderBy.name:
@@ -108,7 +122,7 @@ class HeaderedSpellList extends StatelessWidget {
     return CustomScrollView(
       controller: scrollController,
       shrinkWrap: true,
-      slivers: _getAllSplits(),
+      slivers: headers,
     );
   }
 }
@@ -123,7 +137,7 @@ class _SliverExpandableStickyHeader extends StatefulWidget {
   _SliverExpandableStickyHeaderState createState() => _SliverExpandableStickyHeaderState();
 }
 
-class _SliverExpandableStickyHeaderState extends State<_SliverExpandableStickyHeader> with SingleTickerProviderStateMixin {
+class _SliverExpandableStickyHeaderState extends State<_SliverExpandableStickyHeader> {
   bool _expanded;
 
   @override
