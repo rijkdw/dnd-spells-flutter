@@ -10,6 +10,7 @@ class ClearableTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
+        SizedBox(width: 6),
         Expanded(
           child: TextField(
             onChanged: (newValue) => onChanged(newValue),

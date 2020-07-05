@@ -1,6 +1,7 @@
 import 'package:dnd_spells_flutter/screens/mainscreen.dart';
 import 'package:dnd_spells_flutter/screens/pages/searchpage.dart';
 import 'package:dnd_spells_flutter/services/appstatemanager.dart';
+import 'package:dnd_spells_flutter/services/conditionrepository.dart';
 import 'package:dnd_spells_flutter/services/historymanager.dart';
 import 'package:dnd_spells_flutter/services/searchmanager.dart';
 import 'package:dnd_spells_flutter/services/spell_listmanager.dart';
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => SearchManager()),
         ChangeNotifierProvider(create: (_) => SpellRepository()),
+        ChangeNotifierProvider(create: (_) => ConditionRepository()),
         ChangeNotifierProvider(create: (_) => AppStateManager()),
         ChangeNotifierProvider(create: (_) => SpellListManager()),
         ChangeNotifierProvider(create: (_) => HistoryManager()),

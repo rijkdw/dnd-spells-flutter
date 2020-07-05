@@ -26,7 +26,7 @@ class HistoryPage extends StatelessWidget {
             );
           }
           return ListView(
-            children: historyManager.recentlyViewedSpells.map((spell) => SpellHistoryTile(spell: spell)).toList(),
+            children: historyManager.recentlyViewedSpells.map((spellView) => SpellHistoryTile(spellView: spellView)).toList(),
           );
         },
       ),

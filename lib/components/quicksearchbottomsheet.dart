@@ -73,12 +73,12 @@ class _QuickSearchFormState extends State<QuickSearchForm> {
               children: <Widget>[
                 Text('Search for'),
                 ChoiceChip(
-                  label: Text('NAME'),
+                  label: Text('Name'),
                   selected: selection == QuickSearchSelection.name,
                   onSelected: (_) => _handleSelection(QuickSearchSelection.name),
                 ),
                 ChoiceChip(
-                  label: Text('DESCRIPTION'),
+                  label: Text('Description'),
                   selected: selection == QuickSearchSelection.description,
                   onSelected: (_) => _handleSelection(QuickSearchSelection.description),
                 ),

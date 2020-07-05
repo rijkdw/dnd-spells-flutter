@@ -1,16 +1,17 @@
 import 'package:dnd_spells_flutter/models/spell.dart';
+import 'package:dnd_spells_flutter/models/spellview.dart';
 import 'package:flutter/foundation.dart';
 
 class HistoryManager extends ChangeNotifier {
 
   int maxSpellsInHistory = 15;
 
-  List<Spell> _recentlyViewedSpells = [];
-  List<Spell> get recentlyViewedSpells => _recentlyViewedSpells.reversed.toList();
+  List<SpellView> _recentlyViewedSpells = [];
+  List<SpellView> get recentlyViewedSpells => _recentlyViewedSpells.reversed.toList();
 
-  void addToHistory(Spell spell) {
-    bool wasRemoved = _recentlyViewedSpells.remove(spell);
-    _recentlyViewedSpells.add(spell);
+  void addToHistory(SpellView spellView) {
+    bool wasRemoved = _recentlyViewedSpells.remove(spellView);
+    _recentlyViewedSpells.add(spellView);
     if (_recentlyViewedSpells.length > maxSpellsInHistory) {
       _recentlyViewedSpells.removeAt(0);
     }
@@ -18,8 +19,8 @@ class HistoryManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  void removeFromHistory(Spell spell) {
-    _recentlyViewedSpells.remove(spell);
+  void removeFromHistory(SpellView spellView) {
+    _recentlyViewedSpells.remove(spellView);
     notifyListeners();
   }
 

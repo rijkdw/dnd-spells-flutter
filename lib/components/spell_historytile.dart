@@ -1,13 +1,15 @@
 import 'package:dnd_spells_flutter/models/spell.dart';
+import 'package:dnd_spells_flutter/models/spellview.dart';
 import 'package:dnd_spells_flutter/screens/spellinfoscreen.dart';
 import 'package:dnd_spells_flutter/services/historymanager.dart';
+import 'package:dnd_spells_flutter/utilities/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SpellHistoryTile extends StatelessWidget {
-  final Spell spell;
-  SpellHistoryTile({@required this.spell});
+  final SpellView spellView;
+  SpellHistoryTile({@required this.spellView});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +17,7 @@ class SpellHistoryTile extends StatelessWidget {
       onTap: () {
         return Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => SpellInfoScreen(
-            spell: spell,
+            spell: spellView.spell,
           ),
         ));
       },
@@ -40,13 +42,20 @@ class SpellHistoryTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    '${spell.name}',
+                    '${spellView.spell.name}',
                     style: TextStyle(
                       fontSize: 18,
                     ),
                   ),
                   Text(
-                    '${spell.subtitle}',
+                    '${spellView.spell.subtitle}',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.black.withOpacity(0.6),
+                    ),
+                  ),
+                  Text(
+                    'Viewed ${getShortDay(spellView.dateViewed)}',
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.black.withOpacity(0.6),
@@ -59,7 +68,7 @@ class SpellHistoryTile extends StatelessWidget {
               flex: 1,
               child: InkWell(
                 onTap: () {
-                  Provider.of<HistoryManager>(context, listen: false).removeFromHistory(spell);
+                  Provider.of<HistoryManager>(context, listen: false).removeFromHistory(spellView);
                 },
                 splashColor: Colors.transparent,
                 child: SizedBox(

@@ -14,6 +14,7 @@ class SpellRepository extends ChangeNotifier {
   Spell getSpellFromName(String spellName) => _nameToSpellMap[spellName];
 
   SpellRepository() {
+    print('Constructing spellrepo');
     _loadSpellsFromLocal();
   }
 

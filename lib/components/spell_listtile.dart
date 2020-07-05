@@ -1,5 +1,6 @@
 import 'package:dnd_spells_flutter/models/spell.dart';
 import 'package:dnd_spells_flutter/models/spell_list.dart';
+import 'package:dnd_spells_flutter/models/spellview.dart';
 import 'package:dnd_spells_flutter/screens/spellinfoscreen.dart';
 import 'package:dnd_spells_flutter/services/historymanager.dart';
 import 'package:dnd_spells_flutter/services/spell_listmanager.dart';
@@ -17,7 +18,7 @@ class SpellListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Provider.of<HistoryManager>(context, listen: false).addToHistory(spell);
+        Provider.of<HistoryManager>(context, listen: false).addToHistory(SpellView.now(spell: spell));
         Scaffold.of(context).removeCurrentSnackBar();
         return Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => SpellInfoScreen(

@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
+
 int randInclusive(int min, int max) {
   return Random().nextInt(max-min+1) + min;
 }
@@ -25,4 +27,24 @@ String ordinal(int number) {
 
 String capitaliseFirst(String input) {
   return input[0].toUpperCase() + input.substring(1);
+}
+
+bool isThisYear(DateTime dateTime) => dateTime.year == DateTime.now().year;
+bool isThisMonth(DateTime dateTime) => isThisYear(dateTime) && dateTime.month == DateTime.now().month;
+bool isToday(DateTime dateTime) => isThisMonth(dateTime) && dateTime.day == DateTime.now().day;
+
+bool isYesterday(DateTime dateTime) => isToday(dateTime.add(Duration(days: 1)));
+bool isInPastWeek(DateTime dateTime) => dateTime.add(Duration(days: 7)).isAfter(DateTime.now());
+bool isInPastMonth(DateTime dateTime) => dateTime.add(Duration(days: 31)).isAfter(DateTime.now());
+
+String getShortDay(DateTime dateTime) {
+  if (isToday(dateTime))
+    return 'today';
+  if (isYesterday(dateTime))
+    return 'yesterday';
+  if (isInPastWeek(dateTime))
+    return 'this week';
+  if (isInPastMonth(dateTime))
+    return 'this month';
+  return 'earlier';
 }
