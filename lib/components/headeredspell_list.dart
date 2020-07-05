@@ -25,7 +25,10 @@ class HeaderedSpellList extends StatelessWidget {
       for (Spell spell in spells) {
         if (spell.level != values[valueIndex]) {
           // end of this list
-          returnList.add(_SliverExpandableStickyHeader('Level ${values[valueIndex]}', spellsWithCurrentValue));
+          if (values[valueIndex] == 0)
+            returnList.add(_SliverExpandableStickyHeader('Cantrip', spellsWithCurrentValue));
+          else
+            returnList.add(_SliverExpandableStickyHeader('Level ${values[valueIndex]}', spellsWithCurrentValue));
           // reset step
           valueIndex++;
           spellsWithCurrentValue = [];
