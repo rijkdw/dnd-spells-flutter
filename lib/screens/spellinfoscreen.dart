@@ -261,21 +261,23 @@ class SpellInfoScreen extends StatelessWidget {
                 SizedBox(height: 12),
               ],
               ...spell.description.map((entry) => buildEntryLine(entry)).toList(),
-              RichText(
-                text: TextSpan(
-                  style: Theme.of(context).textTheme.bodyText1.copyWith(
-                        fontSize: 18,
-                        fontWeight: FontWeight.normal,
+              spell.hasHigherLevels
+                  ? RichText(
+                      text: TextSpan(
+                        style: Theme.of(context).textTheme.bodyText1.copyWith(
+                              fontSize: 18,
+                              fontWeight: FontWeight.normal,
+                            ),
+                        children: [
+                          TextSpan(
+                            text: 'At Higher Levels. ',
+                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
+                          ...buildTextSpanChildren(spell.atHigherLevels),
+                        ],
                       ),
-                  children: [
-                    TextSpan(
-                      text: 'At Higher Levels. ',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    ...buildTextSpanChildren(spell.atHigherLevels),
-                  ],
-                ),
-              ),
+                    )
+                  : Container(),
             ],
           ),
         ),
