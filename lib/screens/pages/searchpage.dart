@@ -2,8 +2,10 @@ import 'package:dnd_spells_flutter/components/headeredspell_list.dart';
 import 'package:dnd_spells_flutter/components/quicksearchbottomsheet.dart';
 import 'package:dnd_spells_flutter/components/spell_gridtile.dart';
 import 'package:dnd_spells_flutter/components/spell_listtile.dart';
+import 'package:dnd_spells_flutter/models/spell.dart';
 import 'package:dnd_spells_flutter/screens/filterscreen.dart';
 import 'package:dnd_spells_flutter/services/appstatemanager.dart';
+import 'package:dnd_spells_flutter/services/searchmanager.dart';
 import 'package:dnd_spells_flutter/services/spellsrepository.dart';
 import 'package:dnd_spells_flutter/services/thememanager.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +40,8 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    // for building the grid or list view (CURRENTLY OUT OF USE BECAUSE GRID VIEW IS BROKEN)
     Widget _buildList() {
       return Consumer2<SpellRepository, AppStateManager>(
         builder: (context, spellRepository, appStateManager, child) {
@@ -64,6 +68,9 @@ class _SearchPageState extends State<SearchPage> {
         },
       );
     }
+
+    List<Spell> allSpells = Provider.of<SpellRepository>(context).allSpells;
+    List<Spell> spellsToDisplay = Provider.of<SearchManager>(context).filterSpells(allSpells);
 
     return Scaffold(
       appBar: AppBar(
@@ -114,7 +121,8 @@ class _SearchPageState extends State<SearchPage> {
       ),
       // body: _buildList(),
       body: HeaderedSpellList(
-        spells: Provider.of<SpellRepository>(context).allSpells,
+//        spells: Provider.of<SpellRepository>(context).allSpells,
+        spells: spellsToDisplay,
         orderBy: orderBy,
       ),
     );

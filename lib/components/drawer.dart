@@ -4,7 +4,6 @@ import 'package:dnd_spells_flutter/services/themes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class SettingsDrawer extends StatelessWidget {
@@ -83,41 +82,12 @@ class _ThemeChangeDialog extends StatelessWidget {
               shrinkWrap: true,
               children: appColorPalettes.keys.map((key) => _ColorPaletteGridTile(key, appColorPalettes[key])).toList(),
             ),
-//            ...appColorPalettes.keys.map((key) => _ColorPaletteListTile(key, appColorPalettes[key])).toList(),
             SizedBox(height: 12),
           ],
         ),
       ),
     );
   }
-//
-//  @override
-//  Widget build(BuildContext context) {
-//    return Dialog(
-//      child: Container(
-//        constraints: BoxConstraints(
-//          maxHeight: MediaQuery.of(context).size.height * 3 / 4,
-//        ),
-//        child: Column(
-//          mainAxisSize: MainAxisSize.min,
-//          children: <Widget>[
-//            ...[
-//              SizedBox(height: 12),
-//              Text(
-//                'Change Theme',
-//                style: TextStyle(
-//                  fontSize: 24,
-//                ),
-//              ),
-//              SizedBox(height: 12),
-//            ],
-//            ...appColorPalettes.keys.map((key) => _ColorPaletteListTile(key, appColorPalettes[key])).toList(),
-//            SizedBox(height: 12),
-//          ],
-//        ),
-//      ),
-//    );
-//  }
 }
 
 class _ColorPaletteGridTile extends StatelessWidget {
@@ -161,41 +131,6 @@ class _ColorPaletteGridTile extends StatelessWidget {
                   color: colorPalette.navBarSelectedColor,
                 ),
               ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _ColorPaletteListTile extends StatelessWidget {
-  final String name;
-  final ColorPalette colorPalette;
-
-  _ColorPaletteListTile(this.name, this.colorPalette);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-      child: InkWell(
-        onTap: () {
-          Provider.of<ThemeManager>(context, listen: false).setColorPalette(name);
-          Navigator.of(context).pop();
-          Navigator.of(context).pop();
-        },
-        child: Row(
-          children: <Widget>[
-            CircleAvatar(
-              backgroundColor: colorPalette.appBarBackgroundColor,
-              radius: 15,
-            ),
-            SizedBox(width: 10),
-            Text(
-              name,
-              style: TextStyle(fontSize: 20),
             ),
           ],
         ),

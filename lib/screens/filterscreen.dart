@@ -1,7 +1,9 @@
 import 'package:dnd_spells_flutter/components/clearabletextfield.dart';
+import 'package:dnd_spells_flutter/services/thememanager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class FilterScreen extends StatefulWidget {
   @override
@@ -66,14 +68,6 @@ class _FilterScreenState extends State<FilterScreen> {
                   hintText: 'Description',
                   controller: _descController,
                 ),
-                FlatButton(
-                  onPressed: () => _search(),
-                  color: Colors.red,
-                  child: Icon(
-                    Icons.search,
-                    color: Colors.white,
-                  ),
-                )
               ],
             ),
           ),

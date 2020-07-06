@@ -19,6 +19,9 @@ class ColorPalette {
   // text colors
   Color clickableTextLinkColor;
 
+  // button colors
+  Color buttonColor;
+
   ColorPalette({
     this.stickyHeaderBackgroundColor: Colors.purple,
     this.navBarBackgroundColor: Colors.purple,
@@ -27,5 +30,6 @@ class ColorPalette {
     this.appBarBackgroundColor: Colors.purple,
     this.clickableTextLinkColor: Colors.purple,
     this.drawerPrimary: Colors.purple,
+    this.buttonColor: Colors.purple,
   });
 }

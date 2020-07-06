@@ -10,6 +10,7 @@ Map<String, ColorPalette> appColorPalettes = {
     stickyHeaderBackgroundColor: Color.fromRGBO(150, 0, 0, 1),
     clickableTextLinkColor: Color.fromRGBO(200, 0, 0, 1),
     drawerPrimary: Colors.red,
+    buttonColor: Colors.red,
   ),
   "Wizard": ColorPalette(
     drawerPrimary: Colors.blue,
@@ -19,6 +20,7 @@ Map<String, ColorPalette> appColorPalettes = {
     navBarSelectedColor: Colors.white,
     navBarUnselectedColor: Colors.black87,
     stickyHeaderBackgroundColor: Color.fromRGBO(0, 0, 200, 1),
+    buttonColor: Colors.blue,
   ),
   "Druid": ColorPalette(
     drawerPrimary: Colors.green,
@@ -28,5 +30,6 @@ Map<String, ColorPalette> appColorPalettes = {
     navBarSelectedColor: Colors.white,
     navBarUnselectedColor: Colors.black87,
     stickyHeaderBackgroundColor: Color.fromRGBO(0, 100, 0, 1),
+    buttonColor: Colors.green,
   ),
 };

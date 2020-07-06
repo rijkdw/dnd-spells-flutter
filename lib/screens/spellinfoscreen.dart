@@ -231,6 +231,16 @@ class SpellInfoScreen extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Provider.of<ThemeManager>(context).colorPalette.appBarBackgroundColor,
+//        title: Column(
+//          crossAxisAlignment: CrossAxisAlignment.start,
+//          children: <Widget>[
+//            Text(spell.name),
+//            Text(
+//              spell.subtitle,
+//              style: TextStyle(fontWeight: FontWeight.normal, fontSize: 16),
+//            ),
+//          ],
+//        ),
       ),
       body: SingleChildScrollView(
         child: Container(
