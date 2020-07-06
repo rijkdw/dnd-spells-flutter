@@ -182,6 +182,39 @@ class Spell {
     return entriesAsString;
   }
 
+  /// Return true if this Spell's description contains the given token.  Checks all types of entries.
+  bool doesDescriptionContain(String descriptionToken) {
+    descriptionToken = descriptionToken.toLowerCase();
+    for (dynamic entry in description) {
+      // if the entry is a String, just check if it contains the token
+      if (entry is String) {
+        String entryString = entry.toLowerCase();
+        if (entryString.contains(descriptionToken)) return true;
+      } else {
+        Map<String, dynamic> entryMap = Map<String, dynamic>.from(entry);
+        switch (entryMap['type']) {
+          case 'entries':
+            String bodyToSearch = entryMap['name'] + ' ' + entryMap['entries'].join(' ');
+            if (bodyToSearch.toLowerCase().contains(descriptionToken)) return true;
+            break;
+          case 'list':
+            String bodyToSearch = entryMap['items'].join(' ') ?? '';
+            if (bodyToSearch.toLowerCase().contains(descriptionToken)) return true;
+            break;
+          case 'table':
+            String bodyToSearch = entryMap['caption'] ?? '';
+            entryMap['colLabels'].forEach((colLabel) => bodyToSearch += ' $colLabel');
+            entryMap['rows'].forEach((row) {
+              row.forEach((cell) => bodyToSearch += ' $cell');
+            });
+            if (bodyToSearch.toLowerCase().contains(descriptionToken)) return true;
+            break;
+        }
+      }
+    }
+    return false;
+  }
+
   bool get hasHigherLevels {
     return map.keys.contains('entriesHigherLevel');
   }

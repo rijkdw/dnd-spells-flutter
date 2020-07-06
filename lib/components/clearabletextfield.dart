@@ -4,7 +4,8 @@ class ClearableTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
   final Function(String) onChanged;
-  ClearableTextField({@required this.hintText, @required this.controller, this.onChanged});
+  final VoidCallback onCleared;
+  ClearableTextField({@required this.hintText, @required this.controller, this.onChanged, this.onCleared});
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +24,7 @@ class ClearableTextField extends StatelessWidget {
         InkWell(
           onTap: () {
             this.controller.clear();
+            onCleared();
           },
           splashColor: Colors.transparent,
           child: Container(

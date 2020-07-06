@@ -69,9 +69,6 @@ class _SearchPageState extends State<SearchPage> {
       );
     }
 
-    List<Spell> allSpells = Provider.of<SpellRepository>(context).allSpells;
-    List<Spell> spellsToDisplay = Provider.of<SearchManager>(context).filterSpells(allSpells);
-
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -120,10 +117,13 @@ class _SearchPageState extends State<SearchPage> {
         ],
       ),
       // body: _buildList(),
-      body: HeaderedSpellList(
-//        spells: Provider.of<SpellRepository>(context).allSpells,
-        spells: spellsToDisplay,
-        orderBy: orderBy,
+      body: Consumer2<SpellRepository, SearchManager>(
+        builder: (context, spellRepository, searchManager, child) {
+          return HeaderedSpellList(
+            spells: searchManager.filterSpells(spellRepository.allSpells),
+            orderBy: orderBy,
+          );
+        },
       ),
     );
   }

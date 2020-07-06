@@ -5,6 +5,7 @@ import 'package:dnd_spells_flutter/screens/spellinfoscreen.dart';
 import 'package:dnd_spells_flutter/services/historymanager.dart';
 import 'package:dnd_spells_flutter/services/spell_listmanager.dart';
 import 'package:dnd_spells_flutter/services/spellsrepository.dart';
+import 'package:dnd_spells_flutter/services/thememanager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -152,7 +153,7 @@ class _AddToListDialog extends StatelessWidget {
             Container(
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: Colors.red,
+                  color: Provider.of<ThemeManager>(context, listen: false).colorPalette.appBarBackgroundColor,
                 ),
               ),
               child: Consumer<SpellListManager>(

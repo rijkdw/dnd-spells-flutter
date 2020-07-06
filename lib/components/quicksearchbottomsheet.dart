@@ -1,7 +1,9 @@
 import 'package:dnd_spells_flutter/components/clearabletextfield.dart';
+import 'package:dnd_spells_flutter/services/searchmanager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 class QuickSearchBottomSheet extends StatelessWidget {
   @override
@@ -31,12 +33,14 @@ class _QuickSearchFormState extends State<QuickSearchForm> {
   @override
   void initState() {
     super.initState();
-    selection = QuickSearchSelection.name;
+    selection = Provider.of<SearchManager>(context, listen: false).lastSelection;
+    queryController.text = Provider.of<SearchManager>(context, listen: false).nameToken;
   }
 
   void _handleSelection(QuickSearchSelection newSelection) {
     setState(() => selection = newSelection);
-    // TODO tell search manager it's changed
+    print('The quick search selection changed!');
+    Provider.of<SearchManager>(context, listen: false).quickSearch(queryController.text, selection);
   }
 
   String _getHintText() {
@@ -63,7 +67,13 @@ class _QuickSearchFormState extends State<QuickSearchForm> {
             ),
             SizedBox(height: 10),
             ClearableTextField(
-              onChanged: (newValue) => print(newValue),
+              onChanged: (newValue) {
+                print('The quick search token changed!');
+                Provider.of<SearchManager>(context, listen: false).quickSearch(queryController.text, selection);
+              },
+              onCleared: () {
+                Provider.of<SearchManager>(context, listen: false).quickSearch(queryController.text, selection);
+              },
               controller: queryController,
               hintText: _getHintText(),
             ),

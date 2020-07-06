@@ -19,7 +19,6 @@ class HeaderedSpellList extends StatefulWidget {
 }
 
 class _HeaderedSpellListState extends State<HeaderedSpellList> {
-
   ScrollController scrollController = ScrollController(keepScrollOffset: true);
   List<_SliverExpandableStickyHeader> headers;
 
@@ -40,17 +39,19 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
       for (Spell spell in widget.spells) {
         if (spell.level != values[valueIndex]) {
           // end of this list
-          if (values[valueIndex] == 0)
-            returnList.add(_SliverExpandableStickyHeader('Cantrip', spellsWithCurrentValue));
-          else
-            returnList.add(_SliverExpandableStickyHeader('Level ${values[valueIndex]}', spellsWithCurrentValue));
+          if (spellsWithCurrentValue.isNotEmpty) {
+            if (values[valueIndex] == 0)
+              returnList.add(_SliverExpandableStickyHeader('Cantrip', spellsWithCurrentValue));
+            else
+              returnList.add(_SliverExpandableStickyHeader('Level ${values[valueIndex]}', spellsWithCurrentValue));
+          }
           // reset step
           valueIndex++;
           spellsWithCurrentValue = [];
         }
         spellsWithCurrentValue.add(spell);
       }
-      returnList.add(_SliverExpandableStickyHeader('Level ${values.last}', spellsWithCurrentValue));
+      if (spellsWithCurrentValue.isNotEmpty) returnList.add(_SliverExpandableStickyHeader('Level ${values.last}', spellsWithCurrentValue));
 
       return returnList;
     }
@@ -69,14 +70,16 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
       for (Spell spell in widget.spells) {
         if (spell.name[0] != values[valueIndex]) {
           // end of this list
-          returnList.add(_SliverExpandableStickyHeader('${values[valueIndex].toString().toUpperCase()}', spellsWithCurrentValue));
+          if (spellsWithCurrentValue.isNotEmpty)
+            returnList.add(_SliverExpandableStickyHeader('${values[valueIndex].toString().toUpperCase()}', spellsWithCurrentValue));
           // reset step
           valueIndex++;
           spellsWithCurrentValue = [];
         }
         spellsWithCurrentValue.add(spell);
       }
-      returnList.add(_SliverExpandableStickyHeader('${values[valueIndex].toString().toUpperCase()}', spellsWithCurrentValue));
+      if (spellsWithCurrentValue.isNotEmpty)
+        returnList.add(_SliverExpandableStickyHeader('${values[valueIndex].toString().toUpperCase()}', spellsWithCurrentValue));
 
       return returnList;
     }
@@ -94,14 +97,14 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
       for (Spell spell in widget.spells) {
         if (spell.school != values[valueIndex]) {
           // end of this list
-          returnList.add(_SliverExpandableStickyHeader('${values[valueIndex]}', spellsWithCurrentValue));
+          if (spellsWithCurrentValue.isNotEmpty) returnList.add(_SliverExpandableStickyHeader('${values[valueIndex]}', spellsWithCurrentValue));
           // reset step
           valueIndex++;
           spellsWithCurrentValue = [];
         }
         spellsWithCurrentValue.add(spell);
       }
-      returnList.add(_SliverExpandableStickyHeader('${values.last}', spellsWithCurrentValue));
+      if (spellsWithCurrentValue.isNotEmpty) returnList.add(_SliverExpandableStickyHeader('${values.last}', spellsWithCurrentValue));
 
       return returnList;
     }
