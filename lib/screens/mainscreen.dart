@@ -23,7 +23,7 @@ class _MainScreenState extends State<MainScreen> {
   Future<bool> _onWillPop() {
     DateTime now = DateTime.now();
     if (currentBackPressTime == null ||
-        now.difference(currentBackPressTime) > Duration(milliseconds: 500)) {
+        now.difference(currentBackPressTime) > Duration(milliseconds: 300)) {
       currentBackPressTime = now;
       return Future.value(false);
     }

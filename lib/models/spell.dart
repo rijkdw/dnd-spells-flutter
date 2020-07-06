@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:dnd_spells_flutter/utilities/utils.dart';
 
 class Spell {
-  final dynamic map;
+  final Map<dynamic, dynamic> map;
   Spell(this.map);
 
   String get name => map['name'];
@@ -180,6 +180,17 @@ class Spell {
         return Map<String, dynamic>.from(e);
     }).toList();
     return entriesAsString;
+  }
+
+  bool get hasHigherLevels {
+    return map.keys.contains('entriesHigherLevel');
+  }
+
+  String get atHigherLevels {
+    if (hasHigherLevels) {
+      return map['entriesHigherLevel'][0]['entries'][0];
+    }
+    return 'ERROR NO HIGHER LEVELS';
   }
 
   List<String> get inflictsConditions {

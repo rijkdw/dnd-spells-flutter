@@ -34,10 +34,7 @@ class SpellListTile extends StatelessWidget {
 //      },
       child: Container(
         width: double.infinity,
-        padding: EdgeInsets.symmetric(
-          horizontal: 10,
-          vertical: 8,
-        ),
+        padding: EdgeInsets.only(left: 10, right: 3),
         decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(
@@ -55,7 +52,7 @@ class SpellListTile extends StatelessWidget {
 //            ),
             SizedBox(width: 2),
             Expanded(
-              flex: 10,
+              flex: 15,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -76,7 +73,7 @@ class SpellListTile extends StatelessWidget {
               ),
             ),
             Expanded(
-              flex: 1,
+              flex: 2,
               child: InkWell(
                 splashColor: Colors.transparent,
                 onTap: () {
@@ -89,7 +86,8 @@ class SpellListTile extends StatelessWidget {
                   );
                 },
                 child: Container(
-                  height: 30,
+//                  color: Colors.blue,
+                  height: 54,
                   child: Icon(Icons.add),
                 ),
               ),

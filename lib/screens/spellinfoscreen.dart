@@ -107,8 +107,7 @@ class SpellInfoScreen extends StatelessWidget {
         // add the bullet
         allTextSpans.add(
 //          WidgetSpan(child: Icon(Icons.keyboard_arrow_right, size: 20)),
-          TextSpan(text: '\u2022  ', style: TextStyle(fontWeight: FontWeight.bold))
-        );
+            TextSpan(text: '\u2022  ', style: TextStyle(fontWeight: FontWeight.bold)));
         // add the item's text
         buildTextSpanChildren(item).forEach((textspan) => allTextSpans.add(textspan));
       });
@@ -261,7 +260,22 @@ class SpellInfoScreen extends StatelessWidget {
                 buildSpellDetail(context, FaIcon(FontAwesomeIcons.hourglassEnd, size: 18), 'Duration', spell.durationAndConcentration),
                 SizedBox(height: 12),
               ],
-              ...spell.description.map((entry) => buildEntryLine(entry)).toList()
+              ...spell.description.map((entry) => buildEntryLine(entry)).toList(),
+              RichText(
+                text: TextSpan(
+                  style: Theme.of(context).textTheme.bodyText1.copyWith(
+                        fontSize: 18,
+                        fontWeight: FontWeight.normal,
+                      ),
+                  children: [
+                    TextSpan(
+                      text: 'At Higher Levels. ',
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    ...buildTextSpanChildren(spell.atHigherLevels),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
