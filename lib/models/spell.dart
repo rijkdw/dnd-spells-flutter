@@ -101,7 +101,7 @@ class Spell {
     map['time'].forEach((time) {
       String timeUnit = time['unit'];
       dynamic timeNumber = time['number'];
-      castingTimes.add('$timeNumber $timeUnit');
+      castingTimes.add('$timeNumber ${plural(timeUnit, timeNumber)}');
     });
     if (castingTimes.length > 1) flagSeeBelow = true;
     String clause = flagSeeBelow ? ' (see below)' : '';
@@ -122,7 +122,7 @@ class Spell {
         case 'timed':
           String durUnits = dur['duration']['type'];
           dynamic durNumber = dur['duration']['amount'];
-          durations.add('$durNumber $durUnits');
+          durations.add('$durNumber ${plural(durUnits, durNumber)}');
           break;
         case 'special':
           flagSeeBelow = true;
