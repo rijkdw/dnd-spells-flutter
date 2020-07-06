@@ -49,3 +49,5 @@ String getShortDay(DateTime dateTime) {
   if (isInPastMonth(dateTime)) return 'this month';
   return 'earlier';
 }
+
+String getHHMM(DateTime dateTime) => '${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';

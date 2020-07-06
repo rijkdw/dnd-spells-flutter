@@ -12,12 +12,22 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
-  PageController _pageController = PageController();
+  DateTime currentBackPressTime;
 
   void _onPageChanged(int page) {
     setState(() {
       this._selectedIndex = page;
     });
+  }
+
+  Future<bool> _onWillPop() {
+    DateTime now = DateTime.now();
+    if (currentBackPressTime == null ||
+        now.difference(currentBackPressTime) > Duration(milliseconds: 500)) {
+      currentBackPressTime = now;
+      return Future.value(false);
+    }
+    return Future.value(true);
   }
 
   List<Widget> children = [
@@ -30,9 +40,12 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: SettingsDrawer(),
-      body: IndexedStack(
-        index: _selectedIndex,
-        children: children,
+      body: WillPopScope(
+        onWillPop: _onWillPop,
+        child: IndexedStack(
+          index: _selectedIndex,
+          children: children,
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         elevation: 0,

@@ -9,6 +9,10 @@ class HistoryManager extends ChangeNotifier {
   List<SpellView> _recentlyViewedSpells = [];
   List<SpellView> get recentlyViewedSpells => _recentlyViewedSpells.reversed.toList();
 
+  bool isInHistory(SpellView spellView) {
+    return _recentlyViewedSpells.contains(spellView);
+  }
+
   void addToHistory(SpellView spellView) {
     bool wasRemoved = _recentlyViewedSpells.remove(spellView);
     _recentlyViewedSpells.add(spellView);

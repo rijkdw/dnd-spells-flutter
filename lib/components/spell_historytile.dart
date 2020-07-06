@@ -55,7 +55,7 @@ class SpellHistoryTile extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'Viewed ${getShortDay(spellView.dateViewed)}',
+                    'Viewed ${spellView.historyTileTimestamp}',
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.black.withOpacity(0.6),
