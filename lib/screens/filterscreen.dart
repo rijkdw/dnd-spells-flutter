@@ -23,6 +23,12 @@ class _FilterScreenState extends State<FilterScreen> {
     print('Description: ${_descController.text}');
   }
 
+  void _clearAll() {
+    print('Clear ALL fiters');
+    _nameController.clear();
+    _descController.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +39,7 @@ class _FilterScreenState extends State<FilterScreen> {
         ),
         actions: <Widget>[
           IconButton(
-            onPressed: () => print('Clear ALL fiters'),
+            onPressed: _clearAll,
             icon: Icon(Icons.clear),
           )
         ],

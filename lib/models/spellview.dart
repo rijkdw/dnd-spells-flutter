@@ -3,15 +3,29 @@ import 'package:dnd_spells_flutter/utilities/utils.dart';
 import 'package:flutter/foundation.dart';
 
 class SpellView {
-  Spell spell;
+  String spellName;
   DateTime dateViewed;
 
-  SpellView({@required this.spell, @required this.dateViewed});
+  SpellView({@required this.spellName, @required this.dateViewed});
 
-  factory SpellView.now({@required Spell spell}) {
+  factory SpellView.now({@required String spellName}) {
     return SpellView(
       dateViewed: DateTime.now(),
-      spell: spell,
+      spellName: spellName,
+    );
+  }
+
+  // JSON
+
+  Map<String, dynamic> toJson() => {
+        'dateViewedEpochMilliseconds': dateViewed.millisecondsSinceEpoch,
+        'spellName': spellName,
+      };
+
+  factory SpellView.fromJson(Map<String, dynamic> json) {
+    return SpellView(
+      spellName: json['spellName'],
+      dateViewed: DateTime.fromMillisecondsSinceEpoch(json['dateViewedEpochMilliseconds']),
     );
   }
 
@@ -25,7 +39,7 @@ class SpellView {
   bool operator ==(dynamic other) {
     if (other is! SpellView) return false;
     SpellView spellView = other;
-    return spellView.spell == this.spell;
+    return spellView.spellName == this.spellName;
   }
 
   @override
