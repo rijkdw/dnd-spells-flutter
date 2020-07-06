@@ -1,6 +1,7 @@
 import 'package:dnd_spells_flutter/components/spell_listtile.dart';
 import 'package:dnd_spells_flutter/models/spell.dart';
 import 'package:dnd_spells_flutter/services/appstatemanager.dart';
+import 'package:dnd_spells_flutter/services/thememanager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:provider/provider.dart';
@@ -167,9 +168,9 @@ class _SliverExpandableStickyHeaderState extends State<_SliverExpandableStickyHe
           height: 35.0,
           decoration: BoxDecoration(
             border: Border.all(
-              color: Color.fromRGBO(150, 0, 0, 1),
+              color: Provider.of<ThemeManager>(context).colorPalette.stickyHeaderBackgroundColor,
             ),
-            color: Color.fromRGBO(150, 0, 0, 1),
+            color: Provider.of<ThemeManager>(context).colorPalette.stickyHeaderBackgroundColor,
           ),
           padding: EdgeInsets.symmetric(horizontal: 10.0),
           alignment: Alignment.centerLeft,

@@ -2,8 +2,10 @@ import 'package:dnd_spells_flutter/components/drawer.dart';
 import 'package:dnd_spells_flutter/screens/pages/historypage.dart';
 import 'package:dnd_spells_flutter/screens/pages/listspage.dart';
 import 'package:dnd_spells_flutter/screens/pages/searchpage.dart';
+import 'package:dnd_spells_flutter/services/thememanager.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -49,9 +51,9 @@ class _MainScreenState extends State<MainScreen> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         elevation: 0,
-        backgroundColor: Theme.of(context).primaryColor,
-        selectedItemColor: Theme.of(context).accentColor,
-        unselectedItemColor: Colors.black.withOpacity(0.7),
+        backgroundColor: Provider.of<ThemeManager>(context).colorPalette.navBarBackgroundColor,
+        selectedItemColor: Provider.of<ThemeManager>(context).colorPalette.navBarSelectedColor,
+        unselectedItemColor: Provider.of<ThemeManager>(context).colorPalette.navBarUnselectedColor,
         currentIndex: _selectedIndex,
         onTap: _onPageChanged,
         items: [

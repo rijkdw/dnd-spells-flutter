@@ -6,6 +6,7 @@ import 'package:dnd_spells_flutter/services/historymanager.dart';
 import 'package:dnd_spells_flutter/services/searchmanager.dart';
 import 'package:dnd_spells_flutter/services/spell_listmanager.dart';
 import 'package:dnd_spells_flutter/services/spellsrepository.dart';
+import 'package:dnd_spells_flutter/services/thememanager.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -25,14 +26,19 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AppStateManager()),
         ChangeNotifierProvider(create: (_) => SpellListManager()),
         ChangeNotifierProvider(create: (_) => HistoryManager()),
+        ChangeNotifierProvider(create: (_) => ThemeManager()),
       ],
-      child: MaterialApp(
-        title: 'D&D 5e Spell Seeker',
-        theme: ThemeData(
-          primaryColor: Colors.red,
-          accentColor: Colors.white,
-        ),
-        home: MainScreen(),
+      child: Consumer<ThemeManager>(
+        builder: (context, themeManager, child) {
+          return MaterialApp(
+            title: 'D&D 5e Spell Seeker',
+            theme: ThemeData(
+              primaryColor: themeManager.colorPalette.appBarBackgroundColor,
+              accentColor: themeManager.colorPalette.navBarSelectedColor,
+            ),
+            home: MainScreen(),
+          );
+        },
       ),
     );
   }

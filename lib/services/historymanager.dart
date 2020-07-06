@@ -58,7 +58,6 @@ class HistoryManager extends ChangeNotifier {
   void _storeInLocal() async {
     var prefs = await SharedPreferences.getInstance();
     prefs.setString(_keyHistoryStorage, json.encode(_recentlyViewedSpells.map((e) => e.toJson()).toList()));
-    print(prefs.getString(_keyHistoryStorage));
   }
 
 }

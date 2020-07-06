@@ -3,10 +3,12 @@ import 'dart:math';
 import 'package:dnd_spells_flutter/components/conditionpopup.dart';
 import 'package:dnd_spells_flutter/components/dicerollerpopup.dart';
 import 'package:dnd_spells_flutter/models/spell.dart';
+import 'package:dnd_spells_flutter/services/thememanager.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class SpellInfoScreen extends StatelessWidget {
   final Spell spell;
@@ -37,7 +39,7 @@ class SpellInfoScreen extends StatelessWidget {
             text: hits[i],
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              color: Theme.of(context).primaryColor,
+              color: Provider.of<ThemeManager>(context).colorPalette.clickableTextLinkColor,
             ),
             recognizer: TapGestureRecognizer()
               ..onTap = () {
@@ -228,6 +230,7 @@ class SpellInfoScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
+        backgroundColor: Provider.of<ThemeManager>(context).colorPalette.appBarBackgroundColor,
       ),
       body: SingleChildScrollView(
         child: Container(

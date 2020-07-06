@@ -5,6 +5,7 @@ import 'package:dnd_spells_flutter/components/spell_listtile.dart';
 import 'package:dnd_spells_flutter/screens/filterscreen.dart';
 import 'package:dnd_spells_flutter/services/appstatemanager.dart';
 import 'package:dnd_spells_flutter/services/spellsrepository.dart';
+import 'package:dnd_spells_flutter/services/thememanager.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -67,6 +68,7 @@ class _SearchPageState extends State<SearchPage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
+        backgroundColor: Provider.of<ThemeManager>(context).colorPalette.appBarBackgroundColor,
         leading: IconButton(
           onPressed: () => Scaffold.of(context).openDrawer(),
           icon: Icon(Icons.keyboard_arrow_right),

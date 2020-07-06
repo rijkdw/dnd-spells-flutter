@@ -3,7 +3,6 @@ import 'package:dnd_spells_flutter/models/spellview.dart';
 import 'package:dnd_spells_flutter/screens/spellinfoscreen.dart';
 import 'package:dnd_spells_flutter/services/historymanager.dart';
 import 'package:dnd_spells_flutter/services/spellsrepository.dart';
-import 'package:dnd_spells_flutter/utilities/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -93,7 +92,6 @@ class SpellHistoryTile extends StatelessWidget {
         ),
       );
     } catch (e) {
-      print('Error in making history tile:  $e');
       return Container();
     }
   }

@@ -1,12 +1,7 @@
-import 'dart:convert';
-
-import 'package:dnd_spells_flutter/components/drawer.dart';
-import 'package:dnd_spells_flutter/components/headeredspell_list.dart';
 import 'package:dnd_spells_flutter/models/spell_list.dart';
 import 'package:dnd_spells_flutter/services/spell_listmanager.dart';
-import 'package:dnd_spells_flutter/services/spellsrepository.dart';
+import 'package:dnd_spells_flutter/services/thememanager.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -21,6 +16,7 @@ class _ListsPageState extends State<ListsPage> {
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
+          backgroundColor: Provider.of<ThemeManager>(context).colorPalette.appBarBackgroundColor,
           leading: IconButton(
             onPressed: () => Scaffold.of(context).openDrawer(),
             icon: Icon(Icons.keyboard_arrow_right),
