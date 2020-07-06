@@ -11,22 +11,47 @@ class SettingsDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: Column(
-        children: <Widget>[
-          DrawerHeader(
-            child: Container(
-              width: double.infinity,
-              child: Text('Hello'),
+      child: Theme(
+        data: ThemeData(
+          accentColor: Provider.of<ThemeManager>(context).colorPalette.clickableTextLinkColor,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            DrawerHeader(
+              child: Container(
+                width: double.infinity,
+                child: Text('Hello'),
+              ),
+              decoration: BoxDecoration(
+                color: Provider.of<ThemeManager>(context).colorPalette.drawerPrimary,
+              ),
             ),
-            decoration: BoxDecoration(
-              color: Provider.of<ThemeManager>(context).colorPalette.drawerPrimary,
+            ListView(
+              padding: EdgeInsets.all(0),
+              shrinkWrap: true,
+              children: <Widget>[
+                ExpansionTile(
+                  title: Text(
+                    'Appearance',
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
+                  ),
+                  children: <Widget>[
+                    ListTile(
+                      title: Text('Change Theme'),
+                      onTap: () => showDialog(
+                        context: context,
+                        builder: (context) => _ThemeChangeDialog(),
+                      ),
+                    )
+                  ],
+                ),
+              ],
             ),
-          ),
-          ListTile(
-            title: Text('Change theme'),
-            onTap: () => showDialog(context: context, builder: (context) => _ThemeChangeDialog()),
-          )
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:provider/provider.dart';
 
 enum DisplayMode { list, grid }
 
@@ -15,8 +14,5 @@ class AppStateManager extends ChangeNotifier {
       globalDisplayMode = DisplayMode.list;
     notifyListeners();
   }
-
-  List<String> retractedHeaders = [];
-  double scrollPosition = 0;
 
 }

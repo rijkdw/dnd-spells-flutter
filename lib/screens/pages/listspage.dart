@@ -23,7 +23,9 @@ class _ListsPageState extends State<ListsPage> {
           ),
           actions: <Widget>[
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                print('Create Spell List button pressed');
+              },
               icon: FaIcon(FontAwesomeIcons.plus, size: 20),
             )
           ],
@@ -57,8 +59,14 @@ class _SpellListListTile extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Text('${spellList.name}'),
-          Text('${spellList.spellNames.length} spells')
+          Text(
+            '${spellList.name}',
+            style: TextStyle(fontSize: 18),
+          ),
+          Text(
+            '${spellList.spellNames.length} spells',
+            style: TextStyle(fontSize: 18),
+          )
         ],
       ),
     );

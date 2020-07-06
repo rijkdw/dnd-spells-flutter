@@ -139,22 +139,12 @@ class _SliverExpandableStickyHeader extends StatefulWidget {
 }
 
 class _SliverExpandableStickyHeaderState extends State<_SliverExpandableStickyHeader> {
-  bool _expanded;
-
-  @override
-  void initState() {
-    super.initState();
-    _expanded = Provider.of<AppStateManager>(context, listen: false).retractedHeaders.contains(widget.header) ? false : true;
-  }
+  bool _expanded = true;
 
   void _toggleShowExpanded() {
     setState(() {
       _expanded = !_expanded;
     });
-    if (_expanded)
-      Provider.of<AppStateManager>(context, listen: false).retractedHeaders.remove(widget.header);
-    else
-      Provider.of<AppStateManager>(context, listen: false).retractedHeaders.add(widget.header);
   }
 
   @override
