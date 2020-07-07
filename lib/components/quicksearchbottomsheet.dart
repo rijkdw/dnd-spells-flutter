@@ -1,5 +1,6 @@
 import 'package:dnd_spells_flutter/components/clearabletextfield.dart';
 import 'package:dnd_spells_flutter/services/searchmanager.dart';
+import 'package:dnd_spells_flutter/services/thememanager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
@@ -88,7 +89,13 @@ class _QuickSearchFormState extends State<QuickSearchForm> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                Text('Search for'),
+                Text(
+                  'SEARCH FOR',
+                  style: TextStyle(
+                    fontSize: 16,
+                    letterSpacing: 1,
+                  ),
+                ),
                 ChoiceChip(
                   label: Text('Name'),
                   selected: selection == QuickSearchSelection.name,

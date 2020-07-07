@@ -150,10 +150,11 @@ class __SortWidgetState extends State<_SortWidget> {
           Container(
             width: 120,
             child: Text(
-              'Sort by',
+              'SORT BY',
               style: TextStyle(
                 color: Provider.of<ThemeManager>(context).colorPalette.navBarSelectedColor,
-                fontSize: 18,
+                fontSize: 16,
+                letterSpacing: 1,
               ),
             ),
           ),
