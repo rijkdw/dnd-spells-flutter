@@ -81,9 +81,13 @@ class _DiceRollerDialogState extends State<DiceRollerDialog> {
                 ),
 
                 // display the dice number
-                Text(
-                  '    $_dice    ',
-                  style: TextStyle(fontSize: 30),
+                Container(
+                  width: 100,
+                  alignment: Alignment.center,
+                  child: Text(
+                    '$_dice',
+                    style: TextStyle(fontSize: 30),
+                  ),
                 ),
 
                 // decrement the dice number

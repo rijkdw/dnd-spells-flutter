@@ -31,7 +31,10 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
   List<_SliverExpandableStickyHeader> _getAllSplits() {
     List<_SliverExpandableStickyHeader> splitByLevel() {
       widget.spells.sort((a, b) => a.level.compareTo(b.level));
-      List<dynamic> values = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+      List<dynamic> values = [];
+      widget.spells.forEach((spell) {
+        if (!values.contains(spell.level)) values.add(spell.level);
+      });
       List<_SliverExpandableStickyHeader> returnList = [];
 
       int valueIndex = 0;

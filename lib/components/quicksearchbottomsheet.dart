@@ -34,7 +34,14 @@ class _QuickSearchFormState extends State<QuickSearchForm> {
   void initState() {
     super.initState();
     selection = Provider.of<SearchManager>(context, listen: false).lastSelection;
-    queryController.text = Provider.of<SearchManager>(context, listen: false).nameToken;
+    switch (selection) {
+      case QuickSearchSelection.name:
+        queryController.text = Provider.of<SearchManager>(context, listen: false).nameToken;
+        break;
+      case QuickSearchSelection.description:
+        queryController.text = Provider.of<SearchManager>(context, listen: false).descriptionToken;
+        break;
+    }
   }
 
   void _handleSelection(QuickSearchSelection newSelection) {

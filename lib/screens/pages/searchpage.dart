@@ -119,8 +119,13 @@ class _SearchPageState extends State<SearchPage> {
       // body: _buildList(),
       body: Consumer2<SpellRepository, SearchManager>(
         builder: (context, spellRepository, searchManager, child) {
+          List<Spell> filteredSpells = searchManager.filterSpells(spellRepository.allSpells);
+          if (filteredSpells.isEmpty)
+            return Center(
+              child: Text('No Spells'),
+            );
           return HeaderedSpellList(
-            spells: searchManager.filterSpells(spellRepository.allSpells),
+            spells: filteredSpells,
             orderBy: orderBy,
           );
         },

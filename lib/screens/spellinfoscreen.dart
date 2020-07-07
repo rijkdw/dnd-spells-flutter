@@ -15,7 +15,7 @@ class SpellInfoScreen extends StatelessWidget {
   SpellInfoScreen({@required this.spell});
 
   bool _isDiceString(String input) {
-    return RegExp(r'\b\d+d\d+\b').allMatches(input).isNotEmpty;
+    return RegExp(r'\b\d*d\d+\b').allMatches(input).isNotEmpty;
   }
 
   @override
@@ -26,7 +26,7 @@ class SpellInfoScreen extends StatelessWidget {
 
       String conditionsRegex = '';
       spell.inflictsConditions.forEach((condition) => conditionsRegex += '|$condition');
-      RegExp pattern = new RegExp(r'\b(\d+d\d+' + conditionsRegex + r')\b');
+      RegExp pattern = new RegExp(r'\b(\d*d\d+' + conditionsRegex + r')\b');
       List<String> splits = text.split(pattern).map((e) => e.toString()).toList();
       List<String> hits = pattern.allMatches(text).map((e) => e.group(0)).toList();
 
@@ -49,7 +49,7 @@ class SpellInfoScreen extends StatelessWidget {
                     // if dice string, show a dice roller
                     if (_isDiceString(hits[i]))
                       return DiceRollerDialog(
-                        dice: hits[i],
+                        dice: hits[i][0] == 'd' ? '1${hits[i]}' : hits[i],
                       );
                     // if condition string, show condition popup
                     else {
@@ -271,6 +271,8 @@ class SpellInfoScreen extends StatelessWidget {
                 buildSpellDetail(context, FaIcon(FontAwesomeIcons.draftingCompass, size: 18), 'Range', spell.range),
                 buildSpellDetail(context, FaIcon(FontAwesomeIcons.mortarPestle, size: 18), 'Components', spell.components),
                 buildSpellDetail(context, FaIcon(FontAwesomeIcons.hourglassEnd, size: 18), 'Duration', spell.durationAndConcentration),
+                buildSpellDetail(context, FaIcon(FontAwesomeIcons.hatWizard, size: 18), 'Classes', spell.classes),
+                buildSpellDetail(context, FaIcon(FontAwesomeIcons.child, size: 18), 'Races', spell.races),
                 SizedBox(height: 12),
               ],
               ...spell.description.map((entry) => buildEntryLine(entry)).toList(),

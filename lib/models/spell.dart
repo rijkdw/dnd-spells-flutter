@@ -100,6 +100,8 @@ class Spell {
     List<String> castingTimes = [];
     map['time'].forEach((time) {
       String timeUnit = time['unit'];
+      // correcting bonus --> bonus action
+      if (timeUnit == 'bonus') timeUnit = 'bonus action';
       dynamic timeNumber = time['number'];
       castingTimes.add('$timeNumber ${plural(timeUnit, timeNumber)}');
     });
@@ -169,7 +171,14 @@ class Spell {
   }
 
   // TODO: fix classes
-  List<String> get classes => ['Wizard', 'Sorcerer', 'Warlock'];
+  List<String> get classesList => ['Wizard', 'Sorcerer', 'Warlock'];
+
+  String get classes => classesList.join(', ');
+
+  // TODO: fix races
+  List<String> get racesList => ['Elf (high)', 'Tiefling'];
+
+  String get races => racesList.join(', ');
 
   List<dynamic> get description {
     List<dynamic> entries = map['entries'];
@@ -211,6 +220,10 @@ class Spell {
             break;
         }
       }
+    }
+    if (hasHigherLevels) {
+      if ('at higher levels'.contains(descriptionToken)) return true;
+      if (atHigherLevels.contains(descriptionToken)) return true;
     }
     return false;
   }
