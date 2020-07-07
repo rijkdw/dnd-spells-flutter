@@ -1,5 +1,6 @@
 import 'package:dnd_spells_flutter/components/headeredspell_list.dart';
 import 'package:dnd_spells_flutter/components/quicksearchbottomsheet.dart';
+import 'package:dnd_spells_flutter/components/sortwidget.dart';
 import 'package:dnd_spells_flutter/components/spell_gridtile.dart';
 import 'package:dnd_spells_flutter/components/spell_listtile.dart';
 import 'package:dnd_spells_flutter/models/spell.dart';
@@ -96,7 +97,9 @@ class _SearchPageState extends State<SearchPage> {
           if (filteredSpells.isEmpty)
             return Column(
               children: <Widget>[
-                _SortWidget(),
+                SortWidget(
+                  onTap: (newOrderBy) {},
+                ),
                 Expanded(
                   child: Center(
                     child: Text('No Spells'),
@@ -106,7 +109,10 @@ class _SearchPageState extends State<SearchPage> {
             );
           return Column(
             children: <Widget>[
-              _SortWidget(),
+              SortWidget(
+                onTap: (newOrderBy) => Provider.of<SearchManager>(context, listen: false).orderBy = newOrderBy,
+                toCheck: Provider.of<SearchManager>(context).orderBy,
+              ),
               Expanded(
                 child: HeaderedSpellList(
                   spells: filteredSpells,
@@ -116,71 +122,6 @@ class _SearchPageState extends State<SearchPage> {
             ],
           );
         },
-      ),
-    );
-  }
-}
-
-class _SortWidget extends StatefulWidget {
-  @override
-  __SortWidgetState createState() => __SortWidgetState();
-}
-
-class __SortWidgetState extends State<_SortWidget> {
-  void _handleTap(OrderBy newOrderBy) {
-    Provider.of<SearchManager>(context, listen: false).orderBy = newOrderBy;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10),
-      height: 50,
-      decoration: BoxDecoration(
-        color: Provider.of<ThemeManager>(context).colorPalette.appBarBackgroundColor,
-        border: Border(
-          top: BorderSide(
-            color: Provider.of<ThemeManager>(context).colorPalette.stickyHeaderBackgroundColor,
-          ),
-        ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Container(
-            width: 120,
-            child: Text(
-              'SORT BY',
-              style: TextStyle(
-                color: Provider.of<ThemeManager>(context).colorPalette.navBarSelectedColor,
-                fontSize: 16,
-                letterSpacing: 1,
-              ),
-            ),
-          ),
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                ChoiceChip(
-                  label: Text('Name'),
-                  selected: Provider.of<SearchManager>(context).orderBy == OrderBy.name,
-                  onSelected: (newValue) => _handleTap(OrderBy.name),
-                ),
-                ChoiceChip(
-                  label: Text('Level'),
-                  selected: Provider.of<SearchManager>(context).orderBy == OrderBy.level,
-                  onSelected: (newValue) => _handleTap(OrderBy.level),
-                ),
-                ChoiceChip(
-                  label: Text('School'),
-                  selected: Provider.of<SearchManager>(context).orderBy == OrderBy.school,
-                  onSelected: (newValue) => _handleTap(OrderBy.school),
-                ),
-              ],
-            ),
-          ),
-        ],
       ),
     );
   }
