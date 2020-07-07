@@ -8,14 +8,15 @@ import 'package:dnd_spells_flutter/services/spell_listmanager.dart';
 import 'package:dnd_spells_flutter/services/spellsrepository.dart';
 import 'package:dnd_spells_flutter/services/thememanager.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 void main() {
 //  singletons.initialiseSingletons();
-  runApp(MyApp());
+  runApp(DnD5eSpellsApp());
 }
 
-class MyApp extends StatelessWidget {
+class DnD5eSpellsApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
               primaryColor: themeManager.colorPalette.appBarBackgroundColor,
               accentColor: themeManager.colorPalette.navBarSelectedColor,
+              canvasColor: themeManager.colorPalette.brightness == Brightness.light ? Colors.white : Color.fromRGBO(41, 41, 41, 1),
             ),
             home: MainScreen(),
           );

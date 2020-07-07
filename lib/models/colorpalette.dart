@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class ColorPalette {
+
+  // brightness
+  Brightness brightness;
 
   // drawer colors
   Color drawerPrimary;
@@ -23,6 +27,7 @@ class ColorPalette {
   Color buttonColor;
 
   ColorPalette({
+    this.brightness: Brightness.light,
     this.stickyHeaderBackgroundColor: Colors.purple,
     this.navBarBackgroundColor: Colors.purple,
     this.navBarSelectedColor: Colors.green,

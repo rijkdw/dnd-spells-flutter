@@ -146,13 +146,15 @@ class SpellInfoScreen extends StatelessWidget {
         ],
       );
 
-      Widget caption = Text(
-        '${map['caption']}',
-        style: TextStyle(
+      Widget caption = map['caption'] != null
+          ? Text(
+              '${map['caption']}',
+              style: TextStyle(
 //          fontSize: 16,
-          fontWeight: FontWeight.bold,
-        ),
-      );
+                fontWeight: FontWeight.bold,
+              ),
+            )
+          : Container();
 
       return Container(
         width: double.infinity,

@@ -31,6 +31,7 @@ class SettingsDrawer extends StatelessWidget {
               shrinkWrap: true,
               children: <Widget>[
                 ExpansionTile(
+                  initiallyExpanded: true,
                   title: Text(
                     'Appearance',
                     style: TextStyle(
