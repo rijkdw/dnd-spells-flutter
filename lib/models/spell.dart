@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dnd_spells_flutter/utilities/utils.dart';
+import 'package:flutter/cupertino.dart';
 
 class Spell {
   final Map<dynamic, dynamic> map;
@@ -40,6 +41,17 @@ class Spell {
     if (isRitual) tags.add('R');
     return tags.join('  •  ');
   }
+
+  String get source => map['source'];
+  String get shortSource {
+    switch (source) {
+      case 'Player\'s Handbook': return 'PHB';
+      case 'Xanathar\'s Guide to Everything': return 'XGTE';
+      default: return source;
+    }
+  }
+
+  int get pageNum => map['page'];
 
   String get range {
     String type = map['range']['type'];
@@ -170,15 +182,42 @@ class Spell {
     return vsm;
   }
 
-  // TODO: fix classes
-  List<String> get classesList => ['Wizard', 'Sorcerer', 'Warlock'];
+  List<String> get classesList {
+    List allClasses = [];
+    map['classes']['fromClassList'].forEach((classMap) {
+      allClasses.add(classMap['name'].toString());
+    });
+    (map['classes']['fromSubclass'] ?? []).forEach((subclassMap) {
+      String className = subclassMap['class']['name'];
+      String subclassName = subclassMap['subclass']['name'];
+      if (!subclassName.contains('UA') && !subclassName.contains('PSA') && !subclassName.contains('Stream'))
+        allClasses.add('$className ($subclassName)');
+    });
+    return List<String>.from(allClasses).toSet().toList();
+  }
 
-  String get classes => classesList.join(', ');
+  bool get belongsToRaces => map.keys.contains('races');
 
-  // TODO: fix races
-  List<String> get racesList => ['Elf (high)', 'Tiefling'];
-
-  String get races => racesList.join(', ');
+  List<String> get racesList {
+    List allRaces = [];
+    (map['races'] ?? []).forEach((raceMap) {
+      // if it's a base race, it shouldn't have a baseName key
+      // if has key, it's a subrace
+      if (raceMap.keys.contains('baseName')) {
+//        String baseName = raceMap['baseName'];
+//        String subName = raceMap['name'];
+//        allRaces.add('$baseName ($subName)');
+        String name = raceMap['name'];
+        allRaces.add(name);
+      }
+      // else it's a base race
+      else {
+        String name = raceMap['name'];
+        allRaces.add(name);
+      }
+    });
+    return List<String>.from(allRaces).toSet().toList();
+  }
 
   List<dynamic> get description {
     List<dynamic> entries = map['entries'];

@@ -1,5 +1,6 @@
 import 'package:dnd_spells_flutter/models/condition.dart';
 import 'package:dnd_spells_flutter/services/conditionrepository.dart';
+import 'package:dnd_spells_flutter/services/thememanager.dart';
 import 'package:dnd_spells_flutter/utilities/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -11,7 +12,6 @@ class ConditionPopup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     Widget _buildConditionDescription(Condition condition) {
       switch (condition.type) {
         case ConditionDescriptionType.bulletedList:
@@ -37,7 +37,7 @@ class ConditionPopup extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 12),
         child: Container(
           constraints: BoxConstraints(
-            maxHeight: MediaQuery.of(context).size.height*2/3,
+            maxHeight: MediaQuery.of(context).size.height * 2 / 3,
           ),
           child: SingleChildScrollView(
             child: Column(
@@ -47,7 +47,11 @@ class ConditionPopup extends StatelessWidget {
                 SizedBox(height: 25),
                 Text(
                   'CONDITION',
-                  style: TextStyle(fontSize: 20, letterSpacing: 1.5, color: Colors.red),
+                  style: TextStyle(
+                    fontSize: 20,
+                    letterSpacing: 1.5,
+                    color: Provider.of<ThemeManager>(context).colorPalette.appBarBackgroundColor,
+                  ),
                 ),
                 SizedBox(height: 12),
                 Text(
@@ -67,7 +71,6 @@ class ConditionPopup extends StatelessWidget {
 }
 
 class _ConditionDescription extends StatelessWidget {
-
   final Condition condition;
   _ConditionDescription(this.condition);
 

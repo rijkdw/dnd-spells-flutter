@@ -18,29 +18,8 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  OrderBy orderBy = OrderBy.level;
-
-  void _updateSearchParameters() {}
-
-  void _pressCarrotButton() {
-    setState(() {
-      switch (orderBy) {
-        case OrderBy.level:
-          orderBy = OrderBy.name;
-          break;
-        case OrderBy.name:
-          orderBy = OrderBy.school;
-          break;
-        case OrderBy.school:
-          orderBy = OrderBy.level;
-          break;
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-
     // for building the grid or list view (CURRENTLY OUT OF USE BECAUSE GRID VIEW IS BROKEN)
     Widget _buildList() {
       return Consumer2<SpellRepository, AppStateManager>(
@@ -80,17 +59,11 @@ class _SearchPageState extends State<SearchPage> {
         actions: <Widget>[
           IconButton(
             icon: FaIcon(
-              FontAwesomeIcons.carrot,
-              size: 20,
-            ),
-            onPressed: () => _pressCarrotButton(),
-          ),
-          IconButton(
-            icon: FaIcon(
               FontAwesomeIcons.search,
               size: 20,
             ),
-            onPressed: () => showModalBottomSheet( // TODO quicksearch
+            onPressed: () => showModalBottomSheet(
+              // TODO quicksearch
               context: context,
 //              isScrollControlled: true,
               builder: (context) => QuickSearchBottomSheet(),
@@ -121,14 +94,92 @@ class _SearchPageState extends State<SearchPage> {
         builder: (context, spellRepository, searchManager, child) {
           List<Spell> filteredSpells = searchManager.filterSpells(spellRepository.allSpells);
           if (filteredSpells.isEmpty)
-            return Center(
-              child: Text('No Spells'),
+            return Column(
+              children: <Widget>[
+                _SortWidget(),
+                Expanded(
+                  child: Center(
+                    child: Text('No Spells'),
+                  ),
+                ),
+              ],
             );
-          return HeaderedSpellList(
-            spells: filteredSpells,
-            orderBy: orderBy,
+          return Column(
+            children: <Widget>[
+              _SortWidget(),
+              Expanded(
+                child: HeaderedSpellList(
+                  spells: filteredSpells,
+                  orderBy: searchManager.orderBy,
+                ),
+              ),
+            ],
           );
         },
+      ),
+    );
+  }
+}
+
+class _SortWidget extends StatefulWidget {
+  @override
+  __SortWidgetState createState() => __SortWidgetState();
+}
+
+class __SortWidgetState extends State<_SortWidget> {
+  void _handleTap(OrderBy newOrderBy) {
+    Provider.of<SearchManager>(context, listen: false).orderBy = newOrderBy;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 10),
+      height: 50,
+      decoration: BoxDecoration(
+        color: Provider.of<ThemeManager>(context).colorPalette.appBarBackgroundColor,
+        border: Border(
+          top: BorderSide(
+            color: Provider.of<ThemeManager>(context).colorPalette.stickyHeaderBackgroundColor,
+          ),
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          Container(
+            width: 120,
+            child: Text(
+              'Sort by',
+              style: TextStyle(
+                color: Provider.of<ThemeManager>(context).colorPalette.navBarSelectedColor,
+                fontSize: 18,
+              ),
+            ),
+          ),
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                ChoiceChip(
+                  label: Text('Name'),
+                  selected: Provider.of<SearchManager>(context).orderBy == OrderBy.name,
+                  onSelected: (newValue) => _handleTap(OrderBy.name),
+                ),
+                ChoiceChip(
+                  label: Text('Level'),
+                  selected: Provider.of<SearchManager>(context).orderBy == OrderBy.level,
+                  onSelected: (newValue) => _handleTap(OrderBy.level),
+                ),
+                ChoiceChip(
+                  label: Text('School'),
+                  selected: Provider.of<SearchManager>(context).orderBy == OrderBy.school,
+                  onSelected: (newValue) => _handleTap(OrderBy.school),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

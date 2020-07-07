@@ -267,12 +267,15 @@ class SpellInfoScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 14),
+                buildSpellDetail(context, FaIcon(FontAwesomeIcons.book, size: 18), 'Source', '${spell.shortSource} p${spell.pageNum}'),
                 buildSpellDetail(context, FaIcon(FontAwesomeIcons.stopwatch, size: 18), 'Casting Time', spell.castingTime),
                 buildSpellDetail(context, FaIcon(FontAwesomeIcons.draftingCompass, size: 18), 'Range', spell.range),
                 buildSpellDetail(context, FaIcon(FontAwesomeIcons.mortarPestle, size: 18), 'Components', spell.components),
                 buildSpellDetail(context, FaIcon(FontAwesomeIcons.hourglassEnd, size: 18), 'Duration', spell.durationAndConcentration),
-                buildSpellDetail(context, FaIcon(FontAwesomeIcons.hatWizard, size: 18), 'Classes', spell.classes),
-                buildSpellDetail(context, FaIcon(FontAwesomeIcons.child, size: 18), 'Races', spell.races),
+                buildSpellDetail(context, FaIcon(FontAwesomeIcons.hatWizard, size: 18), 'Classes', spell.classesList.join(', ')),
+                spell.belongsToRaces
+                    ? buildSpellDetail(context, FaIcon(FontAwesomeIcons.child, size: 18), 'Races', spell.racesList.join(', '))
+                    : Container(),
                 SizedBox(height: 12),
               ],
               ...spell.description.map((entry) => buildEntryLine(entry)).toList(),
@@ -293,6 +296,7 @@ class SpellInfoScreen extends StatelessWidget {
                       ),
                     )
                   : Container(),
+              SizedBox(height: 12),
             ],
           ),
         ),

@@ -1,8 +1,21 @@
+import 'package:dnd_spells_flutter/components/headeredspell_list.dart';
 import 'package:dnd_spells_flutter/components/quicksearchbottomsheet.dart';
 import 'package:dnd_spells_flutter/models/spell.dart';
 import 'package:flutter/material.dart';
 
 class SearchManager extends ChangeNotifier {
+
+  // sorting
+
+  OrderBy _orderBy = OrderBy.name;
+  OrderBy get orderBy => _orderBy;
+  set orderBy(OrderBy newOrderBy) {
+    _orderBy = newOrderBy;
+    notifyListeners();
+  }
+
+  // filtering
+
   String _nameToken = '';
   set nameToken(String newToken) {
     _nameToken = newToken;
@@ -19,6 +32,14 @@ class SearchManager extends ChangeNotifier {
 
   QuickSearchSelection _lastSelection = QuickSearchSelection.name;
   QuickSearchSelection get lastSelection => _lastSelection;
+
+  bool get isFiltered => _nameToken.isNotEmpty || _descriptionToken.isNotEmpty;
+
+  void clearFilters() {
+    _nameToken = '';
+    _descriptionToken = '';
+    notifyListeners();
+  }
 
   void quickSearch(String token, QuickSearchSelection selection) {
     print('SearchManager quicksearching for $token as ${selection.toString()}');
