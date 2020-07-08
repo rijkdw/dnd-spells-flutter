@@ -126,12 +126,19 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
 
   @override
   Widget build(BuildContext context) {
-    return ScrollConfiguration(
-      behavior: NoGlowScrollBehavior(),
-      child: CustomScrollView(
-        controller: scrollController,
-        shrinkWrap: true,
-        slivers: headers,
+    return GestureDetector(
+      onPanUpdate: (details) {
+        if (details.delta.dx < -10) {
+          print('You swiped right');
+        }
+      },
+      child: ScrollConfiguration(
+        behavior: NoGlowScrollBehavior(),
+        child: CustomScrollView(
+          controller: scrollController,
+          shrinkWrap: true,
+          slivers: headers,
+        ),
       ),
     );
   }
@@ -155,7 +162,15 @@ class _SliverExpandableStickyHeader extends StatefulWidget {
 }
 
 class _SliverExpandableStickyHeaderState extends State<_SliverExpandableStickyHeader> {
-  bool _expanded = true;
+  bool _expanded;
+  GlobalKey scrollKey;
+
+  @override
+  void initState() {
+    super.initState();
+    scrollKey = GlobalKey();
+    _expanded = true;
+  }
 
   void _toggleShowExpanded() {
     setState(() {
@@ -163,11 +178,16 @@ class _SliverExpandableStickyHeaderState extends State<_SliverExpandableStickyHe
     });
   }
 
+  void _jumpTo() {
+    Scrollable.ensureVisible(scrollKey.currentContext);
+  }
+
   @override
   Widget build(BuildContext context) {
     widget.spells.sort((a, b) => a.name.compareTo(b.name));
 
     return SliverStickyHeader(
+      key: scrollKey,
       header: InkWell(
         onTap: () => _toggleShowExpanded(),
         child: Container(
