@@ -116,13 +116,9 @@ class _SearchPageState extends State<SearchPage> {
                 toCheck: Provider.of<SearchManager>(context).orderBy,
               ),
               Expanded(
-                child: Stack(
-                  children: <Widget>[
-                    HeaderedSpellList(
-                      spells: filteredSpells,
-                      orderBy: searchManager.orderBy,
-                    ),
-                  ],
+                child: HeaderedSpellList(
+                  spells: filteredSpells,
+                  orderBy: searchManager.orderBy,
                 ),
               ),
             ],

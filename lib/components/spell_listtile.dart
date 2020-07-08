@@ -81,28 +81,32 @@ class SpellListTile extends StatelessWidget {
               ),
             ),
             Expanded(
-              flex: 2,
-              child: InkWell(
-                splashColor: Colors.transparent,
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) => Provider<Spell>.value(
-                      value: spell,
-                      child: AddToListDialog(),
-                    ),
-                  );
-                },
-                child: Container(
-//                  color: Colors.blue,
-                  height: 54,
+              flex: 0,
+              child: Container(
+                height: 54,
+              ),
+//              flex: 2,
+//              child: InkWell(
+//                splashColor: Colors.transparent,
+//                onTap: () {
+//                  showDialog(
+//                    context: context,
+//                    builder: (context) => Provider<Spell>.value(
+//                      value: spell,
+//                      child: AddToListDialog(),
+//                    ),
+//                  );
+//                },
+//                child: Container(
+////                  color: Colors.blue,
+//                  height: 54,
 //                  child: Icon(
 //                    Icons.add,
 //                    color: Provider.of<ThemeManager>(context).colorPalette.clickableTextLinkColor,
 //                  ),
-                ),
-              ),
-            )
+//                ),
+//              ),
+            ),
           ],
         ),
       ),
