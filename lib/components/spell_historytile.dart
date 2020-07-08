@@ -3,6 +3,7 @@ import 'package:dnd_spells_flutter/models/spellview.dart';
 import 'package:dnd_spells_flutter/screens/spellinfoscreen.dart';
 import 'package:dnd_spells_flutter/services/historymanager.dart';
 import 'package:dnd_spells_flutter/services/spellsrepository.dart';
+import 'package:dnd_spells_flutter/services/thememanager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -32,6 +33,11 @@ class SpellHistoryTile extends StatelessWidget {
             border: Border(
               bottom: BorderSide(
                 color: Colors.grey.withOpacity(0.3),
+                width: 0.5,
+              ),
+              top: BorderSide(
+                color: Colors.grey.withOpacity(0.3),
+                width: 0.5,
               ),
             ),
           ),
@@ -52,14 +58,14 @@ class SpellHistoryTile extends StatelessWidget {
                       '${spell.subtitle}',
                       style: TextStyle(
                         fontSize: 14,
-                        color: Colors.black.withOpacity(0.6),
+                        color: Provider.of<ThemeManager>(context).colorPalette.subTextColor,
                       ),
                     ),
                     Text(
                       'Viewed ${spellView.historyTileTimestamp}',
                       style: TextStyle(
                         fontSize: 14,
-                        color: Colors.black.withOpacity(0.6),
+                        color: Provider.of<ThemeManager>(context).colorPalette.subTextColor,
                       ),
                     ),
                   ],
@@ -79,6 +85,7 @@ class SpellHistoryTile extends StatelessWidget {
                       child: Icon(
                         Icons.close,
                         size: 20,
+                        color: Provider.of<ThemeManager>(context).colorPalette.clickableTextLinkColor,
                       ),
                     ),
                   ),

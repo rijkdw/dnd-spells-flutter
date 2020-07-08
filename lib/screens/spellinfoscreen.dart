@@ -294,7 +294,7 @@ class SpellInfoScreen extends StatelessWidget {
                   value: spell.components,
                 ),
                 buildSpellDetail(
-                  icon: FontAwesomeIcons.hourglassEnd,
+                  icon: FontAwesomeIcons.hourglassHalf,
                   title: 'Duration',
                   value: spell.durationAndConcentration,
                 ),

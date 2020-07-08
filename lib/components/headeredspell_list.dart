@@ -126,11 +126,21 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      controller: scrollController,
-      shrinkWrap: true,
-      slivers: headers,
+    return ScrollConfiguration(
+      behavior: NoGlowScrollBehavior(),
+      child: CustomScrollView(
+        controller: scrollController,
+        shrinkWrap: true,
+        slivers: headers,
+      ),
     );
+  }
+}
+
+class NoGlowScrollBehavior extends ScrollBehavior {
+  @override
+  Widget buildViewportChrome(BuildContext context, Widget child, AxisDirection axisDirection) {
+    return child;
   }
 }
 
