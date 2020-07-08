@@ -114,6 +114,7 @@ class Spell {
       String timeUnit = time['unit'];
       // correcting bonus --> bonus action
       if (timeUnit == 'bonus') timeUnit = 'bonus action';
+      if (timeUnit == 'reaction') timeUnit += ', ${time['condition']}';
       dynamic timeNumber = time['number'];
       castingTimes.add('$timeNumber ${plural(timeUnit, timeNumber)}');
     });
