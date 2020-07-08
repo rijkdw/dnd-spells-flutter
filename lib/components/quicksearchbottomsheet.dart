@@ -13,6 +13,7 @@ class QuickSearchBottomSheet extends StatelessWidget {
       onTap: () => FocusScope.of(context).unfocus(),
       splashColor: Colors.transparent,
       child: Container(
+        color: Provider.of<ThemeManager>(context).colorPalette.dialogBackgroundColor,
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
         child: QuickSearchForm(),
       ),

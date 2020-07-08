@@ -1,4 +1,6 @@
+import 'package:dnd_spells_flutter/services/thememanager.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ClearableTextField extends StatelessWidget {
   final TextEditingController controller;
@@ -16,8 +18,13 @@ class ClearableTextField extends StatelessWidget {
           child: TextField(
             onChanged: (newValue) => onChanged(newValue),
             controller: this.controller,
+            cursorColor: Provider.of<ThemeManager>(context).colorPalette.emphasisTextColor,
+            style: Theme.of(context).textTheme.bodyText2,
             decoration: InputDecoration(
               hintText: this.hintText,
+              hintStyle: Theme.of(context).textTheme.bodyText2.copyWith(
+                    color: Provider.of<ThemeManager>(context).colorPalette.subTextColor,
+                  ),
             ),
           ),
         ),
@@ -31,7 +38,11 @@ class ClearableTextField extends StatelessWidget {
             width: 30,
             height: 50,
             child: Center(
-              child: Icon(Icons.close, size: 15),
+              child: Icon(
+                Icons.close,
+                size: 15,
+                color: Provider.of<ThemeManager>(context).colorPalette.emphasisTextColor,
+              ),
             ),
           ),
         )

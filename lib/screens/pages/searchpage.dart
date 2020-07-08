@@ -107,6 +107,9 @@ class _SearchPageState extends State<SearchPage> {
                 ),
               ],
             );
+
+          ScrollController headeredSpellListController = ScrollController();
+
           return Column(
             children: <Widget>[
               SortWidget(
@@ -114,9 +117,51 @@ class _SearchPageState extends State<SearchPage> {
                 toCheck: Provider.of<SearchManager>(context).orderBy,
               ),
               Expanded(
-                child: HeaderedSpellList(
-                  spells: filteredSpells,
-                  orderBy: searchManager.orderBy,
+                child: Stack(
+                  children: <Widget>[
+                    HeaderedSpellList(
+                      scrollController: headeredSpellListController,
+                      spells: filteredSpells,
+                      orderBy: searchManager.orderBy,
+                    ),
+                    Container(
+                      width: double.infinity,
+                      height: double.infinity,
+                      padding: const EdgeInsets.all(6),
+                      alignment: Alignment.bottomCenter,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+//                          FloatingActionButton(
+//                            mini: true,
+//                            child: Icon(Icons.compare_arrows),
+//                            onPressed: () {},
+//                          ),
+//                          SizedBox(width: 4),
+                          FloatingActionButton(
+                            mini: true,
+                            onPressed: () {
+                              headeredSpellListController.animateTo(
+                                0,
+                                duration: Duration(milliseconds: 500),
+                                curve: Curves.ease,
+                              );
+                            },
+                            backgroundColor: Provider.of<ThemeManager>(context).colorPalette.buttonColor,
+                            child: Icon(
+                              Icons.arrow_upward,
+                              color: Provider.of<ThemeManager>(context).colorPalette.buttonTextColor,
+                            ),
+                          ),
+//                          SizedBox(width: 4),
+//                          FloatingActionButton(
+//                            mini: true,
+//                            onPressed: () {},
+//                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],

@@ -1,6 +1,5 @@
 import 'package:dnd_spells_flutter/components/spell_listtile.dart';
 import 'package:dnd_spells_flutter/models/spell.dart';
-import 'package:dnd_spells_flutter/services/appstatemanager.dart';
 import 'package:dnd_spells_flutter/services/thememanager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
@@ -11,15 +10,16 @@ enum OrderBy { name, level, school }
 class HeaderedSpellList extends StatefulWidget {
   final List<Spell> spells;
   final OrderBy orderBy;
+  final ScrollController scrollController;
 
-  HeaderedSpellList({@required this.spells, @required this.orderBy}) : super(key: UniqueKey());
+  HeaderedSpellList({@required this.spells, @required this.orderBy, @required this.scrollController, Key key}) : super(key: key ?? UniqueKey()); // : super(key: UniqueKey()); (why?)
 
   @override
   _HeaderedSpellListState createState() => _HeaderedSpellListState();
 }
 
 class _HeaderedSpellListState extends State<HeaderedSpellList> {
-  ScrollController scrollController = ScrollController(keepScrollOffset: true);
+//  ScrollController scrollController = ScrollController();
   List<_SliverExpandableStickyHeader> headers;
 
   @override
@@ -135,7 +135,7 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
       child: ScrollConfiguration(
         behavior: NoGlowScrollBehavior(),
         child: CustomScrollView(
-          controller: scrollController,
+          controller: widget.scrollController,
           shrinkWrap: true,
           slivers: headers,
         ),
@@ -175,6 +175,12 @@ class _SliverExpandableStickyHeaderState extends State<_SliverExpandableStickyHe
   void _toggleShowExpanded() {
     setState(() {
       _expanded = !_expanded;
+    });
+  }
+
+  void compress() {
+    setState(() {
+      _expanded = false;
     });
   }
 
