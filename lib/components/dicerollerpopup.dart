@@ -1,6 +1,8 @@
+import 'package:dnd_spells_flutter/services/thememanager.dart';
 import 'package:dnd_spells_flutter/utilities/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class DiceRollerDialog extends StatefulWidget {
   final String dice;
@@ -56,6 +58,7 @@ class _DiceRollerDialogState extends State<DiceRollerDialog> {
         borderRadius: BorderRadius.circular(0),
       ),
       child: Container(
+        color: Provider.of<ThemeManager>(context).colorPalette.dialogBackgroundColor,
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 25),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -65,16 +68,16 @@ class _DiceRollerDialogState extends State<DiceRollerDialog> {
               children: <Widget>[
                 // increment the dice number
                 Container(
-                  width: 40,
+                  width: 45,
                   child: FlatButton(
                     padding: EdgeInsets.all(0),
-                    color: Theme.of(context).primaryColor,
+                    color: Provider.of<ThemeManager>(context).colorPalette.buttonColor,
                     onPressed: _onIncrementDice,
                     child: Center(
                       child: Icon(
                         FontAwesomeIcons.plus,
                         size: 15,
-                        color: Theme.of(context).accentColor,
+                        color: Provider.of<ThemeManager>(context).colorPalette.buttonTextColor,
                       ),
                     ),
                   ),
@@ -92,16 +95,16 @@ class _DiceRollerDialogState extends State<DiceRollerDialog> {
 
                 // decrement the dice number
                 Container(
-                  width: 40,
+                  width: 45,
                   child: FlatButton(
                     padding: EdgeInsets.all(0),
-                    color: Theme.of(context).primaryColor,
+                    color: Provider.of<ThemeManager>(context).colorPalette.buttonColor,
                     onPressed: _onDecrementDice,
                     child: Center(
                       child: Icon(
                         FontAwesomeIcons.minus,
                         size: 15,
-                        color: Theme.of(context).accentColor,
+                        color: Provider.of<ThemeManager>(context).colorPalette.buttonTextColor,
                       ),
                     ),
                   ),
@@ -123,12 +126,12 @@ class _DiceRollerDialogState extends State<DiceRollerDialog> {
             ),
             SizedBox(height: 30),
             FlatButton(
-              color: Theme.of(context).primaryColor,
+              color: Provider.of<ThemeManager>(context).colorPalette.buttonColor,
               onPressed: _rollButtonPush,
               child: Text(
                 'ROLL',
                 style: TextStyle(
-                  color: Theme.of(context).accentColor,
+                  color: Provider.of<ThemeManager>(context).colorPalette.buttonTextColor,
                   fontSize: 18,
                 ),
               ),

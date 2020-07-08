@@ -73,7 +73,7 @@ class SpellInfoScreen extends StatelessWidget {
     Widget buildRichText(List<InlineSpan> children, {double fontsize: 18}) {
       return RichText(
         text: TextSpan(
-          style: Theme.of(context).textTheme.bodyText1.copyWith(
+          style: Theme.of(context).textTheme.bodyText2.copyWith(
                 fontSize: fontsize,
                 fontWeight: FontWeight.normal,
               ),
@@ -194,33 +194,36 @@ class SpellInfoScreen extends StatelessWidget {
       );
     }
 
-    Widget buildSpellDetail(BuildContext context, Widget icon, String key, String value) {
+    Widget buildSpellDetail({IconData icon, String title, String value, double size: 16}) {
       return Container(
         padding: const EdgeInsets.only(bottom: 4),
         child: RichText(
           text: TextSpan(
-            style: Theme.of(context).textTheme.bodyText1.copyWith(
+            style: Theme.of(context).textTheme.bodyText2.copyWith(
                   fontSize: 18,
                   fontWeight: FontWeight.normal,
                 ),
             children: [
               WidgetSpan(
                 child: SizedBox(
-                  width: 20,
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: icon,
+                  height: 19,
+                  width: 16,
+                  child: FaIcon(
+                    icon,
+                    size: size,
+                    color: Provider.of<ThemeManager>(context).colorPalette.emphasisTextColor,
                   ),
                 ),
               ),
               WidgetSpan(
-                child: SizedBox(
-                  width: 7,
-                ),
+                child: SizedBox(width: 7),
               ),
               TextSpan(
-                text: '$key: ',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                text: '$title: ',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Provider.of<ThemeManager>(context).colorPalette.mainTextColor,
+                ),
               ),
               TextSpan(text: value),
             ],
@@ -265,26 +268,57 @@ class SpellInfoScreen extends StatelessWidget {
                   spell.subtitle,
                   style: TextStyle(
                     fontSize: 20,
-                    color: Colors.black54,
+                    color: Provider.of<ThemeManager>(context).colorPalette.subTextColor,
                   ),
                 ),
                 SizedBox(height: 14),
-                buildSpellDetail(context, FaIcon(FontAwesomeIcons.book, size: 18), 'Source', '${spell.shortSource} p${spell.pageNum}'),
-                buildSpellDetail(context, FaIcon(FontAwesomeIcons.stopwatch, size: 18), 'Casting Time', spell.castingTime),
-                buildSpellDetail(context, FaIcon(FontAwesomeIcons.draftingCompass, size: 18), 'Range', spell.range),
-                buildSpellDetail(context, FaIcon(FontAwesomeIcons.mortarPestle, size: 18), 'Components', spell.components),
-                buildSpellDetail(context, FaIcon(FontAwesomeIcons.hourglassEnd, size: 18), 'Duration', spell.durationAndConcentration),
-                buildSpellDetail(context, FaIcon(FontAwesomeIcons.hatWizard, size: 18), 'Classes', spell.classesList.join(', ')),
+                // spell details (casting time, range, etc)
+                buildSpellDetail(
+                  icon: FontAwesomeIcons.book,
+                  title: 'Source',
+                  value: '${spell.shortSource} p${spell.pageNum}',
+                ),
+                buildSpellDetail(
+                  icon: FontAwesomeIcons.stopwatch,
+                  title: 'Casting Time',
+                  value: spell.castingTime,
+                ),
+                buildSpellDetail(
+                  icon: FontAwesomeIcons.draftingCompass,
+                  title: 'Range',
+                  value: spell.range,
+                ),
+                buildSpellDetail(
+                  icon: FontAwesomeIcons.mortarPestle,
+                  title: 'Components',
+                  value: spell.components,
+                ),
+                buildSpellDetail(
+                  icon: FontAwesomeIcons.hourglassEnd,
+                  title: 'Duration',
+                  value: spell.durationAndConcentration,
+                ),
+                buildSpellDetail(
+                  icon: FontAwesomeIcons.hatWizard,
+                  title: 'Classes',
+                  value: spell.classesList.join(', '),
+                ),
                 spell.belongsToRaces
-                    ? buildSpellDetail(context, FaIcon(FontAwesomeIcons.child, size: 18), 'Races', spell.racesList.join(', '))
+                    ? buildSpellDetail(
+                        icon: FontAwesomeIcons.child,
+                        title: 'Races',
+                        value: spell.racesList.join(', '),
+                      )
                     : Container(),
                 SizedBox(height: 12),
               ],
+              // the main spell description
               ...spell.description.map((entry) => buildEntryLine(entry)).toList(),
+              // upcasting description
               spell.hasHigherLevels
                   ? RichText(
                       text: TextSpan(
-                        style: Theme.of(context).textTheme.bodyText1.copyWith(
+                        style: Theme.of(context).textTheme.bodyText2.copyWith(
                               fontSize: 18,
                               fontWeight: FontWeight.normal,
                             ),

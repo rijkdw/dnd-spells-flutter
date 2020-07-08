@@ -34,6 +34,7 @@ class ConditionPopup extends StatelessWidget {
         borderRadius: BorderRadius.circular(0),
       ),
       child: Container(
+        color: Provider.of<ThemeManager>(context).colorPalette.dialogBackgroundColor,
         padding: EdgeInsets.symmetric(horizontal: 12),
         child: Container(
           constraints: BoxConstraints(
@@ -50,7 +51,7 @@ class ConditionPopup extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 20,
                     letterSpacing: 1.5,
-                    color: Provider.of<ThemeManager>(context).colorPalette.appBarBackgroundColor,
+                    color: Provider.of<ThemeManager>(context).colorPalette.emphasisTextColor,
                   ),
                 ),
                 SizedBox(height: 12),

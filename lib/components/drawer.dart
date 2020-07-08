@@ -62,6 +62,7 @@ class _ThemeChangeDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dialog(
       child: Container(
+        color: Provider.of<ThemeManager>(context).colorPalette.dialogBackgroundColor,
         padding: EdgeInsets.symmetric(horizontal: 4),
         constraints: BoxConstraints(
           maxHeight: MediaQuery.of(context).size.height * 3 / 4,

@@ -34,9 +34,27 @@ class DnD5eSpellsApp extends StatelessWidget {
           return MaterialApp(
             title: 'D&D 5e Spell Seeker',
             theme: ThemeData(
+              textTheme: TextTheme(
+                bodyText2: TextStyle(
+                  color: themeManager.colorPalette.mainTextColor,
+                ),
+              ),
+              chipTheme: ChipTheme.of(context).copyWith(
+                backgroundColor: themeManager.colorPalette.chipUnselectedColor,
+                selectedColor: themeManager.colorPalette.chipSelectedColor,
+                labelStyle: TextStyle(color: themeManager.colorPalette.chipSelectedTextColor),
+                secondaryLabelStyle: TextStyle(color: themeManager.colorPalette.chipSelectedTextColor),
+                secondarySelectedColor: themeManager.colorPalette.chipSelectedColor,
+              ),
+              buttonTheme: ButtonThemeData(
+                buttonColor: themeManager.colorPalette.buttonColor,
+                colorScheme: ColorScheme.fromSwatch(
+                  backgroundColor: themeManager.colorPalette.buttonColor,
+                )
+              ),
               primaryColor: themeManager.colorPalette.appBarBackgroundColor,
               accentColor: themeManager.colorPalette.navBarSelectedColor,
-              canvasColor: themeManager.colorPalette.brightness == Brightness.light ? Colors.white : Color.fromRGBO(41, 41, 41, 1),
+              canvasColor: themeManager.colorPalette.brightness == Brightness.light ? Colors.white : Color.fromRGBO(20, 20, 20, 1),
             ),
             home: MainScreen(),
           );

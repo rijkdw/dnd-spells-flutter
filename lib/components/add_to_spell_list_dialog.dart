@@ -14,6 +14,7 @@ class AddToListDialog extends StatelessWidget {
         borderRadius: BorderRadius.circular(0),
       ),
       child: Container(
+        color: Provider.of<ThemeManager>(context).colorPalette.dialogBackgroundColor,
         constraints: BoxConstraints(
           maxHeight: MediaQuery.of(context).size.height * 0.75,
         ),

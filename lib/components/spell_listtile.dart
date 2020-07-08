@@ -42,6 +42,11 @@ class SpellListTile extends StatelessWidget {
           border: Border(
             bottom: BorderSide(
               color: Colors.grey.withOpacity(0.3),
+              width: 0.5,
+            ),
+            top: BorderSide(
+              color: Colors.grey.withOpacity(0.3),
+              width: 0.5,
             ),
           ),
         ),
@@ -69,7 +74,7 @@ class SpellListTile extends StatelessWidget {
                     spell.subtitleWithMetaTags,
                     style: TextStyle(
 //                    fontStyle: FontStyle.italic,
-                      color: Colors.black54,
+                      color: Provider.of<ThemeManager>(context).colorPalette.subTextColor,
                     ),
                   ),
                 ],
@@ -91,7 +96,10 @@ class SpellListTile extends StatelessWidget {
                 child: Container(
 //                  color: Colors.blue,
                   height: 54,
-                  child: Icon(Icons.add),
+                  child: Icon(
+                    Icons.add,
+                    color: Provider.of<ThemeManager>(context).colorPalette.clickableTextLinkColor,
+                  ),
                 ),
               ),
             )

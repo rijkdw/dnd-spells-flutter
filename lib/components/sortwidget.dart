@@ -37,7 +37,7 @@ class _SortWidgetState extends State<SortWidget> {
             child: Text(
               'SORT BY',
               style: TextStyle(
-                color: Provider.of<ThemeManager>(context).colorPalette.navBarSelectedColor,
+                color: Colors.white,
                 fontSize: 16,
                 letterSpacing: 1,
               ),

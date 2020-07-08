@@ -2,46 +2,50 @@ import 'package:dnd_spells_flutter/models/colorpalette.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+Color _darkGrey = Color.fromRGBO(40, 40, 40, 1);
+Color _mediumGrey = Color.fromRGBO(75, 75, 75, 1);
+Color _lightGrey = Color.fromRGBO(175, 175, 175, 1);
+Color _almostWhite = Color.fromRGBO(230, 230, 230, 1);
+
 Map<String, ColorPalette> appColorPalettes = {
-  "Sorcerer": ColorPalette(
-    appBarBackgroundColor: Colors.red,
-    navBarBackgroundColor: Colors.red,
-    navBarUnselectedColor: Color.fromRGBO(41, 41, 41, 1),
-    navBarSelectedColor: Colors.white,
-    stickyHeaderBackgroundColor: Color.fromRGBO(150, 0, 0, 1),
-    clickableTextLinkColor: Color.fromRGBO(200, 0, 0, 1),
-    drawerPrimary: Colors.red,
-    buttonColor: Colors.red,
-  ),
-  "Wizard": ColorPalette(
-    drawerPrimary: Colors.blue,
-    clickableTextLinkColor: Color.fromRGBO(0, 77, 153, 1),
-    appBarBackgroundColor: Colors.blue,
-    navBarBackgroundColor: Colors.blue,
-    navBarSelectedColor: Colors.white,
-    navBarUnselectedColor: Color.fromRGBO(41, 41, 41, 1),
-    stickyHeaderBackgroundColor: Color.fromRGBO(0, 77, 153, 1),
-    buttonColor: Colors.blue,
-  ),
   "Druid": ColorPalette(
+    brightness: Brightness.light,
     drawerPrimary: Colors.green,
     clickableTextLinkColor: Color.fromRGBO(0, 150, 0, 1),
     appBarBackgroundColor: Colors.green,
     navBarBackgroundColor: Colors.green,
     navBarSelectedColor: Colors.white,
-    navBarUnselectedColor: Color.fromRGBO(41, 41, 41, 1),
+    navBarUnselectedColor: _darkGrey,
     stickyHeaderBackgroundColor: Color.fromRGBO(0, 100, 0, 1),
     buttonColor: Colors.green,
+    mainTextColor: Colors.black,
+    subTextColor: _darkGrey,
+    emphasisTextColor: Colors.black,
+    chipSelectedTextColor: Colors.green,
+    chipUnselectedTextColor: Colors.black,
+    chipSelectedColor: Color.fromRGBO(180, 255, 180, 1),
+    chipUnselectedColor: _almostWhite,
+    buttonTextColor: Colors.white,
+    dialogBackgroundColor: Colors.white,
   ),
   "Druid (Dark)": ColorPalette(
     brightness: Brightness.dark,
     drawerPrimary: Colors.green,
-    clickableTextLinkColor: Color.fromRGBO(0, 150, 0, 1),
-    appBarBackgroundColor: Colors.green,
-    navBarBackgroundColor: Colors.green,
-    navBarSelectedColor: Colors.white,
-    navBarUnselectedColor: Color.fromRGBO(41, 41, 41, 1),
-    stickyHeaderBackgroundColor: Color.fromRGBO(0, 100, 0, 1),
+    clickableTextLinkColor: Colors.green,
+    appBarBackgroundColor: _mediumGrey,
+    navBarBackgroundColor: _mediumGrey,
+    navBarSelectedColor: Colors.green,
+    navBarUnselectedColor: _lightGrey,
+    stickyHeaderBackgroundColor: _darkGrey,
     buttonColor: Colors.green,
-  )
+    mainTextColor: Colors.white,
+    subTextColor: Colors.grey,
+    chipSelectedColor: Colors.green,
+    chipUnselectedColor: _darkGrey,
+    chipSelectedTextColor: Colors.white,
+    chipUnselectedTextColor: Colors.white,
+    dialogBackgroundColor: _darkGrey,
+    emphasisTextColor: Colors.green,
+    buttonTextColor: Colors.white,
+  ),
 };
