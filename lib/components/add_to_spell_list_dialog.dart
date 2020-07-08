@@ -24,7 +24,7 @@ class AddToListDialog extends StatelessWidget {
           children: <Widget>[
             SizedBox(height: 25),
             Text(
-              'Add to a list',
+              'Add ${Provider.of<Spell>(context).name} to',
               style: TextStyle(fontSize: 20),
             ),
             SizedBox(height: 10),

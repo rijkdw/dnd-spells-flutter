@@ -96,10 +96,10 @@ class SpellListTile extends StatelessWidget {
                 child: Container(
 //                  color: Colors.blue,
                   height: 54,
-                  child: Icon(
-                    Icons.add,
-                    color: Provider.of<ThemeManager>(context).colorPalette.clickableTextLinkColor,
-                  ),
+//                  child: Icon(
+//                    Icons.add,
+//                    color: Provider.of<ThemeManager>(context).colorPalette.clickableTextLinkColor,
+//                  ),
                 ),
               ),
             )

@@ -17,6 +17,8 @@ class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
   DateTime currentBackPressTime;
 
+  GlobalKey scaffoldKey = GlobalKey();
+
   void _onPageChanged(int page) {
     setState(() {
       this._selectedIndex = page;
@@ -24,11 +26,11 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Future<bool> _onWillPop() {
-    // clear the search first
-    if (Provider.of<SearchManager>(context, listen: false).isFiltered) {
-      Provider.of<SearchManager>(context, listen: false).clearFilters();
-      return Future.value(false);
-    }
+//    // clear the search first
+//    if (Provider.of<SearchManager>(context, listen: false).isFiltered) {
+//      Provider.of<SearchManager>(context, listen: false).clearFilters();
+//      return Future.value(false);
+//    }
     DateTime now = DateTime.now();
     if (currentBackPressTime == null ||
         now.difference(currentBackPressTime) > Duration(milliseconds: 300)) {
@@ -47,6 +49,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       drawer: SettingsDrawer(),
       body: WillPopScope(
         onWillPop: _onWillPop,

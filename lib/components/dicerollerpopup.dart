@@ -63,9 +63,28 @@ class _DiceRollerDialogState extends State<DiceRollerDialog> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
+            Text(
+              '$_dice',
+              style: TextStyle(fontSize: 30),
+            ),
+            SizedBox(height: 14),
+            Text(
+              _initialState ? '' : '${_diceRollsTotal()}',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 70),
+            ),
+            SizedBox(height: 10),
+            Text(
+              _diceRolls.join(', '),
+              softWrap: true,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 18),
+            ),
+            SizedBox(height: 30),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
+
                 // increment the dice number
                 Container(
                   width: 45,
@@ -83,13 +102,15 @@ class _DiceRollerDialogState extends State<DiceRollerDialog> {
                   ),
                 ),
 
-                // display the dice number
-                Container(
-                  width: 100,
-                  alignment: Alignment.center,
+                FlatButton(
+                  color: Provider.of<ThemeManager>(context).colorPalette.buttonColor,
+                  onPressed: _rollButtonPush,
                   child: Text(
-                    '$_dice',
-                    style: TextStyle(fontSize: 30),
+                    'ROLL',
+                    style: TextStyle(
+                      color: Provider.of<ThemeManager>(context).colorPalette.buttonTextColor,
+                      fontSize: 18,
+                    ),
                   ),
                 ),
 
@@ -109,32 +130,8 @@ class _DiceRollerDialogState extends State<DiceRollerDialog> {
                     ),
                   ),
                 ),
+
               ],
-            ),
-            SizedBox(height: 10),
-            Text(
-              _initialState ? '' : '${_diceRollsTotal()}',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 70),
-            ),
-            SizedBox(height: 10),
-            Text(
-              _diceRolls.join(', '),
-              softWrap: true,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 18),
-            ),
-            SizedBox(height: 30),
-            FlatButton(
-              color: Provider.of<ThemeManager>(context).colorPalette.buttonColor,
-              onPressed: _rollButtonPush,
-              child: Text(
-                'ROLL',
-                style: TextStyle(
-                  color: Provider.of<ThemeManager>(context).colorPalette.buttonTextColor,
-                  fontSize: 18,
-                ),
-              ),
             )
           ],
         ),

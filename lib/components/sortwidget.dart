@@ -19,7 +19,7 @@ class _SortWidgetState extends State<SortWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10),
+      padding: EdgeInsets.fromLTRB(16, 0, 10, 0),
       height: 50,
       decoration: BoxDecoration(
         color: Provider.of<ThemeManager>(context).colorPalette.appBarBackgroundColor,

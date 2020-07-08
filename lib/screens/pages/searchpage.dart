@@ -14,11 +14,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class SearchPage extends StatefulWidget {
+
   @override
   _SearchPageState createState() => _SearchPageState();
 }
 
 class _SearchPageState extends State<SearchPage> {
+
   @override
   Widget build(BuildContext context) {
     // for building the grid or list view (CURRENTLY OUT OF USE BECAUSE GRID VIEW IS BROKEN)
@@ -53,9 +55,8 @@ class _SearchPageState extends State<SearchPage> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Provider.of<ThemeManager>(context).colorPalette.appBarBackgroundColor,
-        leading: IconButton(
-          onPressed: () => Scaffold.of(context).openDrawer(),
-          icon: Icon(Icons.keyboard_arrow_right),
+        title: Text(
+          'Spells',
         ),
         actions: <Widget>[
           IconButton(
@@ -108,8 +109,6 @@ class _SearchPageState extends State<SearchPage> {
               ],
             );
 
-          ScrollController headeredSpellListController = ScrollController();
-
           return Column(
             children: <Widget>[
               SortWidget(
@@ -120,46 +119,8 @@ class _SearchPageState extends State<SearchPage> {
                 child: Stack(
                   children: <Widget>[
                     HeaderedSpellList(
-                      scrollController: headeredSpellListController,
                       spells: filteredSpells,
                       orderBy: searchManager.orderBy,
-                    ),
-                    Container(
-                      width: double.infinity,
-                      height: double.infinity,
-                      padding: const EdgeInsets.all(6),
-                      alignment: Alignment.bottomCenter,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-//                          FloatingActionButton(
-//                            mini: true,
-//                            child: Icon(Icons.compare_arrows),
-//                            onPressed: () {},
-//                          ),
-//                          SizedBox(width: 4),
-                          FloatingActionButton(
-                            mini: true,
-                            onPressed: () {
-                              headeredSpellListController.animateTo(
-                                0,
-                                duration: Duration(milliseconds: 500),
-                                curve: Curves.ease,
-                              );
-                            },
-                            backgroundColor: Provider.of<ThemeManager>(context).colorPalette.buttonColor,
-                            child: Icon(
-                              Icons.arrow_upward,
-                              color: Provider.of<ThemeManager>(context).colorPalette.buttonTextColor,
-                            ),
-                          ),
-//                          SizedBox(width: 4),
-//                          FloatingActionButton(
-//                            mini: true,
-//                            onPressed: () {},
-//                          ),
-                        ],
-                      ),
                     ),
                   ],
                 ),

@@ -18,10 +18,6 @@ class _ListsPageState extends State<ListsPage> {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Provider.of<ThemeManager>(context).colorPalette.appBarBackgroundColor,
-          leading: IconButton(
-            onPressed: () => Scaffold.of(context).openDrawer(),
-            icon: Icon(Icons.keyboard_arrow_right),
-          ),
           actions: <Widget>[
             IconButton(
               onPressed: () {

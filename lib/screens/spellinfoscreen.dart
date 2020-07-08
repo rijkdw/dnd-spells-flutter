@@ -207,11 +207,14 @@ class SpellInfoScreen extends StatelessWidget {
               WidgetSpan(
                 child: SizedBox(
                   height: 19,
-                  width: 16,
-                  child: FaIcon(
-                    icon,
-                    size: size,
-                    color: Provider.of<ThemeManager>(context).colorPalette.emphasisTextColor,
+                  width: 18,
+                  child: Container(
+                    alignment: Alignment.topCenter,
+                    child: FaIcon(
+                      icon,
+                      size: size,
+                      color: Provider.of<ThemeManager>(context).colorPalette.emphasisTextColor,
+                    ),
                   ),
                 ),
               ),

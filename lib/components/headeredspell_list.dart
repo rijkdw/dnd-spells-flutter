@@ -10,9 +10,8 @@ enum OrderBy { name, level, school }
 class HeaderedSpellList extends StatefulWidget {
   final List<Spell> spells;
   final OrderBy orderBy;
-  final ScrollController scrollController;
 
-  HeaderedSpellList({@required this.spells, @required this.orderBy, @required this.scrollController, Key key}) : super(key: key ?? UniqueKey()); // : super(key: UniqueKey()); (why?)
+  HeaderedSpellList({@required this.spells, @required this.orderBy, Key key}) : super(key: key ?? UniqueKey()); // : super(key: UniqueKey()); (why?)
 
   @override
   _HeaderedSpellListState createState() => _HeaderedSpellListState();
@@ -22,11 +21,22 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
 //  ScrollController scrollController = ScrollController();
   List<_SliverExpandableStickyHeader> headers;
 
+  bool allExpanded = true;
+
   @override
   initState() {
     super.initState();
     headers = _getAllSplits();
   }
+
+//  void
+//
+//  void _expandAllButtonPress() {
+//    print('Expand all');
+//    setState(() {
+//      allExpanded = !allExpanded;
+//    });
+//  }
 
   List<_SliverExpandableStickyHeader> _getAllSplits() {
     List<_SliverExpandableStickyHeader> splitByLevel() {
@@ -44,9 +54,15 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
           // end of this list
           if (spellsWithCurrentValue.isNotEmpty) {
             if (values[valueIndex] == 0)
-              returnList.add(_SliverExpandableStickyHeader('Cantrip', spellsWithCurrentValue));
+              returnList.add(_SliverExpandableStickyHeader(
+                header: 'Cantrip',
+                spells: spellsWithCurrentValue,
+              ));
             else
-              returnList.add(_SliverExpandableStickyHeader('Level ${values[valueIndex]}', spellsWithCurrentValue));
+              returnList.add(_SliverExpandableStickyHeader(
+                header: 'Level ${values[valueIndex]}',
+                spells: spellsWithCurrentValue,
+              ));
           }
           // reset step
           valueIndex++;
@@ -54,7 +70,11 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
         }
         spellsWithCurrentValue.add(spell);
       }
-      if (spellsWithCurrentValue.isNotEmpty) returnList.add(_SliverExpandableStickyHeader('Level ${values.last}', spellsWithCurrentValue));
+      if (spellsWithCurrentValue.isNotEmpty)
+        returnList.add(_SliverExpandableStickyHeader(
+          header: 'Level ${values.last}',
+          spells: spellsWithCurrentValue,
+        ));
 
       return returnList;
     }
@@ -74,7 +94,10 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
         if (spell.name[0] != values[valueIndex]) {
           // end of this list
           if (spellsWithCurrentValue.isNotEmpty)
-            returnList.add(_SliverExpandableStickyHeader('${values[valueIndex].toString().toUpperCase()}', spellsWithCurrentValue));
+            returnList.add(_SliverExpandableStickyHeader(
+              header: '${values[valueIndex].toString().toUpperCase()}',
+              spells: spellsWithCurrentValue,
+            ));
           // reset step
           valueIndex++;
           spellsWithCurrentValue = [];
@@ -82,7 +105,10 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
         spellsWithCurrentValue.add(spell);
       }
       if (spellsWithCurrentValue.isNotEmpty)
-        returnList.add(_SliverExpandableStickyHeader('${values[valueIndex].toString().toUpperCase()}', spellsWithCurrentValue));
+        returnList.add(_SliverExpandableStickyHeader(
+          header: '${values[valueIndex].toString().toUpperCase()}',
+          spells: spellsWithCurrentValue,
+        ));
 
       return returnList;
     }
@@ -100,14 +126,22 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
       for (Spell spell in widget.spells) {
         if (spell.school != values[valueIndex]) {
           // end of this list
-          if (spellsWithCurrentValue.isNotEmpty) returnList.add(_SliverExpandableStickyHeader('${values[valueIndex]}', spellsWithCurrentValue));
+          if (spellsWithCurrentValue.isNotEmpty)
+            returnList.add(_SliverExpandableStickyHeader(
+              header: '${values[valueIndex]}',
+              spells: spellsWithCurrentValue,
+            ));
           // reset step
           valueIndex++;
           spellsWithCurrentValue = [];
         }
         spellsWithCurrentValue.add(spell);
       }
-      if (spellsWithCurrentValue.isNotEmpty) returnList.add(_SliverExpandableStickyHeader('${values.last}', spellsWithCurrentValue));
+      if (spellsWithCurrentValue.isNotEmpty)
+        returnList.add(_SliverExpandableStickyHeader(
+          header: '${values.last}',
+          spells: spellsWithCurrentValue,
+        ));
 
       return returnList;
     }
@@ -126,19 +160,80 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
 
   @override
   Widget build(BuildContext context) {
+    ScrollController scrollController = ScrollController();
+
     return GestureDetector(
       onPanUpdate: (details) {
         if (details.delta.dx < -10) {
           print('You swiped right');
         }
       },
-      child: ScrollConfiguration(
-        behavior: NoGlowScrollBehavior(),
-        child: CustomScrollView(
-          controller: widget.scrollController,
-          shrinkWrap: true,
-          slivers: headers,
-        ),
+      child: Stack(
+        children: <Widget>[
+          ScrollConfiguration(
+            behavior: NoGlowScrollBehavior(),
+            child: CustomScrollView(
+              controller: scrollController,
+              shrinkWrap: true,
+              slivers: headers,
+            ),
+          ),
+          Container(
+            width: double.infinity,
+            height: double.infinity,
+            padding: const EdgeInsets.all(6),
+            alignment: Alignment.centerRight,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                FloatingActionButton(
+                  mini: true,
+                  heroTag: null,
+                  onPressed: () {
+                    scrollController.animateTo(
+                      0,
+                      duration: Duration(milliseconds: 500),
+                      curve: Curves.ease,
+                    );
+                  },
+                  backgroundColor: Provider.of<ThemeManager>(context).colorPalette.buttonColor,
+                  child: Icon(
+                    Icons.arrow_upward,
+                    color: Provider.of<ThemeManager>(context).colorPalette.buttonTextColor,
+                  ),
+                ),
+//                SizedBox(height: 2, width: 2),
+                FloatingActionButton(
+                  mini: true,
+                  heroTag: null,
+                  onPressed: () {},
+                  backgroundColor: Provider.of<ThemeManager>(context).colorPalette.buttonColor,
+                  child: Icon(
+                    Icons.expand_less,
+                    color: Provider.of<ThemeManager>(context).colorPalette.buttonTextColor,
+                  ),
+                ),
+//                SizedBox(height: 2, width: 2),
+                FloatingActionButton(
+                  mini: true,
+                  heroTag: null,
+                  onPressed: () {
+                    scrollController.animateTo(
+                      scrollController.position.maxScrollExtent,
+                      duration: Duration(milliseconds: 500),
+                      curve: Curves.ease,
+                    );
+                  },
+                  backgroundColor: Provider.of<ThemeManager>(context).colorPalette.buttonColor,
+                  child: Icon(
+                    Icons.arrow_downward,
+                    color: Provider.of<ThemeManager>(context).colorPalette.buttonTextColor,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -154,8 +249,9 @@ class NoGlowScrollBehavior extends ScrollBehavior {
 class _SliverExpandableStickyHeader extends StatefulWidget {
   final List<Spell> spells;
   final String header;
+  final bool expanded;
 
-  _SliverExpandableStickyHeader(this.header, this.spells);
+  _SliverExpandableStickyHeader({this.header, this.spells, this.expanded});
 
   @override
   _SliverExpandableStickyHeaderState createState() => _SliverExpandableStickyHeaderState();
@@ -169,7 +265,7 @@ class _SliverExpandableStickyHeaderState extends State<_SliverExpandableStickyHe
   void initState() {
     super.initState();
     scrollKey = GlobalKey();
-    _expanded = true;
+    _expanded = widget.expanded ?? true;
   }
 
   void _toggleShowExpanded() {
