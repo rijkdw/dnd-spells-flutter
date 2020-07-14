@@ -30,29 +30,41 @@ class SettingsDrawer extends StatelessWidget {
               padding: EdgeInsets.all(0),
               shrinkWrap: true,
               children: <Widget>[
-                ExpansionTile(
-                  initiallyExpanded: true,
-                  title: Text(
-                    'Appearance',
-                    style: TextStyle(
-                      fontSize: 18,
-                    ),
+                _MenuListTile(
+                  text: 'Change Theme',
+                  onTap: () => showDialog(
+                    context: context,
+                    builder: (context) => _ThemeChangeDialog(),
                   ),
-                  children: <Widget>[
-                    ListTile(
-                      title: Text('Change Theme'),
-                      onTap: () => showDialog(
-                        context: context,
-                        builder: (context) => _ThemeChangeDialog(),
-                      ),
-                    )
-                  ],
                 ),
               ],
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class _MenuListTile extends StatelessWidget {
+  final String text;
+  final VoidCallback onTap;
+
+  _MenuListTile({this.text: 'uwu', @required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(
+        this.text,
+        style: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.normal,
+          color: Provider.of<ThemeManager>(context).colorPalette.mainTextColor,
+        ),
+      ),
+      dense: true,
+      onTap: this.onTap,
     );
   }
 }

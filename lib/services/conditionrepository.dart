@@ -8,7 +8,7 @@ class ConditionRepository extends ChangeNotifier {
 
   Map<String, Condition> _conditionsMap = {};
 
-  Condition getConditionFromName(String name) => _conditionsMap[name];
+  Condition getConditionFromName(String name) => _conditionsMap[name.toLowerCase()];
 
   ConditionRepository() {
     print('Constructing conditionrepo');
@@ -20,8 +20,7 @@ class ConditionRepository extends ChangeNotifier {
     String jsonString = await rootBundle.loadString('assets/conditions.json');
     List<Map<String, dynamic>> jsonDecoded = List<Map<String, dynamic>>.from(json.decode(jsonString));
     jsonDecoded.forEach((map) {
-      print(map['name']);
-      _conditionsMap[map['name']] = Condition(map);
+      _conditionsMap[map['name'].toString().toLowerCase()] = Condition(map);
     });
     notifyListeners();
   }

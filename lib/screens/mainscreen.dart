@@ -29,6 +29,7 @@ class _MainScreenState extends State<MainScreen> {
       Provider.of<SearchManager>(context, listen: false).clearFilters();
       return Future.value(false);
     }
+    // do the double-tap thing
     DateTime now = DateTime.now();
     if (currentBackPressTime == null ||
         now.difference(currentBackPressTime) > Duration(milliseconds: 300)) {

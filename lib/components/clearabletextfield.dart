@@ -7,7 +7,8 @@ class ClearableTextField extends StatelessWidget {
   final String hintText;
   final Function(String) onChanged;
   final VoidCallback onCleared;
-  ClearableTextField({@required this.hintText, @required this.controller, this.onChanged, this.onCleared});
+  final bool autofocus;
+  ClearableTextField({@required this.hintText, @required this.controller, this.onChanged, this.onCleared, this.autofocus:false});
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +17,7 @@ class ClearableTextField extends StatelessWidget {
         SizedBox(width: 6),
         Expanded(
           child: TextField(
+            autofocus: this.autofocus,
             onChanged: (newValue) => onChanged(newValue),
             controller: this.controller,
             cursorColor: Provider.of<ThemeManager>(context).colorPalette.emphasisTextColor,

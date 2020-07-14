@@ -39,6 +39,7 @@ class DnD5eSpellsApp extends StatelessWidget {
                   color: themeManager.colorPalette.mainTextColor,
                 ),
               ),
+              dividerColor: themeManager.colorPalette.tableLineColor,
               chipTheme: ChipTheme.of(context).copyWith(
                 backgroundColor: themeManager.colorPalette.chipUnselectedColor,
                 selectedColor: themeManager.colorPalette.chipSelectedColor,

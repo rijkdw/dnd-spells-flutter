@@ -42,7 +42,8 @@ class SearchManager extends ChangeNotifier {
   }
 
   void quickSearch(String token, QuickSearchSelection selection) {
-    print('SearchManager quicksearching for $token as ${selection.toString()}');
+    token = token.trim();
+    print('SearchManager quicksearching for \"$token\" as ${selection.toString()}');
     // determine which changed:  token or selection (can only be one)
     if (_lastSelection != selection) {  // selection changed
       // reset both values without notifying listeners

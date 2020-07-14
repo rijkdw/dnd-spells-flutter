@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class ColorPalette {
-
   // brightness
   Brightness brightness;
 
@@ -31,6 +30,7 @@ class ColorPalette {
   Color emphasisTextColor;
   Color subTextColor;
   Color clickableTextLinkColor;
+  Color tableLineColor;
 
   // dialog colors
   Color dialogBackgroundColor;
@@ -58,5 +58,6 @@ class ColorPalette {
     this.emphasisTextColor: Colors.purple,
     this.buttonTextColor: Colors.green,
     this.chipUnselectedTextColor: Colors.purple,
+    this.tableLineColor = Colors.green,
   });
 }

@@ -65,7 +65,6 @@ class _SearchPageState extends State<SearchPage> {
               size: 20,
             ),
             onPressed: () => showModalBottomSheet(
-              // TODO quicksearch
               context: context,
 //              isScrollControlled: true,
               builder: (context) => QuickSearchBottomSheet(),

@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:dnd_spells_flutter/components/conditionpopup.dart';
 import 'package:dnd_spells_flutter/components/dicerollerpopup.dart';
+import 'package:dnd_spells_flutter/components/drawer.dart';
 import 'package:dnd_spells_flutter/models/spell.dart';
 import 'package:dnd_spells_flutter/services/thememanager.dart';
 import 'package:flutter/gestures.dart';
@@ -117,10 +118,14 @@ class SpellInfoScreen extends StatelessWidget {
     }
 
     Widget mapToTable(Map<String, dynamic> map) {
-      Widget buildContainer(Widget child) => Container(
+      Widget buildContainer(Widget child) {
+        return TableCell(
+          child: Container(
             padding: EdgeInsets.all(4),
             child: child,
-          );
+          ),
+        );
+      }
 
       List<String> columnNames = List<String>.from(map['colLabels']);
       List<TableRow> rows = [];
@@ -136,10 +141,17 @@ class SpellInfoScreen extends StatelessWidget {
       }
 
       Widget table = Table(
-        border: TableBorder.all(),
+        border: TableBorder.all(
+          color: Provider.of<ThemeManager>(context).colorPalette.tableLineColor,
+        ),
         columnWidths: columnWidths,
         children: [
           TableRow(
+//            decoration: BoxDecoration(
+//              border: Border.all(
+//                color: Provider.of<ThemeManager>(context).colorPalette.tableLineColor,
+//              ),
+//            ),
             children: columnNames.map((e) => buildContainer(Text(e, style: TextStyle(fontWeight: FontWeight.bold)))).toList(),
           ),
           ...rows,
@@ -236,6 +248,7 @@ class SpellInfoScreen extends StatelessWidget {
     }
 
     return Scaffold(
+      drawer: SettingsDrawer(),
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Provider.of<ThemeManager>(context).colorPalette.appBarBackgroundColor,

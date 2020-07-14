@@ -1,9 +1,9 @@
 import 'package:dnd_spells_flutter/components/clearabletextfield.dart';
+import 'package:dnd_spells_flutter/components/headeredspell_list.dart';
 import 'package:dnd_spells_flutter/services/searchmanager.dart';
 import 'package:dnd_spells_flutter/services/thememanager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class QuickSearchBottomSheet extends StatelessWidget {
@@ -14,8 +14,13 @@ class QuickSearchBottomSheet extends StatelessWidget {
       splashColor: Colors.transparent,
       child: Container(
         color: Provider.of<ThemeManager>(context).colorPalette.dialogBackgroundColor,
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-        child: QuickSearchForm(),
+        padding: EdgeInsets.fromLTRB(10, 20, 10, MediaQuery.of(context).viewInsets.bottom + 10),
+        child: ScrollConfiguration(
+          behavior: NoGlowScrollBehavior(),
+          child: SingleChildScrollView(
+            child: QuickSearchForm(),
+          ),
+        ),
       ),
     );
   }
@@ -64,54 +69,50 @@ class _QuickSearchFormState extends State<QuickSearchForm> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
-        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Text(
+          'QUICK SEARCH',
+          style: TextStyle(letterSpacing: 0.6, fontSize: 20),
+        ),
+        SizedBox(height: 10),
+        ClearableTextField(
+          autofocus: true,
+          onChanged: (newValue) {
+            print('The quick search token changed!');
+            Provider.of<SearchManager>(context, listen: false).quickSearch(queryController.text, selection);
+          },
+          onCleared: () {
+            Provider.of<SearchManager>(context, listen: false).quickSearch(queryController.text, selection);
+          },
+          controller: queryController,
+          hintText: _getHintText(),
+        ),
+        SizedBox(height: 10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             Text(
-              'QUICK SEARCH',
-              style: TextStyle(letterSpacing: 0.6, fontSize: 20),
+              'SEARCH FOR',
+              style: TextStyle(
+                fontSize: 16,
+                letterSpacing: 1,
+              ),
             ),
-            SizedBox(height: 10),
-            ClearableTextField(
-              onChanged: (newValue) {
-                print('The quick search token changed!');
-                Provider.of<SearchManager>(context, listen: false).quickSearch(queryController.text, selection);
-              },
-              onCleared: () {
-                Provider.of<SearchManager>(context, listen: false).quickSearch(queryController.text, selection);
-              },
-              controller: queryController,
-              hintText: _getHintText(),
+            ChoiceChip(
+              label: Text('Name'),
+              selected: selection == QuickSearchSelection.name,
+              onSelected: (_) => _handleSelection(QuickSearchSelection.name),
             ),
-            SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Text(
-                  'SEARCH FOR',
-                  style: TextStyle(
-                    fontSize: 16,
-                    letterSpacing: 1,
-                  ),
-                ),
-                ChoiceChip(
-                  label: Text('Name'),
-                  selected: selection == QuickSearchSelection.name,
-                  onSelected: (_) => _handleSelection(QuickSearchSelection.name),
-                ),
-                ChoiceChip(
-                  label: Text('Description'),
-                  selected: selection == QuickSearchSelection.description,
-                  onSelected: (_) => _handleSelection(QuickSearchSelection.description),
-                ),
-              ],
-            )
+            ChoiceChip(
+              label: Text('Description'),
+              selected: selection == QuickSearchSelection.description,
+              onSelected: (_) => _handleSelection(QuickSearchSelection.description),
+            ),
           ],
-        ),
-      ),
+        )
+      ],
     );
   }
 }

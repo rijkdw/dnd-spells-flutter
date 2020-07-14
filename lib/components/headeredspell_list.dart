@@ -39,13 +39,7 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
   }
 
   void invertMapAt(String headerName) {
-    setState(() {
-      print('boi $headerName');
-      print(headerToExpandedMap[headerName]);
-      headerToExpandedMap[headerName] = !headerToExpandedMap[headerName];
-      print(headerToExpandedMap[headerName]);
-    });
-    setState(() {});
+    setState(() => headerToExpandedMap[headerName] = !headerToExpandedMap[headerName]);
   }
 
   Map<String, List<Spell>> splitSpells() {
@@ -94,21 +88,21 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
     return '';
   }
 
+  bool allIsExpanded() {
+    for (String headerName in headerToExpandedMap.keys) {
+      if (!headerToExpandedMap[headerName]) return false;
+    }
+    return true;
+  }
+
+  bool allIsCompressed() {
+    for (String headerName in headerToExpandedMap.keys) {
+      if (headerToExpandedMap[headerName]) return false;
+    }
+    return true;
+  }
+
   void allExpandOrCompressButtonPress() {
-    bool allIsExpanded() {
-      for (String headerName in headerToExpandedMap.keys) {
-        if (!headerToExpandedMap[headerName]) return false;
-      }
-      return true;
-    }
-
-    bool allIsCompressed() {
-      for (String headerName in headerToExpandedMap.keys) {
-        if (headerToExpandedMap[headerName]) return false;
-      }
-      return true;
-    }
-
     print('Time to alter all');
     if (allIsCompressed()) {
       print('All is compressed');
@@ -269,69 +263,71 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
           // the list
           ScrollConfiguration(
             behavior: NoGlowScrollBehavior(),
-            child: CustomScrollView(
-              controller: scrollController,
-              shrinkWrap: true,
-              slivers: getStickyHeaders(),
+            child: Scrollbar(
+              child: CustomScrollView(
+                controller: scrollController,
+                shrinkWrap: true,
+                slivers: getStickyHeaders(),
+              ),
             ),
           ),
 
           // the navigation buttons
-          Container(
-            width: double.infinity,
-            height: double.infinity,
-            padding: const EdgeInsets.all(6),
-            alignment: Alignment.centerRight,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                FloatingActionButton(
-                  mini: true,
-                  heroTag: null,
-                  onPressed: () {
-                    scrollController.animateTo(
-                      0,
-                      duration: Duration(milliseconds: 500),
-                      curve: Curves.ease,
-                    );
-                  },
-                  backgroundColor: Provider.of<ThemeManager>(context).colorPalette.buttonColor,
-                  child: Icon(
-                    Icons.arrow_upward,
-                    color: Provider.of<ThemeManager>(context).colorPalette.buttonTextColor,
-                  ),
-                ),
-//                SizedBox(height: 2, width: 2),
-                FloatingActionButton(
-                  mini: true,
-                  heroTag: null,
-                  onPressed: allExpandOrCompressButtonPress,
-                  backgroundColor: Provider.of<ThemeManager>(context).colorPalette.buttonColor,
-                  child: Icon(
-                    Icons.expand_less,
-                    color: Provider.of<ThemeManager>(context).colorPalette.buttonTextColor,
-                  ),
-                ),
-//                SizedBox(height: 2, width: 2),
-                FloatingActionButton(
-                  mini: true,
-                  heroTag: null,
-                  onPressed: () {
-                    scrollController.animateTo(
-                      scrollController.position.maxScrollExtent,
-                      duration: Duration(milliseconds: 500),
-                      curve: Curves.ease,
-                    );
-                  },
-                  backgroundColor: Provider.of<ThemeManager>(context).colorPalette.buttonColor,
-                  child: Icon(
-                    Icons.arrow_downward,
-                    color: Provider.of<ThemeManager>(context).colorPalette.buttonTextColor,
-                  ),
-                ),
-              ],
-            ),
-          ),
+//          Container(
+//            width: double.infinity,
+//            height: double.infinity,
+//            padding: const EdgeInsets.all(6),
+//            alignment: Alignment.centerRight,
+//            child: Column(
+//              mainAxisSize: MainAxisSize.min,
+//              children: <Widget>[
+//                FloatingActionButton(
+//                  mini: true,
+//                  heroTag: null,
+//                  onPressed: () {
+//                    scrollController.animateTo(
+//                      0,
+//                      duration: Duration(milliseconds: 500),
+//                      curve: Curves.ease,
+//                    );
+//                  },
+//                  backgroundColor: Provider.of<ThemeManager>(context).colorPalette.buttonColor,
+//                  child: Icon(
+//                    Icons.arrow_upward,
+//                    color: Provider.of<ThemeManager>(context).colorPalette.buttonTextColor,
+//                  ),
+//                ),
+////                SizedBox(height: 2, width: 2),
+//                FloatingActionButton(
+//                  mini: true,
+//                  heroTag: null,
+//                  onPressed: allExpandOrCompressButtonPress,
+//                  backgroundColor: Provider.of<ThemeManager>(context).colorPalette.buttonColor,
+//                  child: Icon(
+//                    allIsCompressed() ? Icons.expand_more : Icons.expand_less,
+//                    color: Provider.of<ThemeManager>(context).colorPalette.buttonTextColor,
+//                  ),
+//                ),
+////                SizedBox(height: 2, width: 2),
+//                FloatingActionButton(
+//                  mini: true,
+//                  heroTag: null,
+//                  onPressed: () {
+//                    scrollController.animateTo(
+//                      scrollController.position.maxScrollExtent,
+//                      duration: Duration(milliseconds: 500),
+//                      curve: Curves.ease,
+//                    );
+//                  },
+//                  backgroundColor: Provider.of<ThemeManager>(context).colorPalette.buttonColor,
+//                  child: Icon(
+//                    Icons.arrow_downward,
+//                    color: Provider.of<ThemeManager>(context).colorPalette.buttonTextColor,
+//                  ),
+//                ),
+//              ],
+//            ),
+//          ),
         ],
       ),
     );
