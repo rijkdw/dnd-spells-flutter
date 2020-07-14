@@ -1,3 +1,4 @@
+import 'package:dnd_spells_flutter/models/colorpalette.dart';
 import 'package:dnd_spells_flutter/services/thememanager.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +13,9 @@ class ClearableTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    ColorPalette colorPalette = Provider.of<ThemeManager>(context).colorPalette;
+
     return Row(
       children: <Widget>[
         SizedBox(width: 6),
@@ -20,13 +24,23 @@ class ClearableTextField extends StatelessWidget {
             autofocus: this.autofocus,
             onChanged: (newValue) => onChanged(newValue),
             controller: this.controller,
-            cursorColor: Provider.of<ThemeManager>(context).colorPalette.emphasisTextColor,
+            cursorColor: colorPalette.emphasisTextColor,
             style: Theme.of(context).textTheme.bodyText2,
             decoration: InputDecoration(
               hintText: this.hintText,
               hintStyle: Theme.of(context).textTheme.bodyText2.copyWith(
-                    color: Provider.of<ThemeManager>(context).colorPalette.subTextColor,
+                    color: colorPalette.subTextColor,
                   ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(
+                  color: colorPalette.stickyHeaderBackgroundColor,
+                )
+              ),
+              enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: colorPalette.stickyHeaderBackgroundColor,
+                  )
+              ),
             ),
           ),
         ),
@@ -43,7 +57,7 @@ class ClearableTextField extends StatelessWidget {
               child: Icon(
                 Icons.close,
                 size: 15,
-                color: Provider.of<ThemeManager>(context).colorPalette.emphasisTextColor,
+                color: colorPalette.emphasisTextColor,
               ),
             ),
           ),

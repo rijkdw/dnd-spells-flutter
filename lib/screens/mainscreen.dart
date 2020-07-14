@@ -1,3 +1,4 @@
+import 'package:dnd_spells_flutter/components/confirmclosedialog.dart';
 import 'package:dnd_spells_flutter/components/drawer.dart';
 import 'package:dnd_spells_flutter/screens/pages/historypage.dart';
 import 'package:dnd_spells_flutter/screens/pages/listspage.dart';
@@ -23,16 +24,20 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
-  Future<bool> _onWillPop() {
+  Future<bool> _onWillPop() async {
     // clear the search first
     if (Provider.of<SearchManager>(context, listen: false).isFiltered) {
       Provider.of<SearchManager>(context, listen: false).clearFilters();
       return Future.value(false);
     }
+    final result = await showDialog(
+      context: context,
+      builder: (context) => ConfirmCloseDialog(),
+    );
+    return result;
     // do the double-tap thing
     DateTime now = DateTime.now();
-    if (currentBackPressTime == null ||
-        now.difference(currentBackPressTime) > Duration(milliseconds: 300)) {
+    if (currentBackPressTime == null || now.difference(currentBackPressTime) > Duration(milliseconds: 300)) {
       currentBackPressTime = now;
       return Future.value(false);
     }

@@ -374,7 +374,8 @@ class _SliverExpandableStickyHeaderState extends State<_SliverExpandableStickyHe
 
   Widget buildHeader() {
     return InkWell(
-      onTap: widget.onExpandedChange,
+      onTap: _jumpTo,
+//      onTap: widget.onExpandedChange,
       child: Container(
         height: 35.0,
         decoration: BoxDecoration(

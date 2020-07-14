@@ -248,7 +248,6 @@ class SpellInfoScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      drawer: SettingsDrawer(),
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Provider.of<ThemeManager>(context).colorPalette.appBarBackgroundColor,
