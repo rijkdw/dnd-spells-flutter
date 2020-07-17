@@ -7,6 +7,7 @@ class ColorPalette {
 
   // drawer colors
   Color drawerPrimary;
+  Color drawerSecondary;
 
   // navbar colors
   Color navBarBackgroundColor;
@@ -49,6 +50,7 @@ class ColorPalette {
     this.appBarBackgroundColor: Colors.purple,
     this.clickableTextLinkColor: Colors.purple,
     this.drawerPrimary: Colors.purple,
+    this.drawerSecondary: Colors.green,
     this.buttonColor: Colors.purple,
     this.subTextColor: Colors.green,
     this.chipSelectedColor: Colors.purple,

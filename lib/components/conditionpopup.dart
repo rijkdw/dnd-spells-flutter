@@ -19,7 +19,6 @@ class ConditionPopup extends StatelessWidget {
     print(conditionRepository);
 
     Condition mainCondition = conditionRepository.getConditionFromName(conditionName);
-    // TODO at the start, mainCondition is null.  WHY?
     List<Condition> conditionsDependedOn = mainCondition.dependsOn.map((dependedConditionName) {
       return conditionRepository.getConditionFromName(dependedConditionName.toString());
     }).toList();
@@ -31,11 +30,11 @@ class ConditionPopup extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(0),
       ),
+      backgroundColor: Provider.of<ThemeManager>(context).colorPalette.dialogBackgroundColor,
       child: Scrollbar(
         isAlwaysShown: true,
         controller: scrollController,
         child: Container(
-          color: Provider.of<ThemeManager>(context).colorPalette.dialogBackgroundColor,
           padding: EdgeInsets.symmetric(horizontal: 12),
           child: Container(
             constraints: BoxConstraints(

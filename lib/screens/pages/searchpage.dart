@@ -1,8 +1,7 @@
 import 'package:dnd_spells_flutter/components/headeredspell_list.dart';
 import 'package:dnd_spells_flutter/components/quicksearchbottomsheet.dart';
 import 'package:dnd_spells_flutter/components/sortwidget.dart';
-import 'package:dnd_spells_flutter/components/spell_gridtile.dart';
-import 'package:dnd_spells_flutter/components/spell_listtile.dart';
+import 'package:dnd_spells_flutter/components/spell_tile.dart';
 import 'package:dnd_spells_flutter/models/spell.dart';
 import 'package:dnd_spells_flutter/screens/filterscreen.dart';
 import 'package:dnd_spells_flutter/services/appstatemanager.dart';
@@ -23,34 +22,6 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    // for building the grid or list view (CURRENTLY OUT OF USE BECAUSE GRID VIEW IS BROKEN)
-    Widget _buildList() {
-      return Consumer2<SpellRepository, AppStateManager>(
-        builder: (context, spellRepository, appStateManager, child) {
-          if (spellRepository.allSpells.isEmpty) {
-            return Center(
-              child: Text('Loading...'),
-            );
-          }
-          switch (appStateManager.globalDisplayMode) {
-            case DisplayMode.list:
-              return ListView(
-                children: spellRepository.allSpells.map((spell) => SpellListTile(spell: spell)).toList(),
-              );
-            case DisplayMode.grid:
-              return Container(
-                padding: EdgeInsets.all(2),
-                child: GridView.count(
-                  crossAxisCount: 2,
-                  children: spellRepository.allSpells.map((spell) => SpellGridTile(spell: spell)).toList(),
-                ),
-              );
-          }
-          return Container();
-        },
-      );
-    }
-
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -79,7 +50,7 @@ class _SearchPageState extends State<SearchPage> {
               Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => FilterScreen(),
               ));
-            }, // TODO open filter page
+            },
           ),
           IconButton(
             icon: Icon(
@@ -90,7 +61,6 @@ class _SearchPageState extends State<SearchPage> {
           )
         ],
       ),
-      // body: _buildList(),
       body: Consumer2<SpellRepository, SearchManager>(
         builder: (context, spellRepository, searchManager, child) {
           List<Spell> filteredSpells = searchManager.filterSpells(spellRepository.allSpells);

@@ -3,9 +3,13 @@ import 'package:dnd_spells_flutter/models/spell_list.dart';
 import 'package:dnd_spells_flutter/services/spell_listmanager.dart';
 import 'package:dnd_spells_flutter/services/thememanager.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:provider/provider.dart';
 
 class AddToListDialog extends StatelessWidget {
+  final Spell spell;
+  AddToListDialog({@required this.spell});
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -21,11 +25,18 @@ class AddToListDialog extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 10),
         child: Column(
           mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             SizedBox(height: 25),
-            Text(
-              'Add ${Provider.of<Spell>(context).name} to',
-              style: TextStyle(fontSize: 20),
+            RichText(
+              text: TextSpan(
+                style: Theme.of(context).textTheme.bodyText2.copyWith(fontSize: 20),
+                children: [
+                  TextSpan(text: 'Add '),
+                  TextSpan(text: '${spell.name}', style: TextStyle(fontWeight: FontWeight.bold)),
+                  TextSpan(text: ' to'),
+                ],
+              ),
             ),
             SizedBox(height: 10),
             Container(
@@ -47,7 +58,10 @@ class AddToListDialog extends StatelessWidget {
                   return ListView.builder(
                     shrinkWrap: true,
                     itemCount: spellListManager.spellLists.length,
-                    itemBuilder: (context, index) => _SpellListListTile(spellListManager.spellLists[index]),
+                    itemBuilder: (context, index) => _SpellListListTile(
+                      spell: this.spell,
+                      spellList: spellListManager.spellLists[index],
+                    ),
                   );
                 },
               ),
@@ -62,14 +76,19 @@ class AddToListDialog extends StatelessWidget {
 
 class _SpellListListTile extends StatelessWidget {
   final SpellList spellList;
-  _SpellListListTile(this.spellList);
+  final Spell spell;
+  _SpellListListTile({@required this.spellList, @required this.spell});
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text('${spellList.name}'),
+      title: Text(
+        '${spellList.name}',
+        style: Theme.of(context).textTheme.bodyText2,
+      ),
       onTap: () {
-        Spell spell = Provider.of<Spell>(context, listen: false);
+        spellList.addSpellToList(context, spell);
+        Navigator.of(context).pop();
         print('Adding spell ${spell.name} to list ${spellList.name}');
       },
     );

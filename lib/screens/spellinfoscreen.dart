@@ -1,8 +1,10 @@
 import 'dart:math';
 
+import 'package:dnd_spells_flutter/components/add_to_spell_list_dialog.dart';
 import 'package:dnd_spells_flutter/components/conditionpopup.dart';
 import 'package:dnd_spells_flutter/components/dicerollerpopup.dart';
 import 'package:dnd_spells_flutter/components/drawer.dart';
+import 'package:dnd_spells_flutter/models/colorpalette.dart';
 import 'package:dnd_spells_flutter/models/spell.dart';
 import 'package:dnd_spells_flutter/services/thememanager.dart';
 import 'package:flutter/gestures.dart';
@@ -21,6 +23,9 @@ class SpellInfoScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    ColorPalette colorPalette = Provider.of<ThemeManager>(context).colorPalette;
+
     /// Split a String into sometimes tappable textspans
     List<InlineSpan> buildTextSpanChildren(String text) {
       List<TextSpan> textSpanList = [];
@@ -40,7 +45,7 @@ class SpellInfoScreen extends StatelessWidget {
             text: hits[i],
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              color: Provider.of<ThemeManager>(context).colorPalette.clickableTextLinkColor,
+              color: colorPalette.clickableTextLinkColor,
             ),
             recognizer: TapGestureRecognizer()
               ..onTap = () {
@@ -142,7 +147,7 @@ class SpellInfoScreen extends StatelessWidget {
 
       Widget table = Table(
         border: TableBorder.all(
-          color: Provider.of<ThemeManager>(context).colorPalette.tableLineColor,
+          color: colorPalette.tableLineColor,
         ),
         columnWidths: columnWidths,
         children: [
@@ -225,7 +230,7 @@ class SpellInfoScreen extends StatelessWidget {
                     child: FaIcon(
                       icon,
                       size: size,
-                      color: Provider.of<ThemeManager>(context).colorPalette.emphasisTextColor,
+                      color: colorPalette.emphasisTextColor,
                     ),
                   ),
                 ),
@@ -237,7 +242,7 @@ class SpellInfoScreen extends StatelessWidget {
                 text: '$title: ',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: Provider.of<ThemeManager>(context).colorPalette.mainTextColor,
+                  color: colorPalette.mainTextColor,
                 ),
               ),
               TextSpan(text: value),
@@ -252,17 +257,19 @@ class SpellInfoScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Provider.of<ThemeManager>(context).colorPalette.appBarBackgroundColor,
-//        title: Column(
-//          crossAxisAlignment: CrossAxisAlignment.start,
-//          children: <Widget>[
-//            Text(spell.name),
-//            Text(
-//              spell.subtitle,
-//              style: TextStyle(fontWeight: FontWeight.normal, fontSize: 16),
-//            ),
-//          ],
-//        ),
+        backgroundColor: colorPalette.appBarBackgroundColor,
+        actions: <Widget>[
+          IconButton(
+            onPressed: () => showDialog(
+              context: context,
+              builder: (context) => AddToListDialog(spell: spell)
+            ),
+            icon: Icon(
+              FontAwesomeIcons.plus,
+              size: 20,
+            ),
+          ),
+        ],
       ),
       body: Scrollbar(
         isAlwaysShown: true,

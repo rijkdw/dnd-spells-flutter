@@ -1,4 +1,4 @@
-import 'package:dnd_spells_flutter/components/spell_listtile.dart';
+import 'package:dnd_spells_flutter/components/spell_tile.dart';
 import 'package:dnd_spells_flutter/models/spell.dart';
 import 'package:dnd_spells_flutter/services/thememanager.dart';
 import 'package:dnd_spells_flutter/utilities/utils.dart';

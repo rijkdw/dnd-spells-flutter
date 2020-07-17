@@ -11,6 +11,7 @@ Map<String, ColorPalette> appColorPalettes = {
   "Druid": ColorPalette(
     brightness: Brightness.light,
     drawerPrimary: Colors.green,
+    drawerSecondary: Colors.white,
     clickableTextLinkColor: Color.fromRGBO(0, 150, 0, 1),
     appBarBackgroundColor: Colors.green,
     navBarBackgroundColor: Colors.green,
@@ -32,6 +33,7 @@ Map<String, ColorPalette> appColorPalettes = {
   "Druid (Dark)": ColorPalette(
     brightness: Brightness.dark,
     drawerPrimary: Colors.green,
+    drawerSecondary: _darkGrey,
     clickableTextLinkColor: Colors.green,
     appBarBackgroundColor: _mediumGrey,
     navBarBackgroundColor: _mediumGrey,

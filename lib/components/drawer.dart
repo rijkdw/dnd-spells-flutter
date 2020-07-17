@@ -4,42 +4,48 @@ import 'package:dnd_spells_flutter/services/themes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class SettingsDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    ColorPalette colorPalette = Provider.of<ThemeManager>(context).colorPalette;
     return Drawer(
       child: Theme(
         data: ThemeData(
-          accentColor: Provider.of<ThemeManager>(context).colorPalette.clickableTextLinkColor,
+          accentColor: colorPalette.clickableTextLinkColor,
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            DrawerHeader(
-              child: Container(
-                width: double.infinity,
-                child: Text('Hello'),
-              ),
-              decoration: BoxDecoration(
-                color: Provider.of<ThemeManager>(context).colorPalette.drawerPrimary,
-              ),
-            ),
-            ListView(
-              padding: EdgeInsets.all(0),
-              shrinkWrap: true,
-              children: <Widget>[
-                _MenuListTile(
-                  text: 'Change Theme',
-                  onTap: () => showDialog(
-                    context: context,
-                    builder: (context) => _ThemeChangeDialog(),
-                  ),
+        child: Container(
+          color: colorPalette.drawerSecondary,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              DrawerHeader(
+                child: Container(
+                  width: double.infinity,
+                  child: Text('Hello'),
                 ),
-              ],
-            ),
-          ],
+                decoration: BoxDecoration(
+                  color: colorPalette.drawerPrimary,
+                ),
+              ),
+              ListView(
+                padding: EdgeInsets.all(0),
+                shrinkWrap: true,
+                children: <Widget>[
+                  _MenuListTile(
+                    text: 'Change Theme',
+                    iconData: FontAwesomeIcons.palette,
+                    onTap: () => showDialog(
+                      context: context,
+                      builder: (context) => _ThemeChangeDialog(),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -48,23 +54,38 @@ class SettingsDrawer extends StatelessWidget {
 
 class _MenuListTile extends StatelessWidget {
   final String text;
+  final IconData iconData;
   final VoidCallback onTap;
 
-  _MenuListTile({this.text: 'uwu', @required this.onTap});
+  _MenuListTile({this.text: 'uwu', this.iconData: Icons.face, @required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(
-        this.text,
-        style: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.normal,
-          color: Provider.of<ThemeManager>(context).colorPalette.mainTextColor,
+    ColorPalette colorPalette = Provider.of<ThemeManager>(context).colorPalette;
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        height: 40,
+        padding: EdgeInsets.only(left: 10),
+        child: Row(
+          children: <Widget>[
+            Icon(
+              iconData,
+              size: 24,
+              color: colorPalette.buttonColor,
+            ),
+            SizedBox(width: 14),
+            Text(
+              text,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.normal,
+                color: colorPalette.mainTextColor,
+              ),
+            )
+          ],
         ),
       ),
-      dense: true,
-      onTap: this.onTap,
     );
   }
 }
@@ -121,7 +142,7 @@ class _ColorPaletteGridTile extends StatelessWidget {
         height: double.infinity,
         margin: EdgeInsets.all(4),
         decoration: BoxDecoration(
-          color: colorPalette.appBarBackgroundColor,
+          color: colorPalette.brightness == Brightness.light ? colorPalette.appBarBackgroundColor : colorPalette.stickyHeaderBackgroundColor,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Stack(
