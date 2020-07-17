@@ -6,15 +6,14 @@ class Spell {
 
   Spell(Map<dynamic, dynamic> map) {
     this.map = map;
-    this.descriptionBodyToSearch = generateDescriptionBodyToSearch(map);
+    this.descriptionBodyToSearch = generateDescriptionBodyToSearch();
   }
 
-  String generateDescriptionBodyToSearch(Map<dynamic, dynamic> map) {
+  String generateDescriptionBodyToSearch() {
     String body = '';
     void addToBody(String part) => body += part.toLowerCase() + ' ';
 
     for (dynamic entry in description) {
-      // if the entry is a String, just check if it contains the token
       if (entry is String) {
         String entryString = entry;
         addToBody(entryString);

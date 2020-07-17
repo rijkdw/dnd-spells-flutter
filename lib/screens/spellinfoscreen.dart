@@ -247,6 +247,8 @@ class SpellInfoScreen extends StatelessWidget {
       );
     }
 
+    ScrollController scrollController = ScrollController();
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -262,93 +264,98 @@ class SpellInfoScreen extends StatelessWidget {
 //          ],
 //        ),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.only(
-            left: 13,
-            right: 13,
-            top: 15,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              ...[
-                Text(
-                  spell.name,
-                  style: TextStyle(
-                    fontSize: 22,
+      body: Scrollbar(
+        isAlwaysShown: true,
+        controller: scrollController,
+        child: SingleChildScrollView(
+          controller: scrollController,
+          child: Container(
+            padding: EdgeInsets.only(
+              left: 13,
+              right: 17,
+              top: 15,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                ...[
+                  Text(
+                    spell.name,
+                    style: TextStyle(
+                      fontSize: 22,
+                    ),
                   ),
-                ),
-                Text(
-                  spell.subtitle,
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Provider.of<ThemeManager>(context).colorPalette.subTextColor,
+                  Text(
+                    spell.subtitle,
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Provider.of<ThemeManager>(context).colorPalette.subTextColor,
+                    ),
                   ),
-                ),
-                SizedBox(height: 14),
-                // spell details (casting time, range, etc)
-                buildSpellDetail(
-                  icon: FontAwesomeIcons.book,
-                  title: 'Source',
-                  value: '${spell.shortSource} p${spell.pageNum}',
-                ),
-                buildSpellDetail(
-                  icon: FontAwesomeIcons.stopwatch,
-                  title: 'Casting Time',
-                  value: spell.castingTime,
-                ),
-                buildSpellDetail(
-                  icon: FontAwesomeIcons.draftingCompass,
-                  title: 'Range',
-                  value: spell.range,
-                ),
-                buildSpellDetail(
-                  icon: FontAwesomeIcons.mortarPestle,
-                  title: 'Components',
-                  value: spell.components,
-                ),
-                buildSpellDetail(
-                  icon: FontAwesomeIcons.hourglassHalf,
-                  title: 'Duration',
-                  value: spell.durationAndConcentration,
-                ),
-                buildSpellDetail(
-                  icon: FontAwesomeIcons.hatWizard,
-                  title: 'Classes',
-                  value: spell.classesList.join(', '),
-                ),
-                spell.belongsToRaces
-                    ? buildSpellDetail(
-                        icon: FontAwesomeIcons.child,
-                        title: 'Races',
-                        value: spell.racesList.join(', '),
+                  SizedBox(height: 14),
+                  // spell details (casting time, range, etc)
+                  buildSpellDetail(
+                    icon: FontAwesomeIcons.book,
+                    title: 'Source',
+                    value: '${spell.shortSource} p${spell.pageNum}',
+                  ),
+                  buildSpellDetail(
+                    icon: FontAwesomeIcons.stopwatch,
+                    title: 'Casting Time',
+                    value: spell.castingTime,
+                  ),
+                  buildSpellDetail(
+                    icon: FontAwesomeIcons.draftingCompass,
+                    title: 'Range',
+                    value: spell.range,
+                  ),
+                  buildSpellDetail(
+                    icon: FontAwesomeIcons.mortarPestle,
+                    title: 'Components',
+                    value: spell.components,
+                  ),
+                  buildSpellDetail(
+                    icon: FontAwesomeIcons.hourglassHalf,
+                    title: 'Duration',
+                    value: spell.durationAndConcentration,
+                  ),
+                  buildSpellDetail(
+                    icon: FontAwesomeIcons.hatWizard,
+                    title: 'Classes',
+                    value: spell.classesList.join(', '),
+                  ),
+                  spell.belongsToRaces
+                      ? buildSpellDetail(
+                          icon: FontAwesomeIcons.child,
+                          title: 'Races',
+                          value: spell.racesList.join(', '),
+                        )
+                      : Container(),
+                  SizedBox(height: 12),
+                ],
+                // the main spell description
+                ...spell.description.map((entry) => buildEntryLine(entry)).toList(),
+                // upcasting description
+                spell.hasHigherLevels
+                    ? RichText(
+                        text: TextSpan(
+                          style: Theme.of(context).textTheme.bodyText2.copyWith(
+                                fontSize: 18,
+                                fontWeight: FontWeight.normal,
+                              ),
+                          children: [
+                            TextSpan(
+                              text: 'At Higher Levels. ',
+                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                            ),
+                            ...buildTextSpanChildren(spell.atHigherLevels),
+                          ],
+                        ),
                       )
                     : Container(),
                 SizedBox(height: 12),
               ],
-              // the main spell description
-              ...spell.description.map((entry) => buildEntryLine(entry)).toList(),
-              // upcasting description
-              spell.hasHigherLevels
-                  ? RichText(
-                      text: TextSpan(
-                        style: Theme.of(context).textTheme.bodyText2.copyWith(
-                              fontSize: 18,
-                              fontWeight: FontWeight.normal,
-                            ),
-                        children: [
-                          TextSpan(
-                            text: 'At Higher Levels. ',
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
-                          ...buildTextSpanChildren(spell.atHigherLevels),
-                        ],
-                      ),
-                    )
-                  : Container(),
-              SizedBox(height: 12),
-            ],
+            ),
           ),
         ),
       ),

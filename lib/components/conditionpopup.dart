@@ -16,45 +16,54 @@ class ConditionPopup extends StatelessWidget {
   Widget build(BuildContext context) {
 
     ConditionRepository conditionRepository = Provider.of<ConditionRepository>(context, listen: false);
+    print(conditionRepository);
 
     Condition mainCondition = conditionRepository.getConditionFromName(conditionName);
+    // TODO at the start, mainCondition is null.  WHY?
     List<Condition> conditionsDependedOn = mainCondition.dependsOn.map((dependedConditionName) {
       return conditionRepository.getConditionFromName(dependedConditionName.toString());
     }).toList();
+
+    ScrollController scrollController = ScrollController();
 
     return Dialog(
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(0),
       ),
-      child: Container(
-        color: Provider.of<ThemeManager>(context).colorPalette.dialogBackgroundColor,
-        padding: EdgeInsets.symmetric(horizontal: 12),
+      child: Scrollbar(
+        isAlwaysShown: true,
+        controller: scrollController,
         child: Container(
-          constraints: BoxConstraints(
-            maxHeight: MediaQuery.of(context).size.height * 3 / 4,
-          ),
-          child: ScrollConfiguration(
-            behavior: NoGlowScrollBehavior(),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(height: 25),
-                  Text(
-                    'CONDITION',
-                    style: TextStyle(
-                      fontSize: 20,
-                      letterSpacing: 1.5,
-                      color: Provider.of<ThemeManager>(context).colorPalette.clickableTextLinkColor,
+          color: Provider.of<ThemeManager>(context).colorPalette.dialogBackgroundColor,
+          padding: EdgeInsets.symmetric(horizontal: 12),
+          child: Container(
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height * 3 / 4,
+            ),
+            child: ScrollConfiguration(
+              behavior: NoGlowScrollBehavior(),
+              child: SingleChildScrollView(
+                controller: scrollController,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    SizedBox(height: 25),
+                    Text(
+                      'CONDITION',
+                      style: TextStyle(
+                        fontSize: 20,
+                        letterSpacing: 1.5,
+                        color: Provider.of<ThemeManager>(context).colorPalette.clickableTextLinkColor,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 12),
-                  _ConditionDescription(mainCondition),
-                  _DependedOnDescriptionList(conditionsDependedOn),
-                  SizedBox(height: 25),
-                ],
+                    SizedBox(height: 12),
+                    _ConditionDescription(mainCondition),
+                    _DependedOnDescriptionList(conditionsDependedOn),
+                    SizedBox(height: 25),
+                  ],
+                ),
               ),
             ),
           ),
