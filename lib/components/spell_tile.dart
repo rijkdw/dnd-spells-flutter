@@ -281,11 +281,6 @@ class _LongPressMenuDialog extends StatelessWidget {
                 builder: (context) => AddToListDialog(spell: this.spell),
               ),
             ),
-            _buildMenuOptionRow(
-              text: 'Add to list',
-              iconData: Icons.add,
-              onTap: () => print('Adding to list 2'),
-            ),
           ],
         ),
       ),

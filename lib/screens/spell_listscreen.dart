@@ -16,7 +16,6 @@ class SpellListScreen extends StatefulWidget {
 }
 
 class _SpellListScreenState extends State<SpellListScreen> {
-
   OrderBy orderBy;
 
   @override
@@ -30,8 +29,16 @@ class _SpellListScreenState extends State<SpellListScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: Text(
-          widget.spellList.name,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(
+              widget.spellList.name,
+            ),
+            Text(
+              '${widget.spellList.spellNames.length} spells',
+            ),
+          ],
         ),
       ),
       body: Consumer<SpellRepository>(

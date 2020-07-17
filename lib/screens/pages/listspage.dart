@@ -18,6 +18,9 @@ class _ListsPageState extends State<ListsPage> {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Provider.of<ThemeManager>(context).colorPalette.appBarBackgroundColor,
+          title: Text(
+            '${Provider.of<SpellListManager>(context).spellLists.length} lists'
+          ),
           actions: <Widget>[
             IconButton(
               onPressed: () {
@@ -50,11 +53,17 @@ class _SpellListListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(
-          builder: (context) => SpellListScreen(spellList: spellList,)
-        ));
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SpellListScreen(
+              spellList: spellList,
+            ),
+          ),
+        );
       },
       child: Container(
+        height: 40,
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         decoration: BoxDecoration(
           border: Border(bottom: BorderSide(color: Colors.grey.withOpacity(0.3))),
