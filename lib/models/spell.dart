@@ -1,11 +1,51 @@
-import 'dart:convert';
-
 import 'package:dnd_spells_flutter/utilities/utils.dart';
-import 'package:flutter/cupertino.dart';
 
 class Spell {
-  final Map<dynamic, dynamic> map;
-  Spell(this.map);
+  Map<dynamic, dynamic> map;
+  String descriptionBodyToSearch;
+
+  Spell(Map<dynamic, dynamic> map) {
+    this.map = map;
+    this.descriptionBodyToSearch = generateDescriptionBodyToSearch(map);
+  }
+
+  String generateDescriptionBodyToSearch(Map<dynamic, dynamic> map) {
+    String body = '';
+    void addToBody(String part) => body += part.toLowerCase() + ' ';
+
+    for (dynamic entry in description) {
+      // if the entry is a String, just check if it contains the token
+      if (entry is String) {
+        String entryString = entry;
+        addToBody(entryString);
+      } else {
+        Map<String, dynamic> entryMap = Map<String, dynamic>.from(entry);
+        switch (entryMap['type']) {
+          case 'entries':
+            String bodyPart = (entryMap['name'] + ' ' + entryMap['entries'].join(' '));
+            addToBody(bodyPart);
+            break;
+          case 'list':
+            String bodyPart = (entryMap['items'].join(' ') ?? '');
+            addToBody(bodyPart);
+            break;
+          case 'table':
+            String bodyPart = entryMap['caption'] ?? '';
+            entryMap['colLabels'].forEach((colLabel) => bodyPart += ' $colLabel');
+            entryMap['rows'].forEach((row) {
+              row.forEach((cell) => bodyPart += ' $cell');
+            });
+            addToBody(bodyPart);
+            break;
+        }
+      }
+    }
+    if (hasHigherLevels) {
+      addToBody('at higher levels');
+      addToBody(atHigherLevels);
+    }
+    return body;
+  }
 
   String get name => map['name'];
 
@@ -234,38 +274,7 @@ class Spell {
   /// Return true if this Spell's description contains the given token.  Checks all types of entries.
   bool doesDescriptionContain(String descriptionToken) {
     descriptionToken = descriptionToken.toLowerCase();
-    for (dynamic entry in description) {
-      // if the entry is a String, just check if it contains the token
-      if (entry is String) {
-        String entryString = entry.toLowerCase();
-        if (entryString.contains(descriptionToken)) return true;
-      } else {
-        Map<String, dynamic> entryMap = Map<String, dynamic>.from(entry);
-        switch (entryMap['type']) {
-          case 'entries':
-            String bodyToSearch = entryMap['name'] + ' ' + entryMap['entries'].join(' ');
-            if (bodyToSearch.toLowerCase().contains(descriptionToken)) return true;
-            break;
-          case 'list':
-            String bodyToSearch = entryMap['items'].join(' ') ?? '';
-            if (bodyToSearch.toLowerCase().contains(descriptionToken)) return true;
-            break;
-          case 'table':
-            String bodyToSearch = entryMap['caption'] ?? '';
-            entryMap['colLabels'].forEach((colLabel) => bodyToSearch += ' $colLabel');
-            entryMap['rows'].forEach((row) {
-              row.forEach((cell) => bodyToSearch += ' $cell');
-            });
-            if (bodyToSearch.toLowerCase().contains(descriptionToken)) return true;
-            break;
-        }
-      }
-    }
-    if (hasHigherLevels) {
-      if ('at higher levels'.contains(descriptionToken)) return true;
-      if (atHigherLevels.contains(descriptionToken)) return true;
-    }
-    return false;
+    return this.descriptionBodyToSearch.contains(descriptionToken);
   }
 
   bool get hasHigherLevels {
