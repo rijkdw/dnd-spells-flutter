@@ -1,12 +1,9 @@
 import 'package:dnd_spells_flutter/components/add_to_spell_list_dialog.dart';
 import 'package:dnd_spells_flutter/models/colorpalette.dart';
 import 'package:dnd_spells_flutter/models/spell.dart';
-import 'package:dnd_spells_flutter/models/spell_list.dart';
 import 'package:dnd_spells_flutter/models/spellview.dart';
 import 'package:dnd_spells_flutter/screens/spellinfoscreen.dart';
 import 'package:dnd_spells_flutter/services/historymanager.dart';
-import 'package:dnd_spells_flutter/services/spell_listmanager.dart';
-import 'package:dnd_spells_flutter/services/spellsrepository.dart';
 import 'package:dnd_spells_flutter/services/thememanager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,9 +11,9 @@ import 'package:flutter/painting.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
-class SpellListTile extends StatelessWidget {
+class SpellTile extends StatelessWidget {
   final Spell spell;
-  SpellListTile({@required this.spell});
+  SpellTile({@required this.spell});
 
   @override
   Widget build(BuildContext context) {

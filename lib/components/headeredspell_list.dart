@@ -1,5 +1,7 @@
+import 'package:dnd_spells_flutter/components/sortwidget.dart';
 import 'package:dnd_spells_flutter/components/spell_tile.dart';
 import 'package:dnd_spells_flutter/models/spell.dart';
+import 'package:dnd_spells_flutter/services/searchmanager.dart';
 import 'package:dnd_spells_flutter/services/thememanager.dart';
 import 'package:dnd_spells_flutter/utilities/utils.dart';
 import 'package:flutter/material.dart';
@@ -255,19 +257,19 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
   Widget build(BuildContext context) {
     ScrollController scrollController = ScrollController();
     
-    scrollController.addListener(() {
-      if (scrollController.position.userScrollDirection == ScrollDirection.reverse) {
-        if (this.showUpButton)
-          setState(() {
-            this.showUpButton = false;
-          });
-      } else if (scrollController.position.userScrollDirection == ScrollDirection.forward) {
-        if (!this.showUpButton)
-          setState(() {
-            this.showUpButton = true;
-          });
-      }
-    });
+//    scrollController.addListener(() {
+//      if (scrollController.position.userScrollDirection == ScrollDirection.reverse) {
+//        if (this.showUpButton)
+//          setState(() {
+//            this.showUpButton = false;
+//          });
+//      } else if (scrollController.position.userScrollDirection == ScrollDirection.forward) {
+//        if (!this.showUpButton)
+//          setState(() {
+//            this.showUpButton = true;
+//          });
+//      }
+//    });
 
     return GestureDetector(
       onPanUpdate: (details) {
@@ -286,7 +288,16 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
               child: CustomScrollView(
                 controller: scrollController,
                 shrinkWrap: true,
-                slivers: getStickyHeaders(),
+                slivers: [
+//                  SliverAppBar(
+//                    floating: true,
+//                    title: SortWidget(
+//                      onTap: (newOrderBy) => Provider.of<SearchManager>(context, listen: false).orderBy = newOrderBy,
+//                      toCheck: Provider.of<SearchManager>(context).orderBy,
+//                    ),
+//                  ),
+                  ...getStickyHeaders(),
+                ],
               ),
             ),
           ),
@@ -454,7 +465,7 @@ class _SliverExpandableStickyHeaderState extends State<_SliverExpandableStickyHe
         header: buildHeader(),
         sliver: SliverList(
           delegate: SliverChildListDelegate(
-            widget.spells.map((spell) => SpellListTile(spell: spell)).toList(),
+            widget.spells.map((spell) => SpellTile(spell: spell)).toList(),
           ),
         ),
       );

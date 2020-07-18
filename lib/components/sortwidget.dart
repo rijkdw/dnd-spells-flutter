@@ -32,8 +32,8 @@ class _SortWidgetState extends State<SortWidget> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          Container(
-            width: 120,
+          Expanded(
+            flex: 2,
             child: Text(
               'SORT BY',
               style: TextStyle(
@@ -44,6 +44,7 @@ class _SortWidgetState extends State<SortWidget> {
             ),
           ),
           Expanded(
+            flex: 5,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[

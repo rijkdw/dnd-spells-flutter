@@ -5,15 +5,22 @@ import 'package:provider/provider.dart';
 
 class SpellList {
 
-  String name;
+  String _name;
   List<String> _spellNames = [];
 
-  SpellList({@required this.name, @required spellNames}) {
+  SpellList({@required name, @required spellNames}) {
+    this._name = name;
     this._spellNames = List<String>.from(spellNames);
   }
 
   List<String> get spellNames {
     return this._spellNames.toList().map((name) => name).toList();
+  }
+
+  String get name => _name;
+  void setName(BuildContext context, String newName) {
+    _name = newName;
+    Provider.of<SpellListManager>(context, listen: false).externalChangeMade();
   }
 
   void addSpellToList(BuildContext context, Spell spell) {

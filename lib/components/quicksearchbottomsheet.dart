@@ -14,7 +14,7 @@ class QuickSearchBottomSheet extends StatelessWidget {
       splashColor: Colors.transparent,
       child: Container(
         color: Provider.of<ThemeManager>(context).colorPalette.dialogBackgroundColor,
-        padding: EdgeInsets.fromLTRB(10, 20, 10, MediaQuery.of(context).viewInsets.bottom + 10),
+        padding: EdgeInsets.fromLTRB(10, 10, 10, MediaQuery.of(context).viewInsets.bottom + 10),
         child: ScrollConfiguration(
           behavior: NoGlowScrollBehavior(),
           child: SingleChildScrollView(
@@ -72,11 +72,11 @@ class _QuickSearchFormState extends State<QuickSearchForm> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        Text(
-          'QUICK SEARCH',
-          style: TextStyle(letterSpacing: 0.6, fontSize: 20),
-        ),
-        SizedBox(height: 10),
+//        Text(
+//          'QUICK SEARCH',
+//          style: TextStyle(letterSpacing: 0.6, fontSize: 20),
+//        ),
+//        SizedBox(height: 10),
         ClearableTextField(
           autofocus: true,
           onChanged: (newValue) {
