@@ -1,4 +1,5 @@
 import 'package:dnd_spells_flutter/models/spell_list.dart';
+import 'package:dnd_spells_flutter/screens/createlistscreen.dart';
 import 'package:dnd_spells_flutter/screens/spell_listscreen.dart';
 import 'package:dnd_spells_flutter/services/spell_listmanager.dart';
 import 'package:dnd_spells_flutter/services/thememanager.dart';
@@ -15,33 +16,34 @@ class _ListsPageState extends State<ListsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Provider.of<ThemeManager>(context).colorPalette.appBarBackgroundColor,
-          title: Text(
-            '${Provider.of<SpellListManager>(context).spellLists.length} lists'
-          ),
-          actions: <Widget>[
-            IconButton(
-              onPressed: () {
-                print('Create Spell List button pressed');
-              },
-              icon: FaIcon(FontAwesomeIcons.plus, size: 20),
-            )
-          ],
-        ),
-        body: Consumer<SpellListManager>(
-          builder: (context, spellListManager, child) {
-            if (spellListManager.spellLists.isEmpty)
-              return Center(
-                child: Text('No lists'),
-              );
-            return ListView.builder(
-              itemCount: spellListManager.spellLists.length,
-              itemBuilder: (context, index) => _SpellListListTile(spellListManager.spellLists[index]),
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Provider.of<ThemeManager>(context).colorPalette.appBarBackgroundColor,
+        title: Text('${Provider.of<SpellListManager>(context).spellLists.length} lists'),
+        actions: <Widget>[
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => CreateListScreen(),
+              ));
+            },
+            icon: FaIcon(FontAwesomeIcons.plus, size: 20),
+          )
+        ],
+      ),
+      body: Consumer<SpellListManager>(
+        builder: (context, spellListManager, child) {
+          if (spellListManager.spellLists.isEmpty)
+            return Center(
+              child: Text('No lists'),
             );
-          },
-        ));
+          return ListView.builder(
+            itemCount: spellListManager.spellLists.length,
+            itemBuilder: (context, index) => _SpellListListTile(spellListManager.spellLists[index]),
+          );
+        },
+      ),
+    );
   }
 }
 

@@ -4,16 +4,28 @@ import 'package:dnd_spells_flutter/models/spell_list.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+enum SpellListCreateActionResult{ success, nameError }
+
 class SpellListManager extends ChangeNotifier {
-  List<SpellList> spellLists = [
-    SpellList(
-      name: 'List 1',
-      spellNames: ['Fire Bolt', 'Mage Hand', 'Prestidigitation', 'Fireball'],
-    )
-  ];
+  List<SpellList> spellLists = [];
 
   SpellListManager() {
     _loadFromLocal();
+  }
+
+  SpellListCreateActionResult createSpellList(String name) {
+    for (SpellList spellList in spellLists) {
+      if (spellList.name.toLowerCase() == name.toLowerCase())
+        return
+          SpellListCreateActionResult.nameError;
+    }
+    spellLists.add(SpellList(
+      name: name,
+      spellNames: [],
+    ));
+    _storeInLocal();
+    notifyListeners();
+    return SpellListCreateActionResult.success;
   }
 
   // Storage
