@@ -1,3 +1,5 @@
+import 'package:dnd_spells_flutter/components/dialogmenu.dart';
+import 'package:dnd_spells_flutter/models/colorpalette.dart';
 import 'package:dnd_spells_flutter/models/spell_list.dart';
 import 'package:dnd_spells_flutter/screens/createlistscreen.dart';
 import 'package:dnd_spells_flutter/screens/spell_listscreen.dart';
@@ -64,9 +66,42 @@ class _SpellListListTile extends StatelessWidget {
           ),
         );
       },
+      onLongPress: () {
+        showDialog(
+          context: context,
+          builder: (dialogContext) => DialogMenu(
+            dialogContext: dialogContext, // otherwise there's some issue with unsafe ancestors, idk
+            heading: Text(
+              '${spellList.name}',
+              style: TextStyle(fontSize: 24),
+            ),
+            menuOptions: [
+              MenuOption(
+                text: 'Edit',
+                iconData: FontAwesomeIcons.wrench,
+                iconSize: 20,
+                onTap: () {},
+              ),
+              MenuOption(
+                text: 'Delete',
+                iconData: FontAwesomeIcons.trash,
+                iconSize: 20,
+                onTap: () async {
+                  bool confirmDelete = await showDialog(
+                    context: context,
+                    builder: (context) => _ConfirmSpellListDeleteDialog(spellList),
+                  );
+                  if (confirmDelete) {
+                    Provider.of<SpellListManager>(context, listen: false).deleteSpellList(spellList);
+                  }
+                },
+              ),
+            ],
+          ),
+        );
+      },
       child: Container(
-        height: 40,
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
         decoration: BoxDecoration(
           border: Border(bottom: BorderSide(color: Colors.grey.withOpacity(0.3))),
         ),
@@ -84,6 +119,47 @@ class _SpellListListTile extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _ConfirmSpellListDeleteDialog extends StatelessWidget {
+  final SpellList spellList;
+  _ConfirmSpellListDeleteDialog(this.spellList);
+
+  @override
+  Widget build(BuildContext context) {
+    ColorPalette colorPalette = Provider.of<ThemeManager>(context).colorPalette;
+    return AlertDialog(
+      backgroundColor: colorPalette.dialogBackgroundColor,
+      title: Text(
+        'Do you really want to delete ${this.spellList.name}?',
+        style: TextStyle(
+          color: colorPalette.mainTextColor,
+        ),
+      ),
+      actions: <Widget>[
+        FlatButton(
+          child: Text(
+            'Yes',
+            style: TextStyle(
+              fontSize: 18,
+              color: colorPalette.clickableTextLinkColor,
+            ),
+          ),
+          onPressed: () => Navigator.of(context).pop(true),
+        ),
+        FlatButton(
+          child: Text(
+            'No',
+            style: TextStyle(
+              fontSize: 18,
+              color: colorPalette.clickableTextLinkColor,
+            ),
+          ),
+          onPressed: () => Navigator.of(context).pop(false),
+        ),
+      ],
     );
   }
 }

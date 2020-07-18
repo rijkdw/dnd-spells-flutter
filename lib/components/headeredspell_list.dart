@@ -256,20 +256,20 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
   @override
   Widget build(BuildContext context) {
     ScrollController scrollController = ScrollController();
-    
-//    scrollController.addListener(() {
-//      if (scrollController.position.userScrollDirection == ScrollDirection.reverse) {
-//        if (this.showUpButton)
-//          setState(() {
-//            this.showUpButton = false;
-//          });
-//      } else if (scrollController.position.userScrollDirection == ScrollDirection.forward) {
-//        if (!this.showUpButton)
-//          setState(() {
-//            this.showUpButton = true;
-//          });
-//      }
-//    });
+
+    scrollController.addListener(() {
+      if (scrollController.position.userScrollDirection == ScrollDirection.reverse) {
+        if (this.showUpButton)
+          setState(() {
+            this.showUpButton = false;
+          });
+      } else if (scrollController.position.userScrollDirection == ScrollDirection.forward) {
+        if (!this.showUpButton)
+          setState(() {
+            this.showUpButton = true;
+          });
+      }
+    });
 
     return GestureDetector(
       onPanUpdate: (details) {
@@ -303,8 +303,9 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
           ),
 
           // the navigation buttons
-          Visibility(
-            visible: this.showUpButton,
+          AnimatedOpacity(
+            opacity: this.showUpButton ? 1 : 0,
+            duration: Duration(milliseconds: 500),
             child: Container(
               width: double.infinity,
               height: double.infinity,

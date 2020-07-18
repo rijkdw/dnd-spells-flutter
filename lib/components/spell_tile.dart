@@ -1,4 +1,5 @@
 import 'package:dnd_spells_flutter/components/add_to_spell_list_dialog.dart';
+import 'package:dnd_spells_flutter/components/dialogmenu.dart';
 import 'package:dnd_spells_flutter/models/colorpalette.dart';
 import 'package:dnd_spells_flutter/models/spell.dart';
 import 'package:dnd_spells_flutter/models/spellview.dart';
@@ -226,61 +227,21 @@ class _LongPressMenuDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ColorPalette colorPalette = Provider.of<ThemeManager>(context, listen: false).colorPalette;
-
-    Widget _buildMenuOptionRow({@required IconData iconData, @required String text, @required VoidCallback onTap}) {
-      return InkWell(
-        onTap: () {
-          Navigator.pop(context);
-          onTap();
-        },
-        child: Container(
-          height: 40,
-          child: Row(
-            children: <Widget>[
-              Icon(
-                iconData,
-                color: colorPalette.clickableTextLinkColor,
-              ),
-              SizedBox(width: 10),
-              Text(
-                text,
-                style: Theme.of(context).textTheme.bodyText2.copyWith(fontSize: 16),
-              )
-            ],
+    return DialogMenu(
+      heading: Text(
+        '${spell.name}',
+        style: TextStyle(fontSize: 24),
+      ),
+      menuOptions: [
+        MenuOption(
+          text: 'Add to list',
+          iconData: Icons.add,
+          onTap: () => showDialog(
+            context: context,
+            builder: (context) => AddToListDialog(spell: this.spell),
           ),
-        ),
-      );
-    }
-
-    return Dialog(
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(0),
-      ),
-      backgroundColor: colorPalette.dialogBackgroundColor,
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 25),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              '${spell.name}',
-              style: TextStyle(fontSize: 24),
-            ),
-            Divider(),
-            _buildMenuOptionRow(
-              text: 'Add to list',
-              iconData: Icons.add,
-              onTap: () => showDialog(
-                context: context,
-                builder: (context) => AddToListDialog(spell: this.spell),
-              ),
-            ),
-          ],
-        ),
-      ),
+        )
+      ],
     );
   }
 }

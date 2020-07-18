@@ -16,7 +16,6 @@ class ConditionPopup extends StatelessWidget {
   Widget build(BuildContext context) {
 
     ConditionRepository conditionRepository = Provider.of<ConditionRepository>(context, listen: false);
-    print(conditionRepository);
 
     Condition mainCondition = conditionRepository.getConditionFromName(conditionName);
     List<Condition> conditionsDependedOn = mainCondition.dependsOn.map((dependedConditionName) {

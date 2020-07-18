@@ -8,9 +8,9 @@ class SpellList {
   String _name;
   List<String> _spellNames = [];
 
-  SpellList({@required name, @required spellNames}) {
+  SpellList({@required name, spellNames}) {
     this._name = name;
-    this._spellNames = List<String>.from(spellNames);
+    this._spellNames = List<String>.from(spellNames ?? []);
   }
 
   List<String> get spellNames {

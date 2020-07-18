@@ -93,9 +93,10 @@ class _MenuListTile extends StatelessWidget {
 class _ThemeChangeDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    ColorPalette colorPalette = Provider.of<ThemeManager>(context).colorPalette;
     return Dialog(
       child: Container(
-        color: Provider.of<ThemeManager>(context).colorPalette.dialogBackgroundColor,
+        color: colorPalette.dialogBackgroundColor,
         padding: EdgeInsets.symmetric(horizontal: 4),
         constraints: BoxConstraints(
           maxHeight: MediaQuery.of(context).size.height * 3 / 4,
@@ -105,9 +106,11 @@ class _ThemeChangeDialog extends StatelessWidget {
           children: <Widget>[
             SizedBox(height: 18),
             Text(
-              'Change Theme',
+              'CHANGE THEME',
               style: TextStyle(
-                fontSize: 24,
+                fontSize: 22,
+                color: colorPalette.mainTextColor,
+                letterSpacing: 1,
               ),
             ),
             SizedBox(height: 12),
@@ -152,13 +155,14 @@ class _ColorPaletteGridTile extends StatelessWidget {
                     child: Icon(
                       Icons.check,
                       size: 50,
-                      color: colorPalette.navBarSelectedColor.withOpacity(0.4),
+                      color: colorPalette.mainTextColor.withOpacity(0.4),
                     ),
                   )
                 : Container(),
             Center(
               child: Text(
                 name.toUpperCase(),
+                softWrap: true,
                 style: TextStyle(
                   letterSpacing: 0.75,
                   fontSize: 16,

@@ -4,7 +4,7 @@ import 'package:dnd_spells_flutter/models/spell_list.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-enum SpellListCreateActionResult{ success, nameError }
+enum SpellListCreateActionResult { success, nameError }
 
 class SpellListManager extends ChangeNotifier {
   List<SpellList> spellLists = [];
@@ -15,17 +15,22 @@ class SpellListManager extends ChangeNotifier {
 
   SpellListCreateActionResult createSpellList(String name) {
     for (SpellList spellList in spellLists) {
-      if (spellList.name.toLowerCase() == name.toLowerCase())
-        return
-          SpellListCreateActionResult.nameError;
+      if (spellList.name.toLowerCase() == name.toLowerCase()) {
+        return SpellListCreateActionResult.nameError;
+      }
     }
     spellLists.add(SpellList(
       name: name,
-      spellNames: [],
     ));
     _storeInLocal();
     notifyListeners();
     return SpellListCreateActionResult.success;
+  }
+
+  void deleteSpellList(SpellList spellListToRemove) {
+    spellLists.remove(spellListToRemove);
+    _storeInLocal();
+    notifyListeners();
   }
 
   // Storage

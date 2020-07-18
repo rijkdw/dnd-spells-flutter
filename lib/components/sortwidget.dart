@@ -44,7 +44,7 @@ class _SortWidgetState extends State<SortWidget> {
             ),
           ),
           Expanded(
-            flex: 5,
+            flex: 3,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
