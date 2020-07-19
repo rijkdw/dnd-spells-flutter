@@ -61,6 +61,12 @@ class _SpellListScreenState extends State<SpellListScreen> {
             );
           return Column(
             children: <Widget>[
+              Expanded(
+                child: HeaderedSpellList(
+                  spells: spellsOnList.toList(),
+                  orderBy: orderBy,
+                ),
+              ),
               SortWidget(
                 onTap: (newOrderBy) {
                   setState(() {
@@ -68,12 +74,6 @@ class _SpellListScreenState extends State<SpellListScreen> {
                   });
                 },
                 toCheck: orderBy,
-              ),
-              Expanded(
-                child: HeaderedSpellList(
-                  spells: spellsOnList.toList(),
-                  orderBy: orderBy,
-                ),
               ),
             ],
           );

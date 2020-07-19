@@ -13,13 +13,13 @@ class SpellListManager extends ChangeNotifier {
     _loadFromLocal();
   }
 
-  SpellListCreateActionResult createSpellList(SpellList spellList) {
+  SpellListCreateActionResult createSpellList(SpellList newSpellList) {
     for (SpellList spellList in spellLists) {
-      if (spellList.name.toLowerCase() == spellList.name.toLowerCase()) {
+      if (newSpellList.name.toLowerCase() == spellList.name.toLowerCase()) {
         return SpellListCreateActionResult.nameError;
       }
     }
-    spellLists.add(spellList);
+    spellLists.add(newSpellList);
     _storeInLocal();
     notifyListeners();
     return SpellListCreateActionResult.success;

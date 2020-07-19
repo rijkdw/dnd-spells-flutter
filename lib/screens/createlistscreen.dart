@@ -1,5 +1,6 @@
 import 'package:dnd_spells_flutter/components/clearabletextfield.dart';
 import 'package:dnd_spells_flutter/components/headeredspell_list.dart';
+import 'package:dnd_spells_flutter/main.dart';
 import 'package:dnd_spells_flutter/models/colorpalette.dart';
 import 'package:dnd_spells_flutter/models/spell_list.dart';
 import 'package:dnd_spells_flutter/services/spell_listmanager.dart';
@@ -7,6 +8,7 @@ import 'package:dnd_spells_flutter/services/spellsrepository.dart';
 import 'package:dnd_spells_flutter/services/thememanager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class CreateListScreen extends StatelessWidget {
@@ -40,8 +42,8 @@ class _CreateListFormState extends State<CreateListForm> {
 
   bool verifyInputs() {
     if (nameController.text.trim().length == 0) return false;
-    if (selectedClass == '') return false;
-    if (selectedSubclass == '') return false;
+//    if (selectedClass == '') return false;
+//    if (selectedSubclass == '') return false;
     return true;
   }
 
@@ -84,6 +86,29 @@ class _CreateListFormState extends State<CreateListForm> {
       );
     }
 
+    Widget _buildHeading({String text: 'HEADING', VoidCallback onButtonPress}) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Text(
+            text,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
+          ),
+          IconButton(
+            onPressed: onButtonPress,
+            icon: Icon(
+              FontAwesomeIcons.trash,
+              color: colorPalette.emphasisTextColor,
+              size: 20,
+            ),
+          ),
+        ],
+      );
+    }
+
     return Column(
       children: <Widget>[
         Expanded(
@@ -91,7 +116,7 @@ class _CreateListFormState extends State<CreateListForm> {
             behavior: NoGlowScrollBehavior(),
             child: SingleChildScrollView(
               child: Container(
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(12),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
@@ -102,18 +127,19 @@ class _CreateListFormState extends State<CreateListForm> {
                       onCleared: () {},
                     ),
                     SizedBox(height: 14),
-                    Text(
-                      'Class',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
+                    _buildHeading(
+                      text: 'Class',
+                      onButtonPress: () {
+                        setState(() {
+                          this.selectedClass = '';
+                        });
+                      },
                     ),
                     GridView.count(
                       shrinkWrap: true,
                       crossAxisCount: gridviewRowCount,
                       childAspectRatio: gridviewRatio,
-                      children: spellRepository.classToSubclassMap.keys
+                      children: spellRepository.allClassNames
                           .map((className) => _buildRadioRow(
                               text: className,
                               groupValue: selectedClass,
@@ -126,12 +152,13 @@ class _CreateListFormState extends State<CreateListForm> {
                           .toList(),
                     ),
                     SizedBox(height: 14),
-                    Text(
-                      'Subclass',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
+                    _buildHeading(
+                      text: 'Subclass',
+                      onButtonPress: () {
+                        setState(() {
+                          this.selectedSubclass = '';
+                        });
+                      },
                     ),
                     GridView.count(
                       shrinkWrap: true,
@@ -157,8 +184,13 @@ class _CreateListFormState extends State<CreateListForm> {
         FlatButton(
           onPressed: () {
             if (verifyInputs()) {
-              SpellListCreateActionResult result = Provider.of<SpellListManager>(context, listen: false)
-                  .createSpellList(SpellList(name: nameController.text.trim(), className: selectedClass, subclassName: selectedSubclass));
+              SpellListCreateActionResult result = Provider.of<SpellListManager>(context, listen: false).createSpellList(
+                SpellList(
+                  name: nameController.text.trim(),
+                  className: selectedClass,
+                  subclassName: selectedSubclass,
+                ),
+              );
               if (result == SpellListCreateActionResult.nameError) {
                 Scaffold.of(context).showSnackBar(SnackBar(
                   content: Text('Duplicate spell list name'),

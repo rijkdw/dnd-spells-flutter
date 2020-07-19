@@ -16,6 +16,8 @@ void main() {
   runApp(DnD5eSpellsApp());
 }
 
+GlobalKey appKey = GlobalKey();
+
 class DnD5eSpellsApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -32,6 +34,7 @@ class DnD5eSpellsApp extends StatelessWidget {
       child: Consumer<ThemeManager>(
         builder: (context, themeManager, child) {
           return MaterialApp(
+            key: appKey,
             title: 'D&D 5e Spell Seeker',
             theme: ThemeData(
               textTheme: TextTheme(

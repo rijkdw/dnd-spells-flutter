@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SortWidget extends StatefulWidget {
-
   final Function(OrderBy) onTap;
   final OrderBy toCheck;
   SortWidget({this.onTap, this.toCheck});
@@ -15,19 +14,19 @@ class SortWidget extends StatefulWidget {
 }
 
 class _SortWidgetState extends State<SortWidget> {
-
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.fromLTRB(16, 0, 10, 0),
+      margin: EdgeInsets.only(
+        bottom: 7,
+        left: 5,
+        right: 5,
+      ),
       height: 50,
       decoration: BoxDecoration(
         color: Provider.of<ThemeManager>(context).colorPalette.appBarBackgroundColor,
-        border: Border(
-          top: BorderSide(
-            color: Provider.of<ThemeManager>(context).colorPalette.stickyHeaderBackgroundColor,
-          ),
-        ),
+        borderRadius: BorderRadius.circular(1000),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,

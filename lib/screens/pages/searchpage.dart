@@ -67,28 +67,28 @@ class _SearchPageState extends State<SearchPage> {
           if (filteredSpells.isEmpty)
             return Column(
               children: <Widget>[
-                SortWidget(
-                  onTap: (newOrderBy) {},
-                ),
                 Expanded(
                   child: Center(
                     child: Text('No Spells'),
                   ),
+                ),
+                SortWidget(
+                  onTap: (newOrderBy) {},
                 ),
               ],
             );
 
           return Column(
             children: <Widget>[
-              SortWidget(
-                onTap: (newOrderBy) => Provider.of<SearchManager>(context, listen: false).orderBy = newOrderBy,
-                toCheck: Provider.of<SearchManager>(context).orderBy,
-              ),
               Expanded(
                 child: HeaderedSpellList(
                   spells: filteredSpells,
                   orderBy: searchManager.orderBy,
                 ),
+              ),
+              SortWidget(
+                onTap: (newOrderBy) => Provider.of<SearchManager>(context, listen: false).orderBy = newOrderBy,
+                toCheck: Provider.of<SearchManager>(context).orderBy,
               ),
             ],
           );

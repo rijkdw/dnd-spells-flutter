@@ -53,7 +53,8 @@ class Spell {
   String get levelAsString {
     if (level == 0)
       return 'cantrip';
-    else return '$level${ordinal(level)}';
+    else
+      return '$level${ordinal(level)}';
   }
 
   String get school => map['school'];
@@ -84,9 +85,12 @@ class Spell {
   String get source => map['source'];
   String get shortSource {
     switch (source) {
-      case 'Player\'s Handbook': return 'PHB';
-      case 'Xanathar\'s Guide to Everything': return 'XGTE';
-      default: return source;
+      case 'Player\'s Handbook':
+        return 'PHB';
+      case 'Xanathar\'s Guide to Everything':
+        return 'XGTE';
+      default:
+        return source;
     }
   }
 
@@ -244,8 +248,14 @@ class Spell {
     (map['classes']['fromSubclass'] ?? []).forEach((subclassMap) {
       String className = subclassMap['class']['name'];
       String subclassName = subclassMap['subclass']['name'];
-      if (!subclassName.contains('UA') && !subclassName.contains('PSA') && !subclassName.contains('Stream') && !subclassName.contains('Twitter'))
+      if (!(subclassMap['subclass']['source'] ?? '').contains('Twitter') &&
+          !(subclassMap['subclass']['source'] ?? '').contains('UA') &&
+          !subclassName.contains('UA') &&
+          !subclassName.contains('PSA') &&
+          !subclassName.contains('Stream') &&
+          !subclassName.contains('Twitter')) {
         allSubclasses.add('$className ($subclassName)');
+      }
     });
     return List<String>.from(allSubclasses).toSet().toList();
   }
