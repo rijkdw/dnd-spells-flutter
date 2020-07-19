@@ -1,6 +1,7 @@
 import 'package:dnd_spells_flutter/components/clearabletextfield.dart';
 import 'package:dnd_spells_flutter/components/headeredspell_list.dart';
 import 'package:dnd_spells_flutter/models/colorpalette.dart';
+import 'package:dnd_spells_flutter/models/spell_list.dart';
 import 'package:dnd_spells_flutter/services/spell_listmanager.dart';
 import 'package:dnd_spells_flutter/services/spellsrepository.dart';
 import 'package:dnd_spells_flutter/services/thememanager.dart';
@@ -46,28 +47,39 @@ class _CreateListFormState extends State<CreateListForm> {
 
   @override
   Widget build(BuildContext context) {
-    double gridviewRatio = 5;
+    double gridviewRatio = 5.5;
     int gridviewRowCount = 2;
 
     ColorPalette colorPalette = Provider.of<ThemeManager>(context).colorPalette;
     SpellRepository spellRepository = Provider.of<SpellRepository>(context);
 
     Widget _buildRadioRow({String text, String groupValue, Function(String) onChanged}) {
-      return InkWell(
-        splashColor: Colors.transparent,
-        onTap: () {
-          onChanged(text);
-        },
-        child: Row(
-          children: <Widget>[
-            Radio(
-              value: text,
-              groupValue: groupValue,
-              onChanged: onChanged,
-            ),
-            SizedBox(width: 6),
-            Text(text),
-          ],
+      return Theme(
+        data: ThemeData(
+          unselectedWidgetColor: colorPalette.mainTextColor.withOpacity(0.6),
+        ),
+        child: InkWell(
+          splashColor: Colors.transparent,
+          onTap: () {
+            onChanged(text);
+          },
+          child: Row(
+            children: <Widget>[
+              Container(
+                width: 25,
+                height: 25,
+                child: Center(
+                  child: Radio(
+                    value: text,
+                    groupValue: groupValue,
+                    onChanged: onChanged,
+                  ),
+                ),
+              ),
+              SizedBox(width: 7),
+              Text(text),
+            ],
+          ),
         ),
       );
     }
@@ -145,13 +157,8 @@ class _CreateListFormState extends State<CreateListForm> {
         FlatButton(
           onPressed: () {
             if (verifyInputs()) {
-              SpellListCreateActionResult result = Provider.of<SpellListManager>(context, listen: false).createSpellList(
-                values: {
-                  'name': nameController.text.trim(),
-                  'class': selectedClass,
-                  'subclass': selectedSubclass,
-                },
-              );
+              SpellListCreateActionResult result = Provider.of<SpellListManager>(context, listen: false)
+                  .createSpellList(SpellList(name: nameController.text.trim(), className: selectedClass, subclassName: selectedSubclass));
               if (result == SpellListCreateActionResult.nameError) {
                 Scaffold.of(context).showSnackBar(SnackBar(
                   content: Text('Duplicate spell list name'),

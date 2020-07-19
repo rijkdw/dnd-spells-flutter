@@ -4,6 +4,7 @@ import 'package:dnd_spells_flutter/models/spell.dart';
 import 'package:dnd_spells_flutter/models/spell_list.dart';
 import 'package:dnd_spells_flutter/services/searchmanager.dart';
 import 'package:dnd_spells_flutter/services/spellsrepository.dart';
+import 'package:dnd_spells_flutter/utilities/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -29,23 +30,21 @@ class _SpellListScreenState extends State<SpellListScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text(
-              widget.spellList.name,
-            ),
-            Text(
-              '${widget.spellList.spellNames.length} spells',
-            ),
-          ],
+        title: Text(
+          widget.spellList.name,
         ),
       ),
       body: Consumer<SpellRepository>(
         builder: (context, spellRepository, child) {
-          List<Spell> spellsOnList = [];
+          Set<Spell> spellsOnList = Set<Spell>();
           widget.spellList.spellNames.forEach((spellName) {
             spellsOnList.add(spellRepository.getSpellFromName(spellName));
+          });
+          spellRepository.allSpells.forEach((spell) {
+            if (spell.classesList.contains(widget.spellList.className))
+              spellsOnList.add(spell);
+            if (spell.subclassesList.contains('${widget.spellList.className} (${widget.spellList.subclassName})'))
+              spellsOnList.add(spell);
           });
           if (spellsOnList.isEmpty)
             return Column(
@@ -72,7 +71,7 @@ class _SpellListScreenState extends State<SpellListScreen> {
               ),
               Expanded(
                 child: HeaderedSpellList(
-                  spells: spellsOnList,
+                  spells: spellsOnList.toList(),
                   orderBy: orderBy,
                 ),
               ),
