@@ -55,6 +55,7 @@ class _SpellListListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ColorPalette colorPalette = Provider.of<ThemeManager>(context).colorPalette;
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -105,16 +106,19 @@ class _SpellListListTile extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border(bottom: BorderSide(color: Colors.grey.withOpacity(0.3))),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
               '${spellList.name}',
               style: TextStyle(fontSize: 18),
             ),
             Text(
-              '${spellList.spellNames.length} spells',
-              style: TextStyle(fontSize: 18),
+              '${spellList.subtitle}',
+              style: TextStyle(
+                color: colorPalette.subTextColor,
+                fontSize: 16,
+              ),
             )
           ],
         ),

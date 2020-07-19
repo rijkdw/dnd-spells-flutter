@@ -41,11 +41,11 @@ class AddToListDialog extends StatelessWidget {
             ),
             SizedBox(height: 10),
             Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Provider.of<ThemeManager>(context, listen: false).colorPalette.appBarBackgroundColor,
-                ),
-              ),
+//              decoration: BoxDecoration(
+//                border: Border.all(
+//                  color: Provider.of<ThemeManager>(context, listen: false).colorPalette.appBarBackgroundColor,
+//                ),
+//              ),
               child: Consumer<SpellListManager>(
                 builder: (context, spellListManager, child) {
                   if (spellListManager.spellLists.isEmpty) {

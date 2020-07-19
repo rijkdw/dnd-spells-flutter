@@ -222,18 +222,32 @@ class Spell {
     return vsm;
   }
 
+  List<String> get classesAndSubclassesList {
+    List allClassesAndSubclasses = [];
+    allClassesAndSubclasses.addAll(classesList);
+    allClassesAndSubclasses.addAll(subclassesList);
+    return List<String>.from(allClassesAndSubclasses).toSet().toList();
+  }
+
+  /// Get the name of all the classes (not including subclasses)
   List<String> get classesList {
     List allClasses = [];
     map['classes']['fromClassList'].forEach((classMap) {
       allClasses.add(classMap['name'].toString());
     });
+    return List<String>.from(allClasses).toSet().toList();
+  }
+
+  /// Get the name of all the subclasses in format "class (subclass)"
+  List<String> get subclassesList {
+    List allSubclasses = [];
     (map['classes']['fromSubclass'] ?? []).forEach((subclassMap) {
       String className = subclassMap['class']['name'];
       String subclassName = subclassMap['subclass']['name'];
-      if (!subclassName.contains('UA') && !subclassName.contains('PSA') && !subclassName.contains('Stream'))
-        allClasses.add('$className ($subclassName)');
+      if (!subclassName.contains('UA') && !subclassName.contains('PSA') && !subclassName.contains('Stream') && !subclassName.contains('Twitter'))
+        allSubclasses.add('$className ($subclassName)');
     });
-    return List<String>.from(allClasses).toSet().toList();
+    return List<String>.from(allSubclasses).toSet().toList();
   }
 
   bool get belongsToRaces => map.keys.contains('races');

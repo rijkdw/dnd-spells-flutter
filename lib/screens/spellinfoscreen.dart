@@ -329,7 +329,7 @@ class SpellInfoScreen extends StatelessWidget {
                   buildSpellDetail(
                     icon: FontAwesomeIcons.hatWizard,
                     title: 'Classes',
-                    value: spell.classesList.join(', '),
+                    value: spell.classesAndSubclassesList.join(', '),
                   ),
                   spell.belongsToRaces
                       ? buildSpellDetail(

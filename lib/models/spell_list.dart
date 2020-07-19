@@ -6,11 +6,19 @@ import 'package:provider/provider.dart';
 class SpellList {
 
   String _name;
+  String _className;
+  String _subclassName;
+  String _raceName;
+  String _subraceName;
   List<String> _spellNames = [];
 
-  SpellList({@required name, spellNames}) {
+  SpellList({@required name, spellNames, className:'', subclassName:'', raceName:'', subraceName:''}) {
     this._name = name;
     this._spellNames = List<String>.from(spellNames ?? []);
+    this._className = className;
+    this._subclassName = subclassName;
+    this._raceName = raceName;
+    this._subraceName = subraceName;
   }
 
   List<String> get spellNames {
@@ -21,6 +29,10 @@ class SpellList {
   void setName(BuildContext context, String newName) {
     _name = newName;
     Provider.of<SpellListManager>(context, listen: false).externalChangeMade();
+  }
+
+  String get subtitle {
+    return '${this._className} (${this._subclassName})';
   }
 
   void addSpellToList(BuildContext context, Spell spell) {

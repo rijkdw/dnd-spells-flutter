@@ -17,14 +17,14 @@ List<int> roll(String diceString) {
 String incrementDice(String inputDice) {
   int num = int.parse(inputDice.split(RegExp(r'd'))[0]);
   int size = int.parse(inputDice.split(RegExp(r'd'))[1]);
-  return '${num+1}d$size';
+  return '${num + 1}d$size';
 }
 
 String decrementDice(String inputDice) {
   int num = int.parse(inputDice.split(RegExp(r'd'))[0]);
   int size = int.parse(inputDice.split(RegExp(r'd'))[1]);
   if (num == 1) return '1d$size';
-  return '${num-1}d$size';
+  return '${num - 1}d$size';
 }
 
 // Strings
@@ -49,6 +49,16 @@ String capitaliseFirst(String input) {
 String plural(String item, int count, {String suffix: 's'}) {
   if (count == 1) return item;
   return item + suffix;
+}
+
+Map<String, String> extractClassAndSubclass(String classSubclass) {
+  RegExp pattern = RegExp(r'(.*)\((.*?)\)');
+  String className = pattern.firstMatch(classSubclass)[1].trim();
+  String subclassName = pattern.firstMatch(classSubclass)[2].trim();
+  return {
+    'class': className,
+    'subclass': subclassName,
+  };
 }
 
 // Time

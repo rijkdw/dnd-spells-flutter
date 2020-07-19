@@ -132,133 +132,13 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
       }
     }
   }
-//
-//  List<_SliverExpandableStickyHeader> _getStickyHeaders() {
-//    List<_SliverExpandableStickyHeader> splitByLevel() {
-//      widget.spells.sort((a, b) => a.level.compareTo(b.level));
-//      List<dynamic> values = [];
-//      widget.spells.forEach((spell) {
-//        if (!values.contains(spell.level)) values.add(spell.level);
-//      });
-//      List<_SliverExpandableStickyHeader> returnList = [];
-//
-//      int valueIndex = 0;
-//      List<Spell> spellsWithCurrentValue = [];
-//      for (Spell spell in widget.spells) {
-//        if (spell.level != values[valueIndex]) {
-//          // end of this list
-//          if (spellsWithCurrentValue.isNotEmpty) {
-//            if (values[valueIndex] == 0)
-//              returnList.add(_SliverExpandableStickyHeader(
-//                header: 'Cantrip',
-//                spells: spellsWithCurrentValue,
-//              ));
-//            else
-//              returnList.add(_SliverExpandableStickyHeader(
-//                header: 'Level ${values[valueIndex]}',
-//                spells: spellsWithCurrentValue,
-//              ));
-//          }
-//          // reset step
-//          valueIndex++;
-//          spellsWithCurrentValue = [];
-//        }
-//        spellsWithCurrentValue.add(spell);
-//      }
-//      if (spellsWithCurrentValue.isNotEmpty)
-//        returnList.add(_SliverExpandableStickyHeader(
-//          header: 'Level ${values.last}',
-//          spells: spellsWithCurrentValue,
-//        ));
-//
-//      return returnList;
-//    }
-//
-//    List<_SliverExpandableStickyHeader> splitByName() {
-//      widget.spells.sort((a, b) => a.name.compareTo(b.name));
-//      List<dynamic> values = [];
-//      widget.spells.forEach((spell) {
-//        String firstLetter = spell.name[0];
-//        if (!values.contains(firstLetter)) values.add(firstLetter);
-//      });
-//      List<_SliverExpandableStickyHeader> returnList = [];
-//
-//      int valueIndex = 0;
-//      List<Spell> spellsWithCurrentValue = [];
-//      for (Spell spell in widget.spells) {
-//        if (spell.name[0] != values[valueIndex]) {
-//          // end of this list
-//          if (spellsWithCurrentValue.isNotEmpty)
-//            returnList.add(_SliverExpandableStickyHeader(
-//              header: '${values[valueIndex].toString().toUpperCase()}',
-//              spells: spellsWithCurrentValue,
-//            ));
-//          // reset step
-//          valueIndex++;
-//          spellsWithCurrentValue = [];
-//        }
-//        spellsWithCurrentValue.add(spell);
-//      }
-//      if (spellsWithCurrentValue.isNotEmpty)
-//        returnList.add(_SliverExpandableStickyHeader(
-//          header: '${values[valueIndex].toString().toUpperCase()}',
-//          spells: spellsWithCurrentValue,
-//        ));
-//
-//      return returnList;
-//    }
-//
-//    List<_SliverExpandableStickyHeader> splitBySchool() {
-//      widget.spells.sort((a, b) => a.school.compareTo(b.school));
-//      List<dynamic> values = [];
-//      widget.spells.forEach((spell) {
-//        if (!values.contains(spell.school)) values.add(spell.school);
-//      });
-//      List<_SliverExpandableStickyHeader> returnList = [];
-//
-//      int valueIndex = 0;
-//      List<Spell> spellsWithCurrentValue = [];
-//      for (Spell spell in widget.spells) {
-//        if (spell.school != values[valueIndex]) {
-//          // end of this list
-//          if (spellsWithCurrentValue.isNotEmpty)
-//            returnList.add(_SliverExpandableStickyHeader(
-//              header: '${values[valueIndex]}',
-//              spells: spellsWithCurrentValue,
-//            ));
-//          // reset step
-//          valueIndex++;
-//          spellsWithCurrentValue = [];
-//        }
-//        spellsWithCurrentValue.add(spell);
-//      }
-//      if (spellsWithCurrentValue.isNotEmpty)
-//        returnList.add(_SliverExpandableStickyHeader(
-//          header: '${values.last}',
-//          spells: spellsWithCurrentValue,
-//        ));
-//
-//      return returnList;
-//    }
-//
-////    switch (this.widget.orderBy) {
-////      case OrderBy.level:
-////        return splitByLevel();
-////      case OrderBy.name:
-////        return splitByName();
-////      case OrderBy.school:
-////        return splitBySchool();
-////      default:
-////        return splitByLevel();
-////    }
-//  }
 
   @override
   Widget build(BuildContext context) {
     ScrollController scrollController = ScrollController();
 
     scrollController.addListener(() {
-      if (scrollController.position.userScrollDirection == ScrollDirection.reverse) {
+      if (scrollController.position.userScrollDirection == ScrollDirection.reverse || scrollController.position.pixels == 0) {
         if (this.showUpButton)
           setState(() {
             this.showUpButton = false;
@@ -317,6 +197,7 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
                   FloatingActionButton(
                     mini: true,
                     heroTag: null,
+                    elevation: 0,
                     onPressed: () {
                       scrollController.jumpTo(
                         0,

@@ -28,12 +28,13 @@ class SpellTile extends StatelessWidget {
           ),
         ));
       },
-      onLongPress: () {
-        showDialog(
-          context: context,
-          builder: (context) => _LongPressMenuDialog(spell: spell),
-        );
-      },
+      onLongPress: () {},
+//      onLongPress: () {
+//        showDialog(
+//          context: context,
+//          builder: (context) => _LongPressMenuDialog(spell: spell),
+//        );
+//      },
       child: Container(
         width: double.infinity,
         padding: EdgeInsets.only(left: 10, right: 3),
@@ -80,31 +81,25 @@ class SpellTile extends StatelessWidget {
               ),
             ),
             Expanded(
-              flex: 0,
-              child: Container(
-                height: 54,
-              ),
-//              flex: 2,
-//              child: InkWell(
-//                splashColor: Colors.transparent,
-//                onTap: () {
-//                  showDialog(
-//                    context: context,
-//                    builder: (context) => Provider<Spell>.value(
-//                      value: spell,
-//                      child: AddToListDialog(),
-//                    ),
-//                  );
-//                },
-//                child: Container(
-////                  color: Colors.blue,
-//                  height: 54,
-//                  child: Icon(
-//                    Icons.add,
-//                    color: Provider.of<ThemeManager>(context).colorPalette.clickableTextLinkColor,
-//                  ),
-//                ),
+//              flex: 0,
+//              child: Container(
+//                height: 54,
 //              ),
+              flex: 2,
+              child: InkWell(
+                splashColor: Colors.transparent,
+                onTap: () {
+                  showDialog(context: context, builder: (context) => _LongPressMenuDialog(spell: spell));
+                },
+                child: Container(
+//                  color: Colors.blue,
+                  height: 54,
+                  child: Icon(
+                    Icons.more_vert,
+                    color: Provider.of<ThemeManager>(context).colorPalette.clickableTextLinkColor,
+                  ),
+                ),
+              ),
             ),
           ],
         ),
@@ -212,7 +207,7 @@ class SpellGridTile extends StatelessWidget {
           Expanded(
             child: _buildCompactSpellAttributeLine(
               leading: FaIcon(FontAwesomeIcons.hatWizard, size: 14),
-              text: spell.classesList.join(', '),
+              text: spell.classesAndSubclassesList.join(', '),
             ),
           ),
         ],
