@@ -13,9 +13,8 @@ enum OrderBy { name, level, school }
 
 class HeaderedSpellList extends StatefulWidget {
   final List<Spell> spells;
-  final OrderBy orderBy;
 
-  HeaderedSpellList({@required this.spells, @required this.orderBy, Key key}) : super(key: key ?? UniqueKey()); // : super(key: UniqueKey()); (why?)
+  HeaderedSpellList({@required this.spells, Key key}) : super(key: key ?? UniqueKey()); // : super(key: UniqueKey()); (why?)
 
   @override
   _HeaderedSpellListState createState() => _HeaderedSpellListState();
@@ -23,29 +22,31 @@ class HeaderedSpellList extends StatefulWidget {
 
 class _HeaderedSpellListState extends State<HeaderedSpellList> {
   List<_SliverExpandableStickyHeader> stickyHeaders;
-  Map<String, bool> headerToExpandedMap = {};
+//  Map<String, bool> headerToExpandedMap = {};
   bool showUpButton;
+  OrderBy orderBy;
 
   @override
   initState() {
     super.initState();
-    initialiseExpandedMap();
-    showUpButton = false;
+    orderBy = OrderBy.name;
+//    initialiseExpandedMap();
+    showUpButton = true;
   }
 
-  void initialiseExpandedMap() {
-    List<String> sortedKeys = splitSpells().keys.map((e) => e.toString()).toList();
-    sortedKeys.sort((a, b) => a.compareTo(b));
+//  void initialiseExpandedMap() {
+//    List<String> sortedKeys = splitSpells().keys.map((e) => e.toString()).toList();
+//    sortedKeys.sort((a, b) => a.compareTo(b));
+//
+//    // prepare the booleans
+//    sortedKeys.forEach((headerName) {
+//      headerToExpandedMap[headerName] = true;
+//    });
+//  }
 
-    // prepare the booleans
-    sortedKeys.forEach((headerName) {
-      headerToExpandedMap[headerName] = true;
-    });
-  }
-
-  void invertMapAt(String headerName) {
-    setState(() => headerToExpandedMap[headerName] = !headerToExpandedMap[headerName]);
-  }
+//  void invertMapAt(String headerName) {
+//    setState(() => headerToExpandedMap[headerName] = !headerToExpandedMap[headerName]);
+//  }
 
   Map<String, List<Spell>> splitSpells() {
     // make the sticky headers
@@ -67,21 +68,21 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
       return _SliverExpandableStickyHeader(
         header: headerName,
         spells: headerToSpellsMap[headerName],
-        expanded: headerToExpandedMap[headerName],
-        onExpandedChange: () {
-          setState(() {
-            print('boi $headerName');
-            print(headerToExpandedMap[headerName]);
-            headerToExpandedMap[headerName] = !headerToExpandedMap[headerName];
-            print(headerToExpandedMap[headerName]);
-          });
-        },
+//        expanded: headerToExpandedMap[headerName],
+//        onExpandedChange: () {
+//          setState(() {
+//            print('boi $headerName');
+//            print(headerToExpandedMap[headerName]);
+//            headerToExpandedMap[headerName] = !headerToExpandedMap[headerName];
+//            print(headerToExpandedMap[headerName]);
+//          });
+//        },
       );
     }).toList();
   }
 
   String getHeaderName(Spell spell) {
-    switch (widget.orderBy) {
+    switch (orderBy) {
       case OrderBy.name:
         return spell.name.toUpperCase()[0];
       case OrderBy.level:
@@ -93,45 +94,45 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
     return '';
   }
 
-  bool allIsExpanded() {
-    for (String headerName in headerToExpandedMap.keys) {
-      if (!headerToExpandedMap[headerName]) return false;
-    }
-    return true;
-  }
+//  bool allIsExpanded() {
+//    for (String headerName in headerToExpandedMap.keys) {
+//      if (!headerToExpandedMap[headerName]) return false;
+//    }
+//    return true;
+//  }
+//
+//  bool allIsCompressed() {
+//    for (String headerName in headerToExpandedMap.keys) {
+//      if (headerToExpandedMap[headerName]) return false;
+//    }
+//    return true;
+//  }
 
-  bool allIsCompressed() {
-    for (String headerName in headerToExpandedMap.keys) {
-      if (headerToExpandedMap[headerName]) return false;
-    }
-    return true;
-  }
-
-  void allExpandOrCompressButtonPress() {
-    print('Time to alter all');
-    if (allIsCompressed()) {
-      print('All is compressed');
-      for (String name in headerToExpandedMap.keys) {
-        setState(() {
-          headerToExpandedMap[name] = true;
-        });
-      }
-    } else if (allIsExpanded()) {
-      print('All is expanded');
-      for (String name in headerToExpandedMap.keys) {
-        setState(() {
-          headerToExpandedMap[name] = false;
-        });
-      }
-    } else {
-      print('All is mixed');
-      for (String name in headerToExpandedMap.keys) {
-        setState(() {
-          headerToExpandedMap[name] = false;
-        });
-      }
-    }
-  }
+//  void allExpandOrCompressButtonPress() {
+//    print('Time to alter all');
+//    if (allIsCompressed()) {
+//      print('All is compressed');
+//      for (String name in headerToExpandedMap.keys) {
+//        setState(() {
+//          headerToExpandedMap[name] = true;
+//        });
+//      }
+//    } else if (allIsExpanded()) {
+//      print('All is expanded');
+//      for (String name in headerToExpandedMap.keys) {
+//        setState(() {
+//          headerToExpandedMap[name] = false;
+//        });
+//      }
+//    } else {
+//      print('All is mixed');
+//      for (String name in headerToExpandedMap.keys) {
+//        setState(() {
+//          headerToExpandedMap[name] = false;
+//        });
+//      }
+//    }
+//  }
 
   @override
   Widget build(BuildContext context) {
@@ -143,7 +144,7 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
           setState(() {
             this.showUpButton = false;
           });
-      } else if (scrollController.position.userScrollDirection == ScrollDirection.forward) {
+      } else if (scrollController.position.userScrollDirection == ScrollDirection.forward || scrollController.position.pixels == 0) {
         if (!this.showUpButton)
           setState(() {
             this.showUpButton = true;
@@ -185,64 +186,19 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
           // the navigation buttons
           AnimatedOpacity(
             opacity: this.showUpButton ? 1 : 0,
-            duration: Duration(milliseconds: 500),
+            duration: Duration(milliseconds: 300),
             child: Container(
-              width: double.infinity,
-              height: double.infinity,
-              padding: const EdgeInsets.all(6),
-              alignment: Alignment.bottomRight,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  FloatingActionButton(
-                    mini: true,
-                    heroTag: null,
-                    elevation: 0,
-                    onPressed: () {
-                      scrollController.jumpTo(
-                        0,
-//                        duration: Duration(milliseconds: 500),
-//                        curve: Curves.ease,
-                      );
-                      setState(() {
-                        this.showUpButton = false;
-                      });
-                    },
-                    backgroundColor: Provider.of<ThemeManager>(context).colorPalette.buttonColor,
-                    child: Icon(
-                      Icons.arrow_upward,
-                      color: Provider.of<ThemeManager>(context).colorPalette.buttonTextColor,
-                    ),
-                  ),
-////                SizedBox(height: 2, width: 2),
-//                  FloatingActionButton(
-//                    mini: true,
-//                    heroTag: null,
-//                    onPressed: allExpandOrCompressButtonPress,
-//                    backgroundColor: Provider.of<ThemeManager>(context).colorPalette.buttonColor,
-//                    child: Icon(
-//                      allIsCompressed() ? Icons.expand_more : Icons.expand_less,
-//                      color: Provider.of<ThemeManager>(context).colorPalette.buttonTextColor,
-//                    ),
-//                  ),
-////                SizedBox(height: 2, width: 2),
-//                  FloatingActionButton(
-//                    mini: true,
-//                    heroTag: null,
-//                    onPressed: () {
-//                      scrollController.animateTo(
-//                        scrollController.position.maxScrollExtent,
-//                        duration: Duration(milliseconds: 500),
-//                        curve: Curves.ease,
-//                      );
-//                    },
-//                    backgroundColor: Provider.of<ThemeManager>(context).colorPalette.buttonColor,
-//                    child: Icon(
-//                      Icons.arrow_downward,
-//                      color: Provider.of<ThemeManager>(context).colorPalette.buttonTextColor,
-//                    ),
-//                  ),
-                ],
+              alignment: Alignment.bottomCenter,
+              child: SortWidget(
+                toCheck: this.orderBy,
+                onSortTap: (newOrderBy) {
+                  setState(() {
+                    this.orderBy = newOrderBy;
+                  });
+                },
+                onButtonTap: () {
+                  scrollController.jumpTo(0);
+                },
               ),
             ),
           ),
@@ -265,7 +221,7 @@ class _SliverExpandableStickyHeader extends StatefulWidget {
   final bool expanded;
   final VoidCallback onExpandedChange;
 
-  _SliverExpandableStickyHeader({this.header, this.spells, this.expanded, this.onExpandedChange});
+  _SliverExpandableStickyHeader({this.header, this.spells, this.expanded:true, this.onExpandedChange});
 
   @override
   _SliverExpandableStickyHeaderState createState() => _SliverExpandableStickyHeaderState();

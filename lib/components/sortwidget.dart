@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SortWidget extends StatefulWidget {
-  final Function(OrderBy) onTap;
+  final Function(OrderBy) onSortTap;
+  final VoidCallback onButtonTap;
   final OrderBy toCheck;
-  SortWidget({this.onTap, this.toCheck});
+  SortWidget({this.onSortTap, this.toCheck, this.onButtonTap});
 
   @override
   _SortWidgetState createState() => _SortWidgetState();
@@ -50,17 +51,17 @@ class _SortWidgetState extends State<SortWidget> {
                 ChoiceChip(
                   label: Text('Name'),
                   selected: widget.toCheck == OrderBy.name,
-                  onSelected: (newValue) => widget.onTap(OrderBy.name),
+                  onSelected: (newValue) => widget.onSortTap(OrderBy.name),
                 ),
                 ChoiceChip(
                   label: Text('Level'),
                   selected: widget.toCheck == OrderBy.level,
-                  onSelected: (newValue) => widget.onTap(OrderBy.level),
+                  onSelected: (newValue) => widget.onSortTap(OrderBy.level),
                 ),
                 ChoiceChip(
                   label: Text('School'),
                   selected: widget.toCheck == OrderBy.school,
-                  onSelected: (newValue) => widget.onTap(OrderBy.school),
+                  onSelected: (newValue) => widget.onSortTap(OrderBy.school),
                 ),
               ],
             ),
@@ -69,7 +70,8 @@ class _SortWidgetState extends State<SortWidget> {
           FloatingActionButton(
             mini: true,
             elevation: 0,
-            onPressed: () {},
+            child: Icon(Icons.arrow_upward),
+            onPressed: widget.onButtonTap,
           )
         ],
       ),

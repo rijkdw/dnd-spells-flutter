@@ -54,9 +54,6 @@ class _SpellListScreenState extends State<SpellListScreen> {
                     child: Text('No spells in this list'),
                   ),
                 ),
-                SortWidget(
-                  onTap: (newOrderBy) {},
-                ),
               ],
             );
           return Column(
@@ -64,16 +61,7 @@ class _SpellListScreenState extends State<SpellListScreen> {
               Expanded(
                 child: HeaderedSpellList(
                   spells: spellsOnList.toList(),
-                  orderBy: orderBy,
                 ),
-              ),
-              SortWidget(
-                onTap: (newOrderBy) {
-                  setState(() {
-                    orderBy = newOrderBy;
-                  });
-                },
-                toCheck: orderBy,
               ),
             ],
           );
