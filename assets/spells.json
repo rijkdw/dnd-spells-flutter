@@ -1,4 +1,4 @@
- [
+[
   {
     "name": "Abi-Dalzim's Horrid Wilting",
     "source": "Xanathar's Guide to Everything",
@@ -1807,6 +1807,16 @@
         }
       ],
       "fromSubclass": [
+        {
+          "class": {
+            "name": "Druid",
+            "source": "PHB"
+          },
+          "subclass": {
+            "name": "Wildfire",
+            "source": "PHB"
+          }
+        },
         {
           "class": {
             "name": "Warlock",
@@ -14003,6 +14013,16 @@
       "fromSubclass": [
         {
           "class": {
+            "name": "Druid",
+            "source": "PHB"
+          },
+          "subclass": {
+            "name": "Wildfire",
+            "source": "PHB"
+          }
+        },
+        {
+          "class": {
             "name": "Warlock",
             "source": "PHB"
           },
@@ -14145,6 +14165,16 @@
         }
       ],
       "fromSubclass": [
+        {
+          "class": {
+            "name": "Druid",
+            "source": "PHB"
+          },
+          "subclass": {
+            "name": "Wildfire",
+            "source": "PHB"
+          }
+        },
         {
           "class": {
             "name": "Cleric",
@@ -14391,6 +14421,16 @@
         }
       ],
       "fromSubclass": [
+        {
+          "class": {
+            "name": "Druid",
+            "source": "PHB"
+          },
+          "subclass": {
+            "name": "Wildfire",
+            "source": "PHB"
+          }
+        },
         {
           "class": {
             "name": "Cleric",
@@ -21424,6 +21464,18 @@
           "name": "Ranger",
           "source": "PHB"
         }
+      ],
+      "fromSubclass": [
+        {
+          "class": {
+            "name": "Druid",
+            "source": "PHB"
+          },
+          "subclass": {
+            "name": "Wildfire",
+            "source": "PHB"
+          }
+        }
       ]
     },
     "source": "Player's Handbook",
@@ -25732,6 +25784,16 @@
       "fromSubclass": [
         {
           "class": {
+            "name": "Druid",
+            "source": "PHB"
+          },
+          "subclass": {
+            "name": "Wildfire",
+            "source": "PHB"
+          }
+        },
+        {
+          "class": {
             "name": "Cleric",
             "source": "PHB"
           },
@@ -27463,6 +27525,16 @@
       "fromSubclass": [
         {
           "class": {
+            "name": "Druid",
+            "source": "PHB"
+          },
+          "subclass": {
+            "name": "Wildfire",
+            "source": "PHB"
+          }
+        },
+        {
+          "class": {
             "name": "Cleric",
             "source": "PHB"
           },
@@ -28711,6 +28783,16 @@
             "name": "Fiend",
             "source": "PHB"
           }
+        },
+        {
+          "class": {
+            "name": "Druid",
+            "source": "PHB"
+          },
+          "subclass": {
+            "name": "Wildfire",
+            "source": "PHB"
+          }
         }
       ]
     },
@@ -29704,7 +29786,6 @@
       {
         "number": 1,
         "unit": "reaction",
-
         "condition": "which you take when you are hit by an attack or targeted by the magic missile spell"
       }
     ],

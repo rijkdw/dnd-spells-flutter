@@ -21,10 +21,10 @@ class HistoryPage extends StatelessWidget {
             onPressed: () {
               if (Provider.of<HistoryManager>(context, listen: false).recentlyViewedSpells.isNotEmpty) {
                 Provider.of<HistoryManager>(context, listen: false).clearHistory();
-                Scaffold.of(context).showSnackBar(SnackBar(
-                  content: Text('History cleared'),
-                  duration: Duration(seconds: 2),
-                ));
+//                Scaffold.of(context).showSnackBar(SnackBar(
+//                  content: Text('History cleared'),
+//                  duration: Duration(seconds: 2),
+//                ));
               }
             },
             icon: Icon(FontAwesomeIcons.trash, size: 20),
