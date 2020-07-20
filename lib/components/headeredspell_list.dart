@@ -25,6 +25,7 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
 //  Map<String, bool> headerToExpandedMap = {};
   bool showUpButton;
   OrderBy orderBy;
+  ScrollController scrollController = ScrollController();
 
   @override
   initState() {
@@ -136,8 +137,6 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
 
   @override
   Widget build(BuildContext context) {
-    ScrollController scrollController = ScrollController();
-
     scrollController.addListener(() {
       if (scrollController.position.userScrollDirection == ScrollDirection.reverse) {
         if (this.showUpButton)
@@ -184,10 +183,10 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
           ),
 
           // the navigation buttons
-          AnimatedOpacity(
-            opacity: this.showUpButton ? 1 : 0,
+          AnimatedCrossFade(
             duration: Duration(milliseconds: 300),
-            child: Container(
+            crossFadeState: this.showUpButton ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+            firstChild: Container(
               alignment: Alignment.bottomCenter,
               child: SortWidget(
                 toCheck: this.orderBy,
@@ -201,7 +200,13 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
                 },
               ),
             ),
+            secondChild: Container(),
           ),
+//          AnimatedOpacity(
+//            opacity: this.showUpButton ? 1 : 0,
+//            duration: Duration(milliseconds: 300),
+//            //child:
+//          ),
         ],
       ),
     );
@@ -221,7 +226,7 @@ class _SliverExpandableStickyHeader extends StatefulWidget {
   final bool expanded;
   final VoidCallback onExpandedChange;
 
-  _SliverExpandableStickyHeader({this.header, this.spells, this.expanded:true, this.onExpandedChange});
+  _SliverExpandableStickyHeader({this.header, this.spells, this.expanded: true, this.onExpandedChange});
 
   @override
   _SliverExpandableStickyHeaderState createState() => _SliverExpandableStickyHeaderState();
