@@ -49,13 +49,13 @@ class _SpellListScreenState extends State<SpellListScreen> {
           if (spellsOnList.isEmpty)
             return Column(
               children: <Widget>[
-                SortWidget(
-                  onTap: (newOrderBy) {},
-                ),
                 Expanded(
                   child: Center(
                     child: Text('No spells in this list'),
                   ),
+                ),
+                SortWidget(
+                  onTap: (newOrderBy) {},
                 ),
               ],
             );

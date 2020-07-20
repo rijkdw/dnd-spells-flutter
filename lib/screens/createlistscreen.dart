@@ -86,7 +86,9 @@ class _CreateListFormState extends State<CreateListForm> {
       );
     }
 
-    Widget _buildHeading({String text: 'HEADING', VoidCallback onButtonPress}) {
+    Widget _buildHeading({String text: 'HEADING', VoidCallback onButtonPress, bool visible:true}) {
+      if (!visible)
+        return Container();
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -132,6 +134,7 @@ class _CreateListFormState extends State<CreateListForm> {
                       onButtonPress: () {
                         setState(() {
                           this.selectedClass = '';
+                          this.selectedSubclass = '';
                         });
                       },
                     ),
@@ -153,6 +156,7 @@ class _CreateListFormState extends State<CreateListForm> {
                     ),
                     SizedBox(height: 14),
                     _buildHeading(
+                      visible: (spellRepository.classToSubclassMap[selectedClass] ?? []).isNotEmpty,
                       text: 'Subclass',
                       onButtonPress: () {
                         setState(() {

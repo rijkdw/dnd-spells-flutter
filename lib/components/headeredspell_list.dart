@@ -138,7 +138,7 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
     ScrollController scrollController = ScrollController();
 
     scrollController.addListener(() {
-      if (scrollController.position.userScrollDirection == ScrollDirection.reverse || scrollController.position.pixels == 0) {
+      if (scrollController.position.userScrollDirection == ScrollDirection.reverse) {
         if (this.showUpButton)
           setState(() {
             this.showUpButton = false;

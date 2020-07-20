@@ -17,7 +17,7 @@ class _SortWidgetState extends State<SortWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(16, 0, 10, 0),
+      padding: EdgeInsets.fromLTRB(16, 0, 2, 0),
       margin: EdgeInsets.only(
         bottom: 7,
         left: 5,
@@ -26,13 +26,13 @@ class _SortWidgetState extends State<SortWidget> {
       height: 50,
       decoration: BoxDecoration(
         color: Provider.of<ThemeManager>(context).colorPalette.appBarBackgroundColor,
-        borderRadius: BorderRadius.circular(1000),
+        borderRadius: BorderRadius.circular(23),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           Expanded(
-            flex: 2,
+            flex: 10,
             child: Text(
               'SORT BY',
               style: TextStyle(
@@ -43,7 +43,7 @@ class _SortWidgetState extends State<SortWidget> {
             ),
           ),
           Expanded(
-            flex: 3,
+            flex: 25,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -65,6 +65,12 @@ class _SortWidgetState extends State<SortWidget> {
               ],
             ),
           ),
+          SizedBox(width: 6),
+          FloatingActionButton(
+            mini: true,
+            elevation: 0,
+            onPressed: () {},
+          )
         ],
       ),
     );

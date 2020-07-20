@@ -247,7 +247,7 @@ class Spell {
     List allSubclasses = [];
     (map['classes']['fromSubclass'] ?? []).forEach((subclassMap) {
       String className = subclassMap['class']['name'];
-      String subclassName = subclassMap['subclass']['name'];
+      String subclassName = subclassMap['subclass']['subSubclass'] ?? subclassMap['subclass']['name'];
       if (!(subclassMap['subclass']['source'] ?? '').contains('Twitter') &&
           !(subclassMap['subclass']['source'] ?? '').contains('UA') &&
           !subclassName.contains('UA') &&
