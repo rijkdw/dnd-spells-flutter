@@ -9,37 +9,32 @@ class ClearableTextField extends StatelessWidget {
   final Function(String) onChanged;
   final VoidCallback onCleared;
   final bool autofocus;
-  ClearableTextField({@required this.hintText, @required this.controller, this.onChanged, this.onCleared, this.autofocus:false});
+  ClearableTextField({@required this.hintText, @required this.controller, this.onChanged, this.onCleared, this.autofocus: false});
 
   @override
   Widget build(BuildContext context) {
-
     ColorPalette colorPalette = Provider.of<ThemeManager>(context).colorPalette;
 
     return Row(
       children: <Widget>[
-        SizedBox(width: 6),
         Expanded(
           child: TextField(
             autofocus: this.autofocus,
             onChanged: (newValue) => onChanged(newValue),
             controller: this.controller,
             cursorColor: colorPalette.emphasisTextColor,
-            style: Theme.of(context).textTheme.bodyText2,
+            style: Theme.of(context).textTheme.bodyText2.copyWith(fontSize: 20),
             decoration: InputDecoration(
               hintText: this.hintText,
               hintStyle: Theme.of(context).textTheme.bodyText2.copyWith(
-                    color: colorPalette.subTextColor,
+                    color: colorPalette.subTextColor.withOpacity(0.6),
+                    fontSize: 20,
                   ),
               focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(
-                  color: colorPalette.stickyHeaderBackgroundColor,
-                )
+                borderSide: BorderSide(color: colorPalette.stickyHeaderBackgroundColor),
               ),
               enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                    color: colorPalette.stickyHeaderBackgroundColor,
-                  )
+                borderSide: BorderSide(color: colorPalette.stickyHeaderBackgroundColor),
               ),
             ),
           ),
@@ -56,7 +51,7 @@ class ClearableTextField extends StatelessWidget {
             child: Center(
               child: Icon(
                 Icons.close,
-                size: 15,
+                size: 20,
                 color: colorPalette.emphasisTextColor,
               ),
             ),

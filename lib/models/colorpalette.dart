@@ -39,6 +39,8 @@ class ColorPalette {
   // button colors
   Color buttonColor;
   Color buttonTextColor;
+  Color radioSelectedColor;
+  Color radioUnselectedColor;
 
   ColorPalette({
     this.brightness: Brightness.light,
@@ -61,5 +63,7 @@ class ColorPalette {
     this.buttonTextColor: Colors.green,
     this.chipUnselectedTextColor: Colors.purple,
     this.tableLineColor = Colors.green,
+    this.radioSelectedColor = Colors.red,
+    this.radioUnselectedColor = Colors.blue,
   });
 }

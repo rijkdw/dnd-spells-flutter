@@ -33,6 +33,19 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
     orderBy = OrderBy.name;
 //    initialiseExpandedMap();
     showUpButton = true;
+    scrollController.addListener(() {
+      if (scrollController.position.userScrollDirection == ScrollDirection.reverse) {
+        if (this.showUpButton)
+          setState(() {
+            this.showUpButton = false;
+          });
+      } else if (scrollController.position.userScrollDirection == ScrollDirection.forward || scrollController.position.pixels == 0) {
+        if (!this.showUpButton)
+          setState(() {
+            this.showUpButton = true;
+          });
+      }
+    });
   }
 
 //  void initialiseExpandedMap() {
@@ -137,38 +150,18 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
 
   @override
   Widget build(BuildContext context) {
-    scrollController.addListener(() {
-      if (scrollController.position.userScrollDirection == ScrollDirection.reverse) {
-        if (this.showUpButton)
-          setState(() {
-            this.showUpButton = false;
-          });
-      } else if (scrollController.position.userScrollDirection == ScrollDirection.forward || scrollController.position.pixels == 0) {
-        if (!this.showUpButton)
-          setState(() {
-            this.showUpButton = true;
-          });
-      }
-    });
-
-    return GestureDetector(
-      onPanUpdate: (details) {
-        if (details.delta.dx < -10) {
-          print('You swiped right');
-        }
-      },
-      child: Stack(
-        children: <Widget>[
-          // the list
-          ScrollConfiguration(
-            behavior: NoGlowScrollBehavior(),
-            child: Scrollbar(
-              isAlwaysShown: true,
+    return Stack(
+      children: <Widget>[
+        // the list
+        ScrollConfiguration(
+          behavior: NoGlowScrollBehavior(),
+          child: Scrollbar(
+            isAlwaysShown: true,
+            controller: scrollController,
+            child: CustomScrollView(
               controller: scrollController,
-              child: CustomScrollView(
-                controller: scrollController,
-                shrinkWrap: true,
-                slivers: [
+              shrinkWrap: true,
+              slivers: [
 //                  SliverAppBar(
 //                    floating: true,
 //                    title: SortWidget(
@@ -176,39 +169,39 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
 //                      toCheck: Provider.of<SearchManager>(context).orderBy,
 //                    ),
 //                  ),
-                  ...getStickyHeaders(),
-                ],
-              ),
+                ...getStickyHeaders(),
+              ],
             ),
           ),
+        ),
 
-          // the navigation buttons
-          AnimatedCrossFade(
+        // the navigation buttons
+        Container(
+          alignment: Alignment.bottomCenter,
+          child: AnimatedCrossFade(
             duration: Duration(milliseconds: 300),
             crossFadeState: this.showUpButton ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-            firstChild: Container(
-              alignment: Alignment.bottomCenter,
-              child: SortWidget(
-                toCheck: this.orderBy,
-                onSortTap: (newOrderBy) {
-                  setState(() {
-                    this.orderBy = newOrderBy;
-                  });
-                },
-                onButtonTap: () {
-                  scrollController.jumpTo(0);
-                },
-              ),
+            firstChild: SortWidget(
+              toCheck: this.orderBy,
+              onSortTap: (newOrderBy) {
+                setState(() {
+                  this.orderBy = newOrderBy;
+                });
+              },
+              onButtonTap: () {
+                scrollController.jumpTo(0);
+              },
             ),
-            secondChild: Container(),
+            secondChild: SizedBox(width: double.infinity),
           ),
+        ),
+
 //          AnimatedOpacity(
 //            opacity: this.showUpButton ? 1 : 0,
 //            duration: Duration(milliseconds: 300),
 //            //child:
 //          ),
-        ],
-      ),
+      ],
     );
   }
 }

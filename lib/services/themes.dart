@@ -20,7 +20,7 @@ Map<String, ColorPalette> appColorPalettes = {
     stickyHeaderBackgroundColor: Colors.green[900],
     buttonColor: Colors.green[900],
     mainTextColor: Colors.black,
-    subTextColor: _darkGrey,
+    subTextColor: _mediumGrey,
     emphasisTextColor: Colors.black,
     chipSelectedTextColor: Colors.white,
     chipUnselectedTextColor: Colors.black,
@@ -29,6 +29,8 @@ Map<String, ColorPalette> appColorPalettes = {
     buttonTextColor: Colors.white,
     dialogBackgroundColor: Colors.white,
     tableLineColor: Colors.black.withOpacity(0.7),
+    radioSelectedColor: Colors.green[600],
+    radioUnselectedColor: Colors.black.withOpacity(0.7),
   ),
   "Druid (Dark)": ColorPalette(
     brightness: Brightness.dark,
@@ -51,5 +53,7 @@ Map<String, ColorPalette> appColorPalettes = {
     emphasisTextColor: Colors.green,
     buttonTextColor: Colors.white,
     tableLineColor: Colors.white.withOpacity(0.7),
+    radioSelectedColor: Colors.green,
+    radioUnselectedColor: Colors.white.withOpacity(0.7),
   ),
 };

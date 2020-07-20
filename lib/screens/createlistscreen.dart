@@ -58,7 +58,8 @@ class _CreateListFormState extends State<CreateListForm> {
     Widget _buildRadioRow({String text, String groupValue, Function(String) onChanged}) {
       return Theme(
         data: ThemeData(
-          unselectedWidgetColor: colorPalette.mainTextColor.withOpacity(0.6),
+          unselectedWidgetColor: colorPalette.radioUnselectedColor,
+          accentColor: colorPalette.radioSelectedColor,
         ),
         child: InkWell(
           splashColor: Colors.transparent,
