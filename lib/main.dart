@@ -46,15 +46,20 @@ class DnD5eSpellsApp extends StatelessWidget {
               chipTheme: ChipTheme.of(context).copyWith(
                 backgroundColor: themeManager.colorPalette.chipUnselectedColor,
                 selectedColor: themeManager.colorPalette.chipSelectedColor,
-                labelStyle: TextStyle(color: themeManager.colorPalette.chipSelectedTextColor),
+                labelStyle: TextStyle(color: themeManager.colorPalette.chipUnselectedTextColor),
                 secondaryLabelStyle: TextStyle(color: themeManager.colorPalette.chipSelectedTextColor),
                 secondarySelectedColor: themeManager.colorPalette.chipSelectedColor,
               ),
               buttonTheme: ButtonThemeData(
                 buttonColor: themeManager.colorPalette.buttonColor,
-                colorScheme: ColorScheme.fromSwatch(
-                  backgroundColor: themeManager.colorPalette.buttonColor,
-                )
+//                colorScheme: ColorScheme.fromSwatch(
+//                  backgroundColor: themeManager.colorPalette.buttonColor,
+//                ),
+                focusColor: themeManager.colorPalette.buttonColor,
+              ),
+              floatingActionButtonTheme: FloatingActionButtonThemeData(
+                backgroundColor: themeManager.colorPalette.buttonColor,
+                foregroundColor: themeManager.colorPalette.buttonTextColor,
               ),
               primaryColor: themeManager.colorPalette.appBarBackgroundColor,
               accentColor: themeManager.colorPalette.navBarSelectedColor,
