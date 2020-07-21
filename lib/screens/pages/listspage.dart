@@ -2,7 +2,7 @@ import 'package:dnd_spells_flutter/components/dialogmenu.dart';
 import 'package:dnd_spells_flutter/models/colorpalette.dart';
 import 'package:dnd_spells_flutter/models/spell_list.dart';
 import 'package:dnd_spells_flutter/screens/createlistscreen.dart';
-import 'package:dnd_spells_flutter/screens/spell_listscreen.dart';
+import 'package:dnd_spells_flutter/screens/listscreen.dart';
 import 'package:dnd_spells_flutter/services/spell_listmanager.dart';
 import 'package:dnd_spells_flutter/services/thememanager.dart';
 import 'package:flutter/material.dart';

@@ -63,6 +63,13 @@ class _SearchPageState extends State<SearchPage> {
       ),
       body: Consumer2<SpellRepository, SearchManager>(
         builder: (context, spellRepository, searchManager, child) {
+
+          Widget SearchPageSpellTileBuilder(Spell spell) {
+            return SpellTile(
+              spell: spell,
+            );
+          }
+
           List<Spell> filteredSpells = searchManager.filterSpells(spellRepository.allSpells);
           if (filteredSpells.isEmpty)
             return Column(
@@ -78,6 +85,7 @@ class _SearchPageState extends State<SearchPage> {
             children: <Widget>[
               Expanded(
                 child: HeaderedSpellList(
+                  spellTileBuilder: SearchPageSpellTileBuilder,
                   spells: filteredSpells,
                 ),
               ),

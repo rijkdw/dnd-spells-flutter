@@ -11,10 +11,13 @@ import 'package:provider/provider.dart';
 
 enum OrderBy { name, level, school }
 
+typedef Widget SpellTileBuilder(Spell spell);
+
 class HeaderedSpellList extends StatefulWidget {
   final List<Spell> spells;
+  final SpellTileBuilder spellTileBuilder;
 
-  HeaderedSpellList({@required this.spells, Key key}) : super(key: key ?? UniqueKey()); // : super(key: UniqueKey()); (why?)
+  HeaderedSpellList({@required this.spells, this.spellTileBuilder, Key key}) : super(key: key ?? UniqueKey()); // : super(key: UniqueKey()); (why?)
 
   @override
   _HeaderedSpellListState createState() => _HeaderedSpellListState();
@@ -82,6 +85,7 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
       return _SliverExpandableStickyHeader(
         header: headerName,
         spells: headerToSpellsMap[headerName],
+        spellTileBuilder: widget.spellTileBuilder,
 //        expanded: headerToExpandedMap[headerName],
 //        onExpandedChange: () {
 //          setState(() {
@@ -218,8 +222,9 @@ class _SliverExpandableStickyHeader extends StatefulWidget {
   final String header;
   final bool expanded;
   final VoidCallback onExpandedChange;
+  final SpellTileBuilder spellTileBuilder;
 
-  _SliverExpandableStickyHeader({this.header, this.spells, this.expanded: true, this.onExpandedChange});
+  _SliverExpandableStickyHeader({this.spellTileBuilder, this.header, this.spells, this.expanded: true, this.onExpandedChange});
 
   @override
   _SliverExpandableStickyHeaderState createState() => _SliverExpandableStickyHeaderState();
@@ -301,7 +306,7 @@ class _SliverExpandableStickyHeaderState extends State<_SliverExpandableStickyHe
         header: buildHeader(),
         sliver: SliverList(
           delegate: SliverChildListDelegate(
-            widget.spells.map((spell) => SpellTile(spell: spell)).toList(),
+            widget.spells.map((spell) => widget.spellTileBuilder(spell)).toList(),
           ),
         ),
       );
