@@ -1,5 +1,6 @@
 import 'package:dnd_spells_flutter/components/headeredspell_list.dart';
 import 'package:dnd_spells_flutter/components/sortwidget.dart';
+import 'package:dnd_spells_flutter/components/spell_tile.dart';
 import 'package:dnd_spells_flutter/models/spell.dart';
 import 'package:dnd_spells_flutter/models/spell_list.dart';
 import 'package:dnd_spells_flutter/services/searchmanager.dart';
@@ -36,6 +37,13 @@ class _SpellListScreenState extends State<SpellListScreen> {
       ),
       body: Consumer<SpellRepository>(
         builder: (context, spellRepository, child) {
+
+          Widget searchPageSpellTileBuilder(Spell spell) {
+            return SpellTile(
+              spell: spell,
+            );
+          }
+
           Set<Spell> spellsOnList = Set<Spell>();
           widget.spellList.spellNames.forEach((spellName) {
             spellsOnList.add(spellRepository.getSpellFromName(spellName));
@@ -60,6 +68,7 @@ class _SpellListScreenState extends State<SpellListScreen> {
             children: <Widget>[
               Expanded(
                 child: HeaderedSpellList(
+                  spellTileBuilder: searchPageSpellTileBuilder,
                   spells: spellsOnList.toList(),
                 ),
               ),

@@ -17,7 +17,7 @@ class HeaderedSpellList extends StatefulWidget {
   final List<Spell> spells;
   final SpellTileBuilder spellTileBuilder;
 
-  HeaderedSpellList({@required this.spells, this.spellTileBuilder, Key key}) : super(key: key ?? UniqueKey()); // : super(key: UniqueKey()); (why?)
+  HeaderedSpellList({@required this.spells, this.spellTileBuilder, Key key}) : assert(spellTileBuilder != null), super(key: key ?? UniqueKey()); // : super(key: UniqueKey()); (why?)
 
   @override
   _HeaderedSpellListState createState() => _HeaderedSpellListState();

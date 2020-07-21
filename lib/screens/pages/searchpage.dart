@@ -64,7 +64,7 @@ class _SearchPageState extends State<SearchPage> {
       body: Consumer2<SpellRepository, SearchManager>(
         builder: (context, spellRepository, searchManager, child) {
 
-          Widget SearchPageSpellTileBuilder(Spell spell) {
+          Widget searchPageSpellTileBuilder(Spell spell) {
             return SpellTile(
               spell: spell,
             );
@@ -85,7 +85,7 @@ class _SearchPageState extends State<SearchPage> {
             children: <Widget>[
               Expanded(
                 child: HeaderedSpellList(
-                  spellTileBuilder: SearchPageSpellTileBuilder,
+                  spellTileBuilder: searchPageSpellTileBuilder,
                   spells: filteredSpells,
                 ),
               ),
