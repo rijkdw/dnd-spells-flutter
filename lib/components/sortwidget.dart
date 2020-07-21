@@ -1,5 +1,4 @@
 import 'package:dnd_spells_flutter/components/headeredspell_list.dart';
-import 'package:dnd_spells_flutter/services/searchmanager.dart';
 import 'package:dnd_spells_flutter/services/thememanager.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -70,6 +69,7 @@ class _SortWidgetState extends State<SortWidget> {
           FloatingActionButton(
             mini: true,
             elevation: 0,
+            splashColor: Colors.transparent,
             child: Icon(Icons.arrow_upward),
             onPressed: widget.onButtonTap,
           )

@@ -12,6 +12,19 @@ import 'package:flutter/painting.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
+BoxDecoration spellTileDecoration = BoxDecoration(
+  border: Border(
+    bottom: BorderSide(
+      color: Colors.grey.withOpacity(0.3),
+      width: 0.5,
+    ),
+    top: BorderSide(
+      color: Colors.grey.withOpacity(0.3),
+      width: 0.5,
+    ),
+  ),
+);
+
 class SpellTile extends StatelessWidget {
   final Spell spell;
   SpellTile({@required this.spell});
@@ -38,18 +51,7 @@ class SpellTile extends StatelessWidget {
       child: Container(
         width: double.infinity,
         padding: EdgeInsets.only(left: 10, right: 3),
-        decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(
-              color: Colors.grey.withOpacity(0.3),
-              width: 0.5,
-            ),
-            top: BorderSide(
-              color: Colors.grey.withOpacity(0.3),
-              width: 0.5,
-            ),
-          ),
-        ),
+        decoration: spellTileDecoration,
         child: Row(
           children: <Widget>[
 //            Expanded(
@@ -61,24 +63,7 @@ class SpellTile extends StatelessWidget {
             SizedBox(width: 2),
             Expanded(
               flex: 15,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    spell.name,
-                    style: TextStyle(
-                      fontSize: 18,
-                    ),
-                  ),
-                  Text(
-                    spell.subtitleWithMetaTags,
-                    style: TextStyle(
-//                    fontStyle: FontStyle.italic,
-                      color: Provider.of<ThemeManager>(context).colorPalette.subTextColor,
-                    ),
-                  ),
-                ],
-              ),
+              child: NameSubtitleColumn(spell),
             ),
             Expanded(
 //              flex: 0,
@@ -104,6 +89,32 @@ class SpellTile extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class NameSubtitleColumn extends StatelessWidget {
+  final Spell spell;
+  NameSubtitleColumn(this.spell);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          spell.name,
+          style: TextStyle(
+            fontSize: 18,
+          ),
+        ),
+        Text(
+          spell.subtitleWithMetaTags,
+          style: TextStyle(
+            color: Provider.of<ThemeManager>(context).colorPalette.subTextColor,
+          ),
+        ),
+      ],
     );
   }
 }

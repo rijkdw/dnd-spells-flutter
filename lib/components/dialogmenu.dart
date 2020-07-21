@@ -61,7 +61,7 @@ class DialogMenu extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            heading,
+            heading ?? Text('MENU'),
             Divider(),
             ...this.menuOptions.map((menuOption) => _buildMenuOptionRow(menuOption)).toList(),
           ],

@@ -3,7 +3,7 @@ import 'package:dnd_spells_flutter/services/spell_listmanager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
-class SpellList {
+class SpellList extends ChangeNotifier {
 
   String name;
   String className;
