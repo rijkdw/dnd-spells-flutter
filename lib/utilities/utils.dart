@@ -2,6 +2,16 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 
+// Lists
+bool doesListContainDuplicates(List<dynamic> list) {
+  for (int i = 0; i < list.length; i++) {
+    for (int j = i + 1; j < list.length; j++) {
+      if (list[i] == list[j]) return true;
+    }
+  }
+  return false;
+}
+
 // Dice
 
 int randInclusive(int min, int max) {

@@ -53,6 +53,7 @@ class DnD5eSpellsApp extends StatelessWidget {
                 labelStyle: TextStyle(color: themeManager.colorPalette.chipUnselectedTextColor),
                 secondaryLabelStyle: TextStyle(color: themeManager.colorPalette.chipSelectedTextColor),
                 secondarySelectedColor: themeManager.colorPalette.chipSelectedColor,
+                checkmarkColor: themeManager.colorPalette.mainTextColor,
               ),
               buttonTheme: ButtonThemeData(
                 buttonColor: themeManager.colorPalette.buttonColor,

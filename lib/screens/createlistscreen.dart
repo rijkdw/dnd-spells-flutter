@@ -1,11 +1,11 @@
 import 'package:dnd_spells_flutter/components/clearabletextfield.dart';
 import 'package:dnd_spells_flutter/components/headeredspell_list.dart';
-import 'package:dnd_spells_flutter/main.dart';
 import 'package:dnd_spells_flutter/models/colorpalette.dart';
 import 'package:dnd_spells_flutter/models/spell_list.dart';
+import 'package:dnd_spells_flutter/services/characteroptionrepository.dart';
 import 'package:dnd_spells_flutter/services/spell_listmanager.dart';
-import 'package:dnd_spells_flutter/services/spellsrepository.dart';
 import 'package:dnd_spells_flutter/services/thememanager.dart';
+import 'package:dnd_spells_flutter/utilities/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -30,28 +30,49 @@ class CreateListForm extends StatefulWidget {
 }
 
 class _CreateListFormState extends State<CreateListForm> {
-  List<String> selectedClasses, selectedSubclasses;
+  Set<String> selectedClasses = Set<String>();
+  Set<String> selectedSubclasses = Set<String>();
+  Set<String> classOptions = Set<String>();
+  Set<String> subclassOptions = Set<String>();
   TextEditingController nameController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    // initialise classOptions
+    classOptions = Provider.of<CharacterOptionRepository>(context, listen: false).allClassNames.toSet();
+  }
+
+  void loadSubclassOptions() {
+    subclassOptions.clear();
+    Map<String, List<String>> namesMap = Provider.of<CharacterOptionRepository>(context, listen: false).getNamesMap();
+    for (String selectedClassName in selectedClasses) {
+      namesMap[selectedClassName].forEach((subclassName) {
+        subclassOptions.add(subclassName);
+      });
+    }
+    List<String> selectedSubclassesList = selectedSubclasses.toList();
+    for (int i = 0; i < selectedSubclassesList.length; i++) {
+      String selectedSubclass = selectedSubclassesList[i];
+      if (!subclassOptions.contains(selectedSubclass)) {
+        selectedSubclasses.remove(selectedSubclass);
+        selectedSubclassesList.remove(selectedSubclass);
+        i--;
+      }
+    }
   }
 
   bool verifyInputs() {
     if (nameController.text.trim().length == 0) return false;
-//    if (selectedClass == '') return false;
-//    if (selectedSubclass == '') return false;
     return true;
   }
 
   @override
   Widget build(BuildContext context) {
-    double gridviewRatio = 5.5;
+    double gridviewRatio = 4;
     int gridviewRowCount = 2;
 
     ColorPalette colorPalette = Provider.of<ThemeManager>(context).colorPalette;
-    SpellRepository spellRepository = Provider.of<SpellRepository>(context);
 
     void onConfirmPress() {
       {
@@ -59,8 +80,8 @@ class _CreateListFormState extends State<CreateListForm> {
           SpellListCreateActionResult result = Provider.of<SpellListManager>(context, listen: false).createSpellList(
             SpellList(
               name: nameController.text.trim(),
-              className: selectedClass,
-              subclassName: selectedSubclass,
+              className: 'A',
+              subclassName: 'A',
             ),
           );
           if (result == SpellListCreateActionResult.nameError) {
@@ -114,6 +135,42 @@ class _CreateListFormState extends State<CreateListForm> {
       );
     }
 
+    Widget _buildFilterChip({String label, Set<String> set, Function(String) onChanged}) {
+      return Container(
+        margin: EdgeInsets.symmetric(horizontal: 3),
+        child: FilterChip(
+          selected: set.contains(label),
+          label: Row(
+            children: <Widget>[
+              Expanded(
+                child: Text(label),
+              ),
+            ],
+          ),
+          onSelected: (newValue) {
+            FocusScope.of(context).unfocus();
+            List<String> selectedBaseValues = [];
+            if (set == selectedSubclasses) {
+              for (String selectedSubclass in [...selectedSubclasses, label].toSet().toList()) {
+                String baseclassName = Provider.of<CharacterOptionRepository>(context, listen: false).getReverseNamesMap()[selectedSubclass];
+                selectedBaseValues.add(baseclassName);
+              }
+            }
+            if (!doesListContainDuplicates(selectedBaseValues)) {
+              setState(() {
+                if (newValue) {
+                  set.add(label);
+                } else {
+                  set.remove(label);
+                }
+              });
+              loadSubclassOptions();
+            }
+          },
+        ),
+      );
+    }
+
     Widget _buildHeading({String text: 'HEADING', VoidCallback onButtonPress, bool visible: true}) {
       if (!visible) return Container();
       return Row(
@@ -156,56 +213,47 @@ class _CreateListFormState extends State<CreateListForm> {
                       onCleared: () {},
                     ),
                     SizedBox(height: 14),
-                    _buildHeading(
-                      text: 'Class',
-                      onButtonPress: () {
-                        setState(() {
-                          this.selectedClass = '';
-                          this.selectedSubclass = '';
-                        });
-                      },
-                    ),
+                    Text('Class'),
+                    SizedBox(height: 3),
                     GridView.count(
                       shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
                       crossAxisCount: gridviewRowCount,
                       childAspectRatio: gridviewRatio,
-                      children: spellRepository.allClassNames
-                          .map((className) => _buildRadioRow(
-                              text: className,
-                              groupValue: selectedClass,
-                              onChanged: (newClassName) {
-                                setState(() {
-                                  selectedClass = newClassName;
-                                  selectedSubclass = '';
-                                });
-                              }))
-                          .toList(),
+                      children: classOptions.toList().map((className) {
+                        return _buildFilterChip(
+                          label: className,
+                          set: selectedClasses,
+                        );
+                      }).toList(),
                     ),
-                    SizedBox(height: 14),
-                    _buildHeading(
-                      visible: (spellRepository.classToSubclassMap[selectedClass] ?? []).isNotEmpty,
-                      text: 'Subclass',
-                      onButtonPress: () {
-                        setState(() {
-                          this.selectedSubclass = '';
-                        });
-                      },
-                    ),
-                    GridView.count(
-                      shrinkWrap: true,
-                      crossAxisCount: gridviewRowCount,
-                      childAspectRatio: gridviewRatio,
-                      children: (spellRepository.classToSubclassMap[selectedClass] ?? [])
-                          .map((subclassName) => _buildRadioRow(
-                              text: subclassName,
-                              groupValue: selectedSubclass,
-                              onChanged: (newSubclassName) {
-                                setState(() {
-                                  selectedSubclass = newSubclassName;
-                                });
-                              }))
-                          .toList(),
-                    ),
+                    ...selectedClasses
+                        .toList()
+                        .map((selectedClass) => Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                SizedBox(height: 14),
+                                subclassOptions.isEmpty ? Container() : Text('$selectedClass'),
+                                SizedBox(height: 3),
+                                GridView.count(
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  crossAxisCount: gridviewRowCount,
+                                  childAspectRatio: gridviewRatio,
+                                  children: Provider.of<CharacterOptionRepository>(context, listen: false)
+                                      .getNamesMap()[selectedClass]
+                                      .toList()
+                                      .map((subclassName) {
+                                    return _buildFilterChip(
+                                      label: subclassName,
+                                      set: selectedSubclasses,
+                                    );
+                                  }).toList(),
+                                ),
+                              ],
+                            ))
+                        .toList(),
                   ],
                 ),
               ),

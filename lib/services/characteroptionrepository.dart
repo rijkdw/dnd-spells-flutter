@@ -19,7 +19,9 @@ class CharacterOptionRepository extends ChangeNotifier {
   }
 
   List<String> get allClassNames {
-    return classesToSubclassesMap.keys.map((baseClass) => baseClass.name).toList();
+    List<String> returnList = classesToSubclassesMap.keys.map((baseClass) => baseClass.name).toList();
+    returnList.sort((a, b) => a.compareTo(b));
+    return returnList;
   }
 
   List<CharacterOption> subclassesBelongingTo(String name) {
@@ -29,6 +31,29 @@ class CharacterOptionRepository extends ChangeNotifier {
       }
     }
     return null;
+  }
+
+  Map<String, List<String>> getNamesMap() {
+    Map<String, List<String>> returnMap = {};
+    for (CharacterOption class_ in classesToSubclassesMap.keys.toList()) {
+      returnMap[class_.name] = [];
+      for (CharacterOption subclass in classesToSubclassesMap[class_]) {
+        returnMap[class_.name].add(subclass.name);
+      }
+
+    }
+    return returnMap;
+  }
+
+  Map<String, String> getReverseNamesMap() {
+    Map<String, List<String>> namesMap = getNamesMap();
+    Map<String, String> reverseMap = Map<String, String>();
+    for (String value in namesMap.keys.toList()) {
+      for (String key in namesMap[value]) {
+        reverseMap[key] = value;
+      }
+    }
+    return reverseMap;
   }
 
   void _loadFromLocal() async {
