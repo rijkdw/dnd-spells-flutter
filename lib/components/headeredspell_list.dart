@@ -28,7 +28,7 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
 //  Map<String, bool> headerToExpandedMap = {};
   bool showUpButton;
   OrderBy orderBy;
-  ScrollController scrollController = ScrollController();
+
 
   @override
   initState() {
@@ -36,19 +36,6 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
     orderBy = OrderBy.name;
 //    initialiseExpandedMap();
     showUpButton = true;
-    scrollController.addListener(() {
-      if (scrollController.position.userScrollDirection == ScrollDirection.reverse) {
-        if (this.showUpButton)
-          setState(() {
-            this.showUpButton = false;
-          });
-      } else if (scrollController.position.userScrollDirection == ScrollDirection.forward || scrollController.position.pixels == 0) {
-        if (!this.showUpButton)
-          setState(() {
-            this.showUpButton = true;
-          });
-      }
-    });
   }
 
 //  void initialiseExpandedMap() {
@@ -154,6 +141,21 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
 
   @override
   Widget build(BuildContext context) {
+    ScrollController scrollController = ScrollController();
+    scrollController.addListener(() {
+      if (scrollController.position.userScrollDirection == ScrollDirection.reverse) {
+        if (this.showUpButton)
+          setState(() {
+            this.showUpButton = false;
+          });
+      } else if (scrollController.position.userScrollDirection == ScrollDirection.forward || scrollController.position.pixels == 0) {
+        if (!this.showUpButton)
+          setState(() {
+            this.showUpButton = true;
+          });
+      }
+    });
+
     return Stack(
       children: <Widget>[
         // the list
@@ -183,7 +185,7 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
         Container(
           alignment: Alignment.bottomCenter,
           child: AnimatedCrossFade(
-            duration: Duration(milliseconds: 300),
+            duration: Duration(milliseconds: 200),
             crossFadeState: this.showUpButton ? CrossFadeState.showFirst : CrossFadeState.showSecond,
             firstChild: SortWidget(
               toCheck: this.orderBy,

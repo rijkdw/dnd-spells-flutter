@@ -1,0 +1,246 @@
+[
+  {
+    "name": "Yuan-ti Pureblood",
+    "alwaysPreparedSpells": [
+      "Animal Friendship",
+      "Poison Spray",
+      "Suggestion"
+    ]
+  },
+  {
+    "name": "Tiefling",
+    "subraces": [
+      {
+        "name": "Mammon",
+        "alwaysPreparedSpells": [
+          "Arcane Lock",
+          "Mage Hand",
+          "Tenser's Floating Disk"
+        ]
+      },
+      {
+        "name": "Levistus",
+        "alwaysPreparedSpells": [
+          "Armor of Agathys",
+          "Darkness",
+          "Ray of Frost"
+        ]
+      },
+      {
+        "name": "Zariel",
+        "alwaysPreparedSpells": [
+          "Branding Smite",
+          "Searing Smite",
+          "Thaumaturgy"
+        ]
+      },
+      {
+        "name": "Variant",
+        "alwaysPreparedSpells": [
+          "Burning Hands",
+          "Charm Person",
+          "Darkness",
+          "Enthrall",
+          "Hellish Rebuke",
+          "Thaumaturgy",
+          "Vicious Mockery"
+        ]
+      },
+      {
+        "name": "Mephistopheles",
+        "alwaysPreparedSpells": [
+          "Burning Hands",
+          "Flame Blade",
+          "Mage Hand"
+        ]
+      },
+      {
+        "name": "Fierna",
+        "alwaysPreparedSpells": [
+          "Charm Person",
+          "Friends",
+          "Suggestion"
+        ]
+      },
+      {
+        "name": "Baalzebul",
+        "alwaysPreparedSpells": [
+          "Crown of Madness",
+          "Ray of Sickness",
+          "Thaumaturgy"
+        ]
+      },
+      {
+        "name": "PHB Tiefling",
+        "alwaysPreparedSpells": [
+          "Darkness",
+          "Hellish Rebuke",
+          "Thaumaturgy"
+        ]
+      },
+      {
+        "name": "Asmodeus",
+        "alwaysPreparedSpells": [
+          "Darkness",
+          "Hellish Rebuke",
+          "Thaumaturgy"
+        ]
+      },
+      {
+        "name": "Dispater",
+        "alwaysPreparedSpells": [
+          "Detect Thoughts",
+          "Disguise Self",
+          "Thaumaturgy"
+        ]
+      },
+      {
+        "name": "Glasya",
+        "alwaysPreparedSpells": [
+          "Disguise Self",
+          "Invisibility",
+          "Minor Illusion"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Genasi",
+    "subraces": [
+      {
+        "name": "Fire",
+        "alwaysPreparedSpells": [
+          "Burning Hands",
+          "Produce Flame"
+        ]
+      },
+      {
+        "name": "Water",
+        "alwaysPreparedSpells": [
+          "Create or Destroy Water",
+          "Shape Water"
+        ]
+      },
+      {
+        "name": "Air",
+        "alwaysPreparedSpells": [
+          "Levitate"
+        ]
+      },
+      {
+        "name": "Earth",
+        "alwaysPreparedSpells": [
+          "Pass without Trace"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Elf",
+    "subraces": [
+      {
+        "name": "Eladrin",
+        "alwaysPreparedSpells": [
+          "Chill Touch",
+          "Fire Bolt",
+          "Friends",
+          "Minor Illusion"
+        ]
+      },
+      {
+        "name": "Shadar-kai",
+        "alwaysPreparedSpells": [
+          "Chill Touch",
+          "Spare the Dying",
+          "Thaumaturgy"
+        ]
+      },
+      {
+        "name": "Drow",
+        "alwaysPreparedSpells": [
+          "Dancing Lights",
+          "Darkness",
+          "Faerie Fire"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Half-Elf",
+    "subraces": [
+      {
+        "name": "Drow Descent",
+        "alwaysPreparedSpells": [
+          "Dancing Lights",
+          "Darkness",
+          "Faerie Fire"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Firbolg",
+    "alwaysPreparedSpells": [
+      "Detect Magic",
+      "Disguise Self"
+    ]
+  },
+  {
+    "name": "Gith",
+    "subraces": [
+      {
+        "name": "Githzerai",
+        "alwaysPreparedSpells": [
+          "Detect Thoughts",
+          "Mage Hand",
+          "Shield"
+        ]
+      },
+      {
+        "name": "Githyanki",
+        "alwaysPreparedSpells": [
+          "Jump",
+          "Mage Hand",
+          "Misty Step"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Dwarf",
+    "subraces": [
+      {
+        "name": "Duergar",
+        "alwaysPreparedSpells": [
+          "Enlarge/Reduce",
+          "Invisibility"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Triton",
+    "alwaysPreparedSpells": [
+      "Fog Cloud",
+      "Gust of Wind",
+      "Wall of Water"
+    ]
+  },
+  {
+    "name": "Aasimar",
+    "alwaysPreparedSpells": [
+      "Light"
+    ]
+  },
+  {
+    "name": "Gnome",
+    "subraces": [
+      {
+        "name": "Forest",
+        "alwaysPreparedSpells": [
+          "Minor Illusion"
+        ]
+      }
+    ]
+  }
+]

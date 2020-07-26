@@ -41,7 +41,7 @@ class SpellTile extends StatelessWidget {
           ),
         ));
       },
-      onLongPress: () {},
+//      onLongPress: () {},
 //      onLongPress: () {
 //        showDialog(
 //          context: context,
@@ -115,114 +115,6 @@ class NameSubtitleColumn extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class SpellGridTile extends StatelessWidget {
-  final Spell spell;
-  SpellGridTile({@required this.spell});
-
-  Widget _buildCompactSpellAttributeLine({@required Widget leading, @required String text}) {
-    return Container(
-      padding: EdgeInsets.only(bottom: 2),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          SizedBox(
-            width: 22,
-            child: leading,
-          ),
-          Text(
-            text,
-            softWrap: true,
-          ),
-        ],
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.symmetric(
-        horizontal: 10,
-        vertical: 8,
-      ),
-      margin: EdgeInsets.all(4),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(4),
-        border: Border.all(color: Colors.grey[300]),
-        boxShadow: [
-          BoxShadow(
-            offset: Offset(1, 1),
-            color: Colors.grey[300],
-            blurRadius: 2,
-          )
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            spell.name,
-            style: TextStyle(
-              fontSize: 18,
-            ),
-          ),
-          Text(
-            spell.subtitle,
-            style: TextStyle(
-//              fontStyle: FontStyle.italic,
-              fontSize: 16,
-              color: Colors.black54,
-            ),
-          ),
-          SizedBox(height: 8),
-
-          // casting time
-          Expanded(
-            child: _buildCompactSpellAttributeLine(
-              leading: FaIcon(FontAwesomeIcons.hourglassHalf, size: 14),
-              text: spell.castingTime,
-            ),
-          ),
-
-          // components
-          Expanded(
-            child: _buildCompactSpellAttributeLine(
-              leading: FaIcon(FontAwesomeIcons.mortarPestle, size: 14),
-              text: spell.vsm,
-            ),
-          ),
-
-          // range
-          Expanded(
-            child: _buildCompactSpellAttributeLine(
-              leading: FaIcon(FontAwesomeIcons.draftingCompass, size: 14),
-              text: spell.range,
-            ),
-          ),
-
-          // duration
-          Expanded(
-            child: _buildCompactSpellAttributeLine(
-              leading: FaIcon(FontAwesomeIcons.hourglassEnd, size: 14),
-              text: spell.duration,
-            ),
-          ),
-
-          // classes
-          Expanded(
-            child: _buildCompactSpellAttributeLine(
-              leading: FaIcon(FontAwesomeIcons.hatWizard, size: 14),
-              text: spell.classesAndSubclassesList.join(', '),
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

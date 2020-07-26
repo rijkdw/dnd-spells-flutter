@@ -72,15 +72,24 @@ class _MainScreenState extends State<MainScreen> {
         onTap: _onPageChanged,
         items: [
           BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.home),
-            title: Text('Home'),
+            icon: FaIcon(
+              FontAwesomeIcons.search,
+              size: 20,
+            ),
+            title: Text('All'),
           ),
           BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.book),
+            icon: FaIcon(
+              FontAwesomeIcons.book,
+              size: 20,
+            ),
             title: Text('Lists'),
           ),
           BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.history),
+            icon: FaIcon(
+              FontAwesomeIcons.history,
+              size: 20,
+            ),
             title: Text('Recent'),
           ),
         ],

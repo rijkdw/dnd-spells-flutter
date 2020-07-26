@@ -1,6 +1,7 @@
 import 'package:dnd_spells_flutter/screens/mainscreen.dart';
 import 'package:dnd_spells_flutter/screens/pages/searchpage.dart';
 import 'package:dnd_spells_flutter/services/appstatemanager.dart';
+import 'package:dnd_spells_flutter/services/characteroptionrepository.dart';
 import 'package:dnd_spells_flutter/services/conditionrepository.dart';
 import 'package:dnd_spells_flutter/services/historymanager.dart';
 import 'package:dnd_spells_flutter/services/searchmanager.dart';
@@ -30,9 +31,12 @@ class DnD5eSpellsApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => SpellListManager()),
         ChangeNotifierProvider(create: (_) => HistoryManager()),
         ChangeNotifierProvider(create: (_) => ThemeManager()),
+        ChangeNotifierProvider(create: (_) => CharacterOptionRepository())
       ],
       child: Consumer<ThemeManager>(
+        child: MainScreen(),
         builder: (context, themeManager, child) {
+          Provider.of<CharacterOptionRepository>(context, listen: false).poke();
           return MaterialApp(
             key: appKey,
             title: 'D&D 5e Spell Seeker',
@@ -65,7 +69,7 @@ class DnD5eSpellsApp extends StatelessWidget {
               accentColor: themeManager.colorPalette.navBarSelectedColor,
               canvasColor: themeManager.colorPalette.brightness == Brightness.light ? Colors.white : Color.fromRGBO(20, 20, 20, 1),
             ),
-            home: MainScreen(),
+            home: child,
           );
         },
       ),

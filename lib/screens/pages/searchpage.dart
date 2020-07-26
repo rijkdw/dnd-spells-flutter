@@ -5,6 +5,7 @@ import 'package:dnd_spells_flutter/components/spell_tile.dart';
 import 'package:dnd_spells_flutter/models/spell.dart';
 import 'package:dnd_spells_flutter/screens/filterscreen.dart';
 import 'package:dnd_spells_flutter/services/appstatemanager.dart';
+import 'package:dnd_spells_flutter/services/characteroptionrepository.dart';
 import 'package:dnd_spells_flutter/services/searchmanager.dart';
 import 'package:dnd_spells_flutter/services/spellsrepository.dart';
 import 'package:dnd_spells_flutter/services/thememanager.dart';
@@ -13,13 +14,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class SearchPage extends StatefulWidget {
-
   @override
   _SearchPageState createState() => _SearchPageState();
 }
 
 class _SearchPageState extends State<SearchPage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,17 +52,18 @@ class _SearchPageState extends State<SearchPage> {
             },
           ),
           IconButton(
-            icon: Icon(
-              Provider.of<AppStateManager>(context).globalDisplayMode == DisplayMode.list ? Icons.view_module : Icons.view_list,
-              size: 30,
+            icon: FaIcon(
+              FontAwesomeIcons.bug,
+              size: 20,
             ),
-            onPressed: () => Provider.of<AppStateManager>(context, listen: false).switchDisplayMode(),
-          )
+            onPressed: () {
+              print(Provider.of<CharacterOptionRepository>(context, listen: false).subclassesBelongingTo('Cleric').map((e) => e.name));
+            },
+          ),
         ],
       ),
       body: Consumer2<SpellRepository, SearchManager>(
         builder: (context, spellRepository, searchManager, child) {
-
           Widget searchPageSpellTileBuilder(Spell spell) {
             return SpellTile(
               spell: spell,
@@ -76,7 +76,7 @@ class _SearchPageState extends State<SearchPage> {
               children: <Widget>[
                 Expanded(
                   child: Center(
-                    child: Text('No Spells'),
+                    child: CircularProgressIndicator(),
                   ),
                 ),
               ],

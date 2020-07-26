@@ -9958,10 +9958,6 @@
         "source": "VGM"
       },
       {
-        "name": "Firbolg",
-        "source": "VGM"
-      },
-      {
         "name": "Tiefling (Dispater)",
         "source": "UAFiendishOptions",
         "baseName": "Tiefling",
@@ -11064,7 +11060,7 @@
           "subclass": {
             "name": "Land",
             "source": "PHB",
-            "subSubclass": "Forest"
+            "subSubclass": "Grassland"
           }
         }
       ]
@@ -19876,17 +19872,6 @@
           "subclass": {
             "name": "Land",
             "source": "PHB",
-            "subSubclass": "Forest"
-          }
-        },
-        {
-          "class": {
-            "name": "Druid",
-            "source": "PHB"
-          },
-          "subclass": {
-            "name": "Land",
-            "source": "PHB",
             "subSubclass": "Grassland"
           }
         },
@@ -19899,6 +19884,17 @@
             "name": "Land",
             "source": "PHB",
             "subSubclass": "Swamp"
+          }
+        },
+        {
+          "class": {
+            "name": "Druid",
+            "source": "PHB"
+          },
+          "subclass": {
+            "name": "Land",
+            "source": "PHB",
+            "subSubclass": "Underdark"
           }
         },
         {
@@ -21181,26 +21177,8 @@
     ],
     "races": [
       {
-        "name": "Aasimar (Fallen)",
-        "source": "VGM",
-        "baseName": "Aasimar",
-        "baseSource": "VGM"
-      },
-      {
-        "name": "Aasimar (Protector)",
-        "source": "VGM",
-        "baseName": "Aasimar",
-        "baseSource": "VGM"
-      },
-      {
-        "name": "Aasimar (Scourge)",
-        "source": "VGM",
-        "baseName": "Aasimar",
-        "baseSource": "VGM"
-      },
-      {
         "name": "Aasimar",
-        "source": "DMG"
+        "source": "VGM"
       },
       {
         "name": "Tiefling (Abyssal)",
@@ -32071,7 +32049,8 @@
           },
           "subclass": {
             "name": "Land",
-            "source": "PHB"
+            "source": "PHB",
+            "subSubclass": "Mountain"
           }
         },
         {
@@ -34649,7 +34628,8 @@
           },
           "subclass": {
             "name": "Land",
-            "source": "PHB"
+            "source": "PHB",
+            "subSubclass": "Forest"
           }
         },
         {

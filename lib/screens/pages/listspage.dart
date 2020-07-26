@@ -37,7 +37,10 @@ class _ListsPageState extends State<ListsPage> {
         builder: (context, spellListManager, child) {
           if (spellListManager.spellLists.isEmpty)
             return Center(
-              child: Text('No lists'),
+              child: Text(
+                'NO LISTS',
+                style: TextStyle(fontSize: 30, letterSpacing: 2),
+              ),
             );
           return ListView.builder(
             itemCount: spellListManager.spellLists.length,

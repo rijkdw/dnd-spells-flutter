@@ -30,13 +30,11 @@ class CreateListForm extends StatefulWidget {
 }
 
 class _CreateListFormState extends State<CreateListForm> {
-  String selectedClass, selectedSubclass;
+  List<String> selectedClasses, selectedSubclasses;
   TextEditingController nameController = TextEditingController();
 
   @override
   void initState() {
-    selectedClass = '';
-    selectedSubclass = '';
     super.initState();
   }
 
@@ -55,6 +53,31 @@ class _CreateListFormState extends State<CreateListForm> {
     ColorPalette colorPalette = Provider.of<ThemeManager>(context).colorPalette;
     SpellRepository spellRepository = Provider.of<SpellRepository>(context);
 
+    void onConfirmPress() {
+      {
+        if (verifyInputs()) {
+          SpellListCreateActionResult result = Provider.of<SpellListManager>(context, listen: false).createSpellList(
+            SpellList(
+              name: nameController.text.trim(),
+              className: selectedClass,
+              subclassName: selectedSubclass,
+            ),
+          );
+          if (result == SpellListCreateActionResult.nameError) {
+            Scaffold.of(context).showSnackBar(SnackBar(
+              content: Text('Duplicate spell list name'),
+            ));
+          } else {
+            Navigator.of(context).pop();
+          }
+        } else {
+          Scaffold.of(context).showSnackBar(SnackBar(
+            content: Text('Incomplete'),
+          ));
+        }
+      }
+    }
+
     Widget _buildRadioRow({String text, String groupValue, Function(String) onChanged}) {
       return Theme(
         data: ThemeData(
@@ -64,6 +87,7 @@ class _CreateListFormState extends State<CreateListForm> {
         child: InkWell(
           splashColor: Colors.transparent,
           onTap: () {
+            FocusScope.of(context).unfocus();
             onChanged(text);
           },
           child: Row(
@@ -75,7 +99,10 @@ class _CreateListFormState extends State<CreateListForm> {
                   child: Radio(
                     value: text,
                     groupValue: groupValue,
-                    onChanged: onChanged,
+                    onChanged: (text) {
+                      FocusScope.of(context).unfocus();
+                      onChanged(text);
+                    },
                   ),
                 ),
               ),
@@ -87,9 +114,8 @@ class _CreateListFormState extends State<CreateListForm> {
       );
     }
 
-    Widget _buildHeading({String text: 'HEADING', VoidCallback onButtonPress, bool visible:true}) {
-      if (!visible)
-        return Container();
+    Widget _buildHeading({String text: 'HEADING', VoidCallback onButtonPress, bool visible: true}) {
+      if (!visible) return Container();
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -186,33 +212,19 @@ class _CreateListFormState extends State<CreateListForm> {
             ),
           ),
         ),
-        FlatButton(
-          onPressed: () {
-            if (verifyInputs()) {
-              SpellListCreateActionResult result = Provider.of<SpellListManager>(context, listen: false).createSpellList(
-                SpellList(
-                  name: nameController.text.trim(),
-                  className: selectedClass,
-                  subclassName: selectedSubclass,
-                ),
-              );
-              if (result == SpellListCreateActionResult.nameError) {
-                Scaffold.of(context).showSnackBar(SnackBar(
-                  content: Text('Duplicate spell list name'),
-                ));
-              } else {
-                Navigator.of(context).pop();
-              }
-            } else {
-              Scaffold.of(context).showSnackBar(SnackBar(
-                content: Text('Incomplete'),
-              ));
-            }
-          },
-          color: colorPalette.buttonColor,
-          child: Text(
-            'CREATE',
-            style: TextStyle(color: colorPalette.buttonTextColor),
+        Container(
+          width: double.infinity,
+          padding: EdgeInsets.symmetric(vertical: 3),
+          color: colorPalette.navBarBackgroundColor,
+          child: Center(
+            child: FlatButton(
+              onPressed: onConfirmPress,
+              color: colorPalette.buttonColor,
+              child: Text(
+                'CREATE',
+                style: TextStyle(color: colorPalette.buttonTextColor),
+              ),
+            ),
           ),
         ),
       ],

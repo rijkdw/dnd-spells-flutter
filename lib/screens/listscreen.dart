@@ -58,25 +58,26 @@ class _SpellListScreenState extends State<SpellListScreen> {
               },
               onLongPress: () {
                 showDialog(
-                    context: context,
-                    child: DialogMenu(
-                      heading: Text(
-                        '${spell.name}',
-                        style: TextStyle(fontSize: 24),
+                  context: context,
+                  child: DialogMenu(
+                    heading: Text(
+                      '${spell.name}',
+                      style: TextStyle(fontSize: 24),
+                    ),
+                    menuOptions: [
+                      MenuOption(
+                        text: 'Remove',
+                        iconData: FontAwesomeIcons.trash,
+                        iconSize: 20,
+                        onTap: () {
+                          setState(() {
+                            widget.spellList.removeSpellFromList(context, spell);
+                          });
+                        },
                       ),
-                      menuOptions: [
-                        MenuOption(
-                          text: 'Remove',
-                          iconData: FontAwesomeIcons.trash,
-                          iconSize: 20,
-                          onTap: () {
-                            setState(() {
-                              widget.spellList.removeSpellFromList(context, spell);
-                            });
-                          },
-                        ),
-                      ],
-                    ));
+                    ],
+                  ),
+                );
               },
               child: Container(
                 width: double.infinity,

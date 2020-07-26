@@ -42,28 +42,22 @@ class _SortWidgetState extends State<SortWidget> {
               ),
             ),
           ),
-          Expanded(
-            flex: 25,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                ChoiceChip(
-                  label: Text('Name'),
-                  selected: widget.toCheck == OrderBy.name,
-                  onSelected: (newValue) => widget.onSortTap(OrderBy.name),
-                ),
-                ChoiceChip(
-                  label: Text('Level'),
-                  selected: widget.toCheck == OrderBy.level,
-                  onSelected: (newValue) => widget.onSortTap(OrderBy.level),
-                ),
-                ChoiceChip(
-                  label: Text('School'),
-                  selected: widget.toCheck == OrderBy.school,
-                  onSelected: (newValue) => widget.onSortTap(OrderBy.school),
-                ),
-              ],
-            ),
+          ChoiceChip(
+            label: Text('Name'),
+            selected: widget.toCheck == OrderBy.name,
+            onSelected: (newValue) => widget.onSortTap(OrderBy.name),
+          ),
+          SizedBox(width: 6),
+          ChoiceChip(
+            label: Text('Level'),
+            selected: widget.toCheck == OrderBy.level,
+            onSelected: (newValue) => widget.onSortTap(OrderBy.level),
+          ),
+          SizedBox(width: 6),
+          ChoiceChip(
+            label: Text('School'),
+            selected: widget.toCheck == OrderBy.school,
+            onSelected: (newValue) => widget.onSortTap(OrderBy.school),
           ),
           SizedBox(width: 6),
           FloatingActionButton(

@@ -37,6 +37,8 @@ flutter:
 
   assets:
     - assets/spells.json
+    - assets/races.json
+    - assets/classes.json
     - assets/conditions.json
 
   # To add assets to your application, add an assets section, like this:

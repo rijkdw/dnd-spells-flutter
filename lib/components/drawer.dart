@@ -35,12 +35,22 @@ class SettingsDrawer extends StatelessWidget {
                 shrinkWrap: true,
                 children: <Widget>[
                   _MenuListTile(
-                    text: 'Change Theme',
+                    text: 'Change theme',
                     iconData: FontAwesomeIcons.palette,
                     onTap: () => showDialog(
                       context: context,
                       builder: (context) => _ThemeChangeDialog(),
                     ),
+                  ),
+                  _MenuListTile(
+                    text: 'Report bug',
+                    iconData: FontAwesomeIcons.bug,
+                    onTap: () {},
+                  ),
+                  _MenuListTile(
+                    text: 'Support the app',
+                    iconData: FontAwesomeIcons.moneyBill,
+                    onTap: () {},
                   ),
                 ],
               ),
@@ -69,10 +79,14 @@ class _MenuListTile extends StatelessWidget {
         padding: EdgeInsets.only(left: 10),
         child: Row(
           children: <Widget>[
-            Icon(
-              iconData,
-              size: 24,
-              color: colorPalette.buttonColor,
+            Container(
+              width: 40,
+              height: 40,
+              child: Icon(
+                iconData,
+                size: 24,
+                color: colorPalette.buttonColor,
+              ),
             ),
             SizedBox(width: 14),
             Text(
