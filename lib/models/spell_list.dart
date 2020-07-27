@@ -1,5 +1,6 @@
 import 'package:dnd_spells_flutter/main.dart';
 import 'package:dnd_spells_flutter/models/spell.dart';
+import 'package:dnd_spells_flutter/services/characteroptionrepository.dart';
 import 'package:dnd_spells_flutter/services/spell_listmanager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
@@ -75,7 +76,8 @@ class CharacterSpellList extends AbstractSpellList {
   // spell list
   List<String> spellNames;
 
-  CharacterSpellList({String name, List<String> spellNames, this.classNames, this.subclassNames, this.raceName, this.subraceName}) : super(name: name) {
+  CharacterSpellList({String name, List<String> spellNames, this.classNames, this.subclassNames, this.raceName, this.subraceName})
+      : super(name: name) {
     this.spellNames = spellNames ?? [];
   }
 
@@ -85,7 +87,26 @@ class CharacterSpellList extends AbstractSpellList {
   }
 
   String get subtitle {
-    return 'Subtitle';
+    String returnText = '';
+    List<String> classTokens = [];
+    CharacterOptionRepository characterOptionRepository = Provider.of<CharacterOptionRepository>(appKey.currentContext, listen: false);
+    Map<String, List<String>> namesMap = characterOptionRepository.getClassNamesMap();
+    for (String baseClass in classNames) {
+      bool added = false;
+      for (String subclass in subclassNames) {
+        if ((namesMap[baseClass] ?? []).contains(subclass)) {
+          classTokens.add('$baseClass ($subclass)');
+          added = true;
+        }
+      }
+      if (!added) classTokens.add(baseClass);
+    }
+//    return classTokens.join('  •  ');
+    if (subraceName != '' && subraceName != null)
+      classTokens.add('$raceName ($subraceName)');
+    else
+      classTokens.add('$raceName');
+    return classTokens.join(' • ');
   }
 
   @override
@@ -112,6 +133,7 @@ class CharacterSpellList extends AbstractSpellList {
 
   factory CharacterSpellList.fromJson(Map<String, dynamic> json) {
     return CharacterSpellList(
+      name: json['name'],
       spellNames: safeListMaker(json['spellNames']),
       classNames: safeListMaker(json['className']),
       subclassNames: safeListMaker(json['subclassName']),
@@ -122,7 +144,6 @@ class CharacterSpellList extends AbstractSpellList {
 }
 
 List<String> safeListMaker(dynamic value) {
-  if (value != null)
-    return List<String>.from(value);
+  if (value != null) return List<String>.from(value);
   return [];
 }
