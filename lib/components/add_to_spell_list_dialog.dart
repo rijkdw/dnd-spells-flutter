@@ -78,7 +78,7 @@ class AddToListDialog extends StatelessWidget {
 }
 
 class _SpellListListTile extends StatelessWidget {
-  final SpellList spellList;
+  final CharacterSpellList spellList;
   final Spell spell;
   _SpellListListTile({@required this.spellList, @required this.spell});
 
@@ -87,7 +87,7 @@ class _SpellListListTile extends StatelessWidget {
     ColorPalette colorPalette = Provider.of<ThemeManager>(context).colorPalette;
     return InkWell(
       onTap: () {
-        spellList.addSpellToList(context, spell);
+        spellList.addSpellToList(spell.name);
         Navigator.of(context).pop();
         print('Adding spell ${spell.name} to list ${spellList.name}');
       },
@@ -115,7 +115,7 @@ class _SpellListListTile extends StatelessWidget {
         style: Theme.of(context).textTheme.bodyText2,
       ),
       onTap: () {
-        spellList.addSpellToList(context, spell);
+        spellList.addSpellToList(spell.name);
         Navigator.of(context).pop();
         print('Adding spell ${spell.name} to list ${spellList.name}');
       },

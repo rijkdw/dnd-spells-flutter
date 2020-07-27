@@ -12,9 +12,9 @@ class HistoryPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: Text(
-          '${Provider.of<HistoryManager>(context).recentlyViewedSpells.length} recently viewed'
-        ),
+//        title: Text(
+//          '${Provider.of<HistoryManager>(context).recentlyViewedSpells.length} recently viewed'
+//        ),
         backgroundColor: Provider.of<ThemeManager>(context).colorPalette.appBarBackgroundColor,
         actions: <Widget>[
           IconButton(

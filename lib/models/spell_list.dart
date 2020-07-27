@@ -1,65 +1,128 @@
+import 'package:dnd_spells_flutter/main.dart';
 import 'package:dnd_spells_flutter/models/spell.dart';
 import 'package:dnd_spells_flutter/services/spell_listmanager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
-class SpellList extends ChangeNotifier {
+abstract class AbstractSpellList extends ChangeNotifier {
+  // the list's name
+  String _name;
 
-  String name;
-  String className;
-  String subclassName;
-  String raceName;
-  String subraceName;
-  List<String> _spellNames = [];
+  void addSpellToList(String spellName);
+  void removeSpellFromList(String spellName);
+  Map<String, dynamic> toJson();
 
-  SpellList({@required this.name, spellNames, this.className:'', this.subclassName:'', this.raceName:'', this.subraceName:''}) {
-    this._spellNames = List<String>.from(spellNames ?? []);
+  @override
+  void notifyListeners() {
+    Provider.of<SpellListManager>(appKey.currentContext, listen: false).externalChangeMade();
+    super.notifyListeners();
   }
 
-  List<String> get spellNames {
-    return this._spellNames.toList().map((name) => name).toList();
+  AbstractSpellList({String name}) {
+    this._name = name;
+  }
+
+  set name(String newName) {
+    name = newName;
+    notifyListeners();
+  }
+
+  String get name => _name;
+}
+
+class GenericSpellList extends AbstractSpellList {
+  List<String> spellNames;
+
+  GenericSpellList({String name, List<String> spellNames}) : super(name: name ?? 'SPELL LIST') {
+    this.spellNames = spellNames ?? [];
+  }
+
+  @override
+  void addSpellToList(String spellName) {
+    spellNames.add(spellName);
+  }
+
+  @override
+  void removeSpellFromList(String spellName) {
+    spellNames.remove(spellName);
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    // TODO
+    return {};
+  }
+
+  factory GenericSpellList.fromJson(Map<String, dynamic> json) {
+    return GenericSpellList(
+      spellNames: safeListMaker(json['spellNames']),
+    );
+  }
+}
+
+class CharacterSpellList extends AbstractSpellList {
+  // character options
+  List<String> classNames;
+  List<String> subclassNames;
+  String raceName;
+  String subraceName;
+
+  // spell info
+  int saveDC;
+  int spellAttackBonus;
+  int numberOfSpellsToPrep;
+
+  // spell list
+  List<String> spellNames;
+
+  CharacterSpellList({String name, List<String> spellNames, this.classNames, this.subclassNames, this.raceName, this.subraceName}) : super(name: name) {
+    this.spellNames = spellNames ?? [];
   }
 
   void setName(BuildContext context, String newName) {
     name = newName;
-    Provider.of<SpellListManager>(context, listen: false).externalChangeMade();
+    notifyListeners();
   }
 
   String get subtitle {
-    return '${this.className} (${this.subclassName})';
+    return 'Subtitle';
   }
 
-  void addSpellToList(BuildContext context, Spell spell) {
-    this._spellNames.add(spell.name);
-    this._spellNames = this._spellNames.toSet().toList();
-    Provider.of<SpellListManager>(context, listen: false).externalChangeMade();
+  @override
+  void addSpellToList(String spellName) {
+    notifyListeners();
   }
 
-  void removeSpellFromList(BuildContext context, Spell spell) {
-    this._spellNames.remove(spell.name);
-    Provider.of<SpellListManager>(context, listen: false).externalChangeMade();
+  void removeSpellFromList(String spellName) {
+    notifyListeners();
   }
 
   // JSON
 
+  @override
   Map<String, dynamic> toJson() => {
-    'name': name,
-    'spellNames': spellNames,
-    'className': this.className,
-    'subclassName': this.subclassName,
-    'raceName': this.raceName,
-    'subraceName': this.subraceName,
-  };
+        'name': name,
+        'type': 'character',
+        'spellNames': this.spellNames,
+        'className': this.classNames,
+        'subclassName': this.subclassNames,
+        'raceName': this.raceName,
+        'subraceName': this.subraceName,
+      };
 
-  factory SpellList.fromJson(Map<String, dynamic> json) {
-    return SpellList(
-      name: json['name'],
-      spellNames: List<String>.from(json['spellNames']),
-      className: json['className'],
-      subclassName: json['subclassName'],
+  factory CharacterSpellList.fromJson(Map<String, dynamic> json) {
+    return CharacterSpellList(
+      spellNames: safeListMaker(json['spellNames']),
+      classNames: safeListMaker(json['className']),
+      subclassNames: safeListMaker(json['subclassName']),
       raceName: json['raceName'],
       subraceName: json['subraceName'],
     );
   }
+}
 
+List<String> safeListMaker(dynamic value) {
+  if (value != null)
+    return List<String>.from(value);
+  return [];
 }

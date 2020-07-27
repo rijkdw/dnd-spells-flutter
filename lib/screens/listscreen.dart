@@ -16,7 +16,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class SpellListScreen extends StatefulWidget {
-  final SpellList spellList;
+  final CharacterSpellList spellList;
   SpellListScreen({this.spellList});
 
   @override
@@ -71,7 +71,7 @@ class _SpellListScreenState extends State<SpellListScreen> {
                         iconSize: 20,
                         onTap: () {
                           setState(() {
-                            widget.spellList.removeSpellFromList(context, spell);
+                            widget.spellList.removeSpellFromList(spell.name);
                           });
                         },
                       ),
@@ -107,10 +107,11 @@ class _SpellListScreenState extends State<SpellListScreen> {
           widget.spellList.spellNames.forEach((spellName) {
             spellsOnList.add(spellRepository.getSpellFromName(spellName));
           });
-          spellRepository.allSpells.forEach((spell) {
-            if (spell.classesList.contains(widget.spellList.className)) spellsOnList.add(spell);
-            if (spell.subclassesList.contains('${widget.spellList.className} (${widget.spellList.subclassName})')) spellsOnList.add(spell);
-          });
+          // TODO add the spells from the classes and races
+//          spellRepository.allSpells.forEach((spell) {
+//            if (spell.classesList.contains(widget.spellList.className)) spellsOnList.add(spell);
+//            if (spell.subclassesList.contains('${widget.spellList.className} (${widget.spellList.subclassName})')) spellsOnList.add(spell);
+//          });
           if (spellsOnList.isEmpty)
             return Column(
               children: <Widget>[

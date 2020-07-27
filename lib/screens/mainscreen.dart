@@ -76,7 +76,7 @@ class _MainScreenState extends State<MainScreen> {
               FontAwesomeIcons.search,
               size: 20,
             ),
-            title: Text('All'),
+            title: Text('Search'),
           ),
           BottomNavigationBarItem(
             icon: FaIcon(

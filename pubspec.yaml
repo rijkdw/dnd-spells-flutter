@@ -17,6 +17,7 @@ dependencies:
   path_provider:
   flutter_sticky_header:
   shared_preferences:
+  flutter_typeahead:
 
   cupertino_icons: ^0.1.3
 

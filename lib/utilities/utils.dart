@@ -12,6 +12,11 @@ bool doesListContainDuplicates(List<dynamic> list) {
   return false;
 }
 
+List<dynamic> sortList(List<dynamic> inputList) {
+  inputList.sort((a, b) => a.compareTo(b));
+  return inputList;
+}
+
 // Dice
 
 int randInclusive(int min, int max) {
@@ -63,11 +68,17 @@ String plural(String item, int count, {String suffix: 's'}) {
 
 Map<String, String> extractClassAndSubclass(String classSubclass) {
   RegExp pattern = RegExp(r'(.*)\((.*?)\)');
-  String className = pattern.firstMatch(classSubclass)[1].trim();
-  String subclassName = pattern.firstMatch(classSubclass)[2].trim();
+  if (classSubclass.contains('(') && classSubclass.contains(')')) {
+    String className = (pattern.firstMatch(classSubclass)[1] ?? '').trim();
+    String subclassName = (pattern.firstMatch(classSubclass)[2] ?? '').trim();
+    return {
+      'class': className,
+      'subclass': subclassName,
+    };
+  }
   return {
-    'class': className,
-    'subclass': subclassName,
+    'class': classSubclass,
+    'subclass': '',
   };
 }
 

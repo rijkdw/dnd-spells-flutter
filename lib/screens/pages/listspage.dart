@@ -21,7 +21,7 @@ class _ListsPageState extends State<ListsPage> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Provider.of<ThemeManager>(context).colorPalette.appBarBackgroundColor,
-        title: Text('${Provider.of<SpellListManager>(context).spellLists.length} lists'),
+//        title: Text('${Provider.of<SpellListManager>(context).spellLists.length} lists'),
         actions: <Widget>[
           IconButton(
             onPressed: () {
@@ -39,7 +39,7 @@ class _ListsPageState extends State<ListsPage> {
             return Center(
               child: Text(
                 'NO LISTS',
-                style: TextStyle(fontSize: 30, letterSpacing: 2),
+                style: TextStyle(fontSize: 20, letterSpacing: 2),
               ),
             );
           return ListView.builder(
@@ -53,7 +53,7 @@ class _ListsPageState extends State<ListsPage> {
 }
 
 class _SpellListListTile extends StatelessWidget {
-  final SpellList spellList;
+  final CharacterSpellList spellList;
   _SpellListListTile(this.spellList);
 
   @override
@@ -131,7 +131,7 @@ class _SpellListListTile extends StatelessWidget {
 }
 
 class _ConfirmSpellListDeleteDialog extends StatelessWidget {
-  final SpellList spellList;
+  final CharacterSpellList spellList;
   _ConfirmSpellListDeleteDialog(this.spellList);
 
   @override

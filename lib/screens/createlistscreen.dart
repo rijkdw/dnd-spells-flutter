@@ -8,6 +8,7 @@ import 'package:dnd_spells_flutter/services/thememanager.dart';
 import 'package:dnd_spells_flutter/utilities/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -35,6 +36,7 @@ class _CreateListFormState extends State<CreateListForm> {
   Set<String> classOptions = Set<String>();
   Set<String> subclassOptions = Set<String>();
   TextEditingController nameController = TextEditingController();
+  TextEditingController raceController = TextEditingController();
 
   @override
   void initState() {
@@ -45,7 +47,7 @@ class _CreateListFormState extends State<CreateListForm> {
 
   void loadSubclassOptions() {
     subclassOptions.clear();
-    Map<String, List<String>> namesMap = Provider.of<CharacterOptionRepository>(context, listen: false).getNamesMap();
+    Map<String, List<String>> namesMap = Provider.of<CharacterOptionRepository>(context, listen: false).getClassNamesMap();
     for (String selectedClassName in selectedClasses) {
       namesMap[selectedClassName].forEach((subclassName) {
         subclassOptions.add(subclassName);
@@ -67,6 +69,10 @@ class _CreateListFormState extends State<CreateListForm> {
     return true;
   }
 
+  bool willBeGenericList() {
+    return (selectedClasses.isEmpty && selectedSubclasses.isEmpty);
+  }
+
   @override
   Widget build(BuildContext context) {
     double gridviewRatio = 4;
@@ -77,13 +83,20 @@ class _CreateListFormState extends State<CreateListForm> {
     void onConfirmPress() {
       {
         if (verifyInputs()) {
-          SpellListCreateActionResult result = Provider.of<SpellListManager>(context, listen: false).createSpellList(
-            SpellList(
-              name: nameController.text.trim(),
-              className: 'A',
-              subclassName: 'A',
-            ),
-          );
+          AbstractSpellList spellList;
+          if (willBeGenericList())
+            spellList = GenericSpellList(
+              name: nameController.text,
+            );
+          else
+            spellList = CharacterSpellList(
+              name: nameController.text,
+              raceName: extractClassAndSubclass(raceController.text)['class'],
+              subraceName: extractClassAndSubclass(raceController.text)['subclass'] ?? '',
+              classNames: selectedClasses.toList(),
+              subclassNames: selectedSubclasses.toList(),
+            );
+          SpellListCreateActionResult result = Provider.of<SpellListManager>(context, listen: false).createSpellList(spellList);
           if (result == SpellListCreateActionResult.nameError) {
             Scaffold.of(context).showSnackBar(SnackBar(
               content: Text('Duplicate spell list name'),
@@ -97,42 +110,6 @@ class _CreateListFormState extends State<CreateListForm> {
           ));
         }
       }
-    }
-
-    Widget _buildRadioRow({String text, String groupValue, Function(String) onChanged}) {
-      return Theme(
-        data: ThemeData(
-          unselectedWidgetColor: colorPalette.radioUnselectedColor,
-          accentColor: colorPalette.radioSelectedColor,
-        ),
-        child: InkWell(
-          splashColor: Colors.transparent,
-          onTap: () {
-            FocusScope.of(context).unfocus();
-            onChanged(text);
-          },
-          child: Row(
-            children: <Widget>[
-              Container(
-                width: 25,
-                height: 25,
-                child: Center(
-                  child: Radio(
-                    value: text,
-                    groupValue: groupValue,
-                    onChanged: (text) {
-                      FocusScope.of(context).unfocus();
-                      onChanged(text);
-                    },
-                  ),
-                ),
-              ),
-              SizedBox(width: 7),
-              Text(text),
-            ],
-          ),
-        ),
-      );
     }
 
     Widget _buildFilterChip({String label, Set<String> set, Function(String) onChanged}) {
@@ -152,7 +129,7 @@ class _CreateListFormState extends State<CreateListForm> {
             List<String> selectedBaseValues = [];
             if (set == selectedSubclasses) {
               for (String selectedSubclass in [...selectedSubclasses, label].toSet().toList()) {
-                String baseclassName = Provider.of<CharacterOptionRepository>(context, listen: false).getReverseNamesMap()[selectedSubclass];
+                String baseclassName = Provider.of<CharacterOptionRepository>(context, listen: false).getReverseClassNamesMap()[selectedSubclass];
                 selectedBaseValues.add(baseclassName);
               }
             }
@@ -171,29 +148,18 @@ class _CreateListFormState extends State<CreateListForm> {
       );
     }
 
-    Widget _buildHeading({String text: 'HEADING', VoidCallback onButtonPress, bool visible: true}) {
-      if (!visible) return Container();
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Text(
-            text,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-            ),
+    final inputDecoration = InputDecoration(
+      hintStyle: Theme.of(context).textTheme.bodyText2.copyWith(
+            color: colorPalette.subTextColor.withOpacity(0.6),
+            fontSize: 20,
           ),
-          IconButton(
-            onPressed: onButtonPress,
-            icon: Icon(
-              FontAwesomeIcons.trash,
-              color: colorPalette.emphasisTextColor,
-              size: 20,
-            ),
-          ),
-        ],
-      );
-    }
+      focusedBorder: UnderlineInputBorder(
+        borderSide: BorderSide(color: colorPalette.stickyHeaderBackgroundColor),
+      ),
+      enabledBorder: UnderlineInputBorder(
+        borderSide: BorderSide(color: colorPalette.stickyHeaderBackgroundColor),
+      ),
+    );
 
     return Column(
       children: <Widget>[
@@ -207,13 +173,42 @@ class _CreateListFormState extends State<CreateListForm> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    ClearableTextField(
+                    TextField(
                       controller: nameController,
-                      hintText: 'List name',
-                      onCleared: () {},
+                      decoration: inputDecoration.copyWith(hintText: 'Name'),
+                      style: Theme.of(context).textTheme.bodyText2.copyWith(fontSize: 20),
+                      textCapitalization: TextCapitalization.words,
+                    ),
+                    TypeAheadField(
+                      textFieldConfiguration: TextFieldConfiguration(
+                          textCapitalization: TextCapitalization.words,
+                          decoration: inputDecoration.copyWith(hintText: 'Race'),
+                          style: Theme.of(context).textTheme.bodyText2.copyWith(fontSize: 20),
+                          textInputAction: TextInputAction.done,
+                          controller: raceController,
+                          onSubmitted: (value) {
+                            FocusScope.of(context).unfocus();
+                          }),
+                      suggestionsCallback: (pattern) async {
+                        return Provider.of<CharacterOptionRepository>(context, listen: false).getRaceNameSuggestions(pattern);
+                      },
+                      itemBuilder: (context, suggestion) {
+                        return ListTile(
+                          title: Text(
+                            suggestion,
+                            style: Theme.of(context).textTheme.bodyText2.copyWith(fontSize: 16),
+                          ),
+                        );
+                      },
+                      onSuggestionSelected: (suggestion) {
+                        raceController.text = suggestion;
+                      },
                     ),
                     SizedBox(height: 14),
-                    Text('Class'),
+                    Text(
+                      'Class',
+                      style: Theme.of(context).textTheme.bodyText2.copyWith(fontSize: 16),
+                    ),
                     SizedBox(height: 3),
                     GridView.count(
                       shrinkWrap: true,
@@ -234,16 +229,20 @@ class _CreateListFormState extends State<CreateListForm> {
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
                                 SizedBox(height: 14),
-                                subclassOptions.isEmpty ? Container() : Text('$selectedClass'),
+                                subclassOptions.isEmpty
+                                    ? Container()
+                                    : Text(
+                                        '$selectedClass',
+                                        style: Theme.of(context).textTheme.bodyText2.copyWith(fontSize: 16),
+                                      ),
                                 SizedBox(height: 3),
                                 GridView.count(
                                   shrinkWrap: true,
                                   physics: NeverScrollableScrollPhysics(),
                                   crossAxisCount: gridviewRowCount,
                                   childAspectRatio: gridviewRatio,
-                                  children: Provider.of<CharacterOptionRepository>(context, listen: false)
-                                      .getNamesMap()[selectedClass]
-                                      .toList()
+                                  children: sortList(
+                                          Provider.of<CharacterOptionRepository>(context, listen: false).getClassNamesMap()[selectedClass].toList())
                                       .map((subclassName) {
                                     return _buildFilterChip(
                                       label: subclassName,

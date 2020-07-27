@@ -25,9 +25,9 @@ class _SearchPageState extends State<SearchPage> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Provider.of<ThemeManager>(context).colorPalette.appBarBackgroundColor,
-        title: Text(
-          '${Provider.of<SearchManager>(context).filterSpells(Provider.of<SpellRepository>(context).allSpells).length} spells',
-        ),
+//        title: Text(
+//          '${Provider.of<SearchManager>(context).filterSpells(Provider.of<SpellRepository>(context).allSpells).length} spells',
+//        ),
         actions: <Widget>[
           IconButton(
             icon: FaIcon(

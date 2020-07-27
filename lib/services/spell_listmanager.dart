@@ -7,14 +7,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 enum SpellListCreateActionResult { success, nameError }
 
 class SpellListManager extends ChangeNotifier {
-  List<SpellList> spellLists = [];
+  List<AbstractSpellList> spellLists = [];
 
   SpellListManager() {
     _loadFromLocal();
   }
 
-  SpellListCreateActionResult createSpellList(SpellList newSpellList) {
-    for (SpellList spellList in spellLists) {
+  SpellListCreateActionResult createSpellList(AbstractSpellList newSpellList) {
+    for (AbstractSpellList spellList in spellLists) {
       if (newSpellList.name.toLowerCase() == spellList.name.toLowerCase()) {
         return SpellListCreateActionResult.nameError;
       }
@@ -25,7 +25,7 @@ class SpellListManager extends ChangeNotifier {
     return SpellListCreateActionResult.success;
   }
 
-  void deleteSpellList(SpellList spellListToRemove) {
+  void deleteSpellList(AbstractSpellList spellListToRemove) {
     spellLists.remove(spellListToRemove);
     _storeInLocal();
     notifyListeners();
@@ -45,7 +45,12 @@ class SpellListManager extends ChangeNotifier {
     SharedPreferences.getInstance().then((prefs) {
       String listJsonString = prefs.getString(_keyListStorage) ?? '[]';
       List<dynamic> listList = json.decode(listJsonString);
-      listList.forEach((map) => spellLists.add(SpellList.fromJson(map)));
+      listList.forEach((map) {
+        if (map['type'] == 'character')
+          spellLists.add(CharacterSpellList.fromJson(map));
+        else
+          spellLists.add(GenericSpellList.fromJson(map));
+      });
       notifyListeners();
     });
   }

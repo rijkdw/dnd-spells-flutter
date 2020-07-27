@@ -85,7 +85,7 @@ class _MenuListTile extends StatelessWidget {
               child: Icon(
                 iconData,
                 size: 24,
-                color: colorPalette.buttonColor,
+                color: colorPalette.drawerPrimary,
               ),
             ),
             SizedBox(width: 14),
