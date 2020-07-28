@@ -2,7 +2,27 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 
+// Maps
+
+Map<int, int> getEmptySpellSlotMap() {
+  Map<int, int> emptySpellSlotsMap = {};
+  for (int level in List.generate(9, (index) => index+1)) {
+    emptySpellSlotsMap[level] = 0;
+  }
+  return emptySpellSlotsMap;
+}
+
+Map<int, int> listToSpellSlotMap(List<int> list) {
+  if (list.isEmpty) return getEmptySpellSlotMap();
+  Map<int, int> spellSlotMap = {};
+  for (int level in List.generate(9, (index) => index+1)) {
+    spellSlotMap[level] = list[level-1];
+  }
+  return spellSlotMap;
+}
+
 // Lists
+
 bool doesListContainDuplicates(List<dynamic> list) {
   for (int i = 0; i < list.length; i++) {
     for (int j = i + 1; j < list.length; j++) {

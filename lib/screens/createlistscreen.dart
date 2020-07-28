@@ -161,6 +161,8 @@ class _CreateListFormState extends State<CreateListForm> {
       ),
     );
 
+    CharacterOptionRepository characterOptionRepository = Provider.of<CharacterOptionRepository>(context, listen: false);
+
     return Column(
       children: <Widget>[
         Expanded(
@@ -190,7 +192,10 @@ class _CreateListFormState extends State<CreateListForm> {
                             FocusScope.of(context).unfocus();
                           }),
                       suggestionsCallback: (pattern) async {
-                        return Provider.of<CharacterOptionRepository>(context, listen: false).getRaceNameSuggestions(pattern);
+                        return [
+                          raceController.text,
+                          ...characterOptionRepository.getRaceNameSuggestions(pattern)
+                        ].toSet().toList();
                       },
                       itemBuilder: (context, suggestion) {
                         return ListTile(
@@ -222,37 +227,38 @@ class _CreateListFormState extends State<CreateListForm> {
                         );
                       }).toList(),
                     ),
-                    ...selectedClasses
-                        .toList()
-                        .map((selectedClass) => Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                SizedBox(height: 14),
-                                subclassOptions.isEmpty
-                                    ? Container()
-                                    : Text(
-                                        '$selectedClass',
-                                        style: Theme.of(context).textTheme.bodyText2.copyWith(fontSize: 16),
-                                      ),
-                                SizedBox(height: 3),
-                                GridView.count(
-                                  shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  crossAxisCount: gridviewRowCount,
-                                  childAspectRatio: gridviewRatio,
-                                  children: sortList(
-                                          Provider.of<CharacterOptionRepository>(context, listen: false).getClassNamesMap()[selectedClass].toList())
-                                      .map((subclassName) {
-                                    return _buildFilterChip(
-                                      label: subclassName,
-                                      set: selectedSubclasses,
-                                    );
-                                  }).toList(),
-                                ),
-                              ],
-                            ))
-                        .toList(),
+                    ...selectedClasses.toList().map((selectedClass) {
+                      if (subclassOptions.isEmpty ||
+                          characterOptionRepository.subclassesBelongingTo(selectedClass).isEmpty) {
+                        return Container();
+                      }
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          SizedBox(height: 14),
+                          Text(
+                            '$selectedClass',
+                            style: Theme.of(context).textTheme.bodyText2.copyWith(fontSize: 16),
+                          ),
+                          SizedBox(height: 3),
+                          GridView.count(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            crossAxisCount: gridviewRowCount,
+                            childAspectRatio: gridviewRatio,
+                            children:
+                                sortList(characterOptionRepository.getClassNamesMap()[selectedClass].toList())
+                                    .map((subclassName) {
+                              return _buildFilterChip(
+                                label: subclassName,
+                                set: selectedSubclasses,
+                              );
+                            }).toList(),
+                          ),
+                        ],
+                      );
+                    }).toList(),
                   ],
                 ),
               ),

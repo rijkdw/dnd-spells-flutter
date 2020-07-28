@@ -2,11 +2,13 @@ import 'package:dnd_spells_flutter/components/dialogmenu.dart';
 import 'package:dnd_spells_flutter/components/headeredspell_list.dart';
 import 'package:dnd_spells_flutter/components/sortwidget.dart';
 import 'package:dnd_spells_flutter/components/spell_tile.dart';
+import 'package:dnd_spells_flutter/models/characteroption.dart';
 import 'package:dnd_spells_flutter/models/colorpalette.dart';
 import 'package:dnd_spells_flutter/models/spell.dart';
 import 'package:dnd_spells_flutter/models/spell_list.dart';
 import 'package:dnd_spells_flutter/models/spellview.dart';
 import 'package:dnd_spells_flutter/screens/spellinfoscreen.dart';
+import 'package:dnd_spells_flutter/services/characteroptionrepository.dart';
 import 'package:dnd_spells_flutter/services/historymanager.dart';
 import 'package:dnd_spells_flutter/services/searchmanager.dart';
 import 'package:dnd_spells_flutter/services/spellsrepository.dart';
@@ -15,15 +17,15 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
-class SpellListScreen extends StatefulWidget {
-  final CharacterSpellList spellList;
-  SpellListScreen({this.spellList});
+class GenericSpellListScreen extends StatefulWidget {
+  final GenericSpellList spellList;
+  GenericSpellListScreen({this.spellList});
 
   @override
-  _SpellListScreenState createState() => _SpellListScreenState();
+  _GenericSpellListScreenState createState() => _GenericSpellListScreenState();
 }
 
-class _SpellListScreenState extends State<SpellListScreen> {
+class _GenericSpellListScreenState extends State<GenericSpellListScreen> {
   OrderBy orderBy;
 
   @override
@@ -87,32 +89,31 @@ class _SpellListScreenState extends State<SpellListScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     NameSubtitleColumn(spell),
-                    InkWell(
-                      splashColor: Colors.transparent,
-                      child: Text(
-                        'LEARN',
-                        style: TextStyle(color: colorPalette.buttonTextColor),
-                      ),
-                      onTap: () {
-                        print(spell.name);
-                      },
-                    )
+//                    InkWell(
+//                      splashColor: Colors.transparent,
+//                      child: Text(
+//                        'LEARN',
+//                        style: TextStyle(color: colorPalette.buttonTextColor),
+//                      ),
+//                      onTap: () {
+//                        print(spell.name);
+//                      },
+//                    )
                   ],
                 ),
               ),
             );
           }
 
-          Set<Spell> spellsOnList = Set<Spell>();
+          CharacterOptionRepository characterOptionRepository = Provider.of<CharacterOptionRepository>(context);
+          SpellRepository spellRepository = Provider.of<SpellRepository>(context);
+
+          List<Spell> spells = [];
           widget.spellList.spellNames.forEach((spellName) {
-            spellsOnList.add(spellRepository.getSpellFromName(spellName));
+            spells.add(spellRepository.getSpellFromName(spellName));
           });
-          // TODO add the spells from the classes and races
-//          spellRepository.allSpells.forEach((spell) {
-//            if (spell.classesList.contains(widget.spellList.className)) spellsOnList.add(spell);
-//            if (spell.subclassesList.contains('${widget.spellList.className} (${widget.spellList.subclassName})')) spellsOnList.add(spell);
-//          });
-          if (spellsOnList.isEmpty)
+
+          if (spells.isEmpty)
             return Column(
               children: <Widget>[
                 Expanded(
@@ -127,7 +128,7 @@ class _SpellListScreenState extends State<SpellListScreen> {
               Expanded(
                 child: HeaderedSpellList(
                   spellTileBuilder: searchPageSpellTileBuilder,
-                  spells: spellsOnList.toList(),
+                  spells: spells,
                 ),
               ),
             ],

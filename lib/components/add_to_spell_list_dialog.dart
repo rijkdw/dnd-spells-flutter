@@ -78,7 +78,7 @@ class AddToListDialog extends StatelessWidget {
 }
 
 class _SpellListListTile extends StatelessWidget {
-  final CharacterSpellList spellList;
+  final AbstractSpellList spellList;
   final Spell spell;
   _SpellListListTile({@required this.spellList, @required this.spell});
 
@@ -96,7 +96,7 @@ class _SpellListListTile extends StatelessWidget {
         child: Row(
           children: <Widget>[
             Icon(
-              Icons.face,
+              (spellList is GenericSpellList) ? Icons.list : Icons.face,
               color: colorPalette.clickableTextLinkColor,
             ),
             SizedBox(width: 10),
