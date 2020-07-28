@@ -54,8 +54,6 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: SettingsDrawer(),
-      drawerEdgeDragWidth: double.infinity,
       body: WillPopScope(
         onWillPop: _onWillPop,
         child: IndexedStack(

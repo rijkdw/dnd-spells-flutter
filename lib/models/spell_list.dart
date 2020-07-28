@@ -12,7 +12,7 @@ abstract class AbstractSpellList extends ChangeNotifier {
 
   void addSpellToList(String spellName);
   void removeSpellFromList(String spellName);
-  List<String> get _spellNames;
+  List<String> get spellNames;
   Map<String, dynamic> toJson();
 
   @override

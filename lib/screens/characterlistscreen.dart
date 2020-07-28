@@ -1,21 +1,12 @@
-import 'package:dnd_spells_flutter/components/dialogmenu.dart';
+import 'package:dnd_spells_flutter/components/drawer.dart';
 import 'package:dnd_spells_flutter/components/headeredspell_list.dart';
-import 'package:dnd_spells_flutter/components/sortwidget.dart';
-import 'package:dnd_spells_flutter/components/spell_tile.dart';
-import 'package:dnd_spells_flutter/models/characteroption.dart';
 import 'package:dnd_spells_flutter/models/colorpalette.dart';
-import 'package:dnd_spells_flutter/models/spell.dart';
 import 'package:dnd_spells_flutter/models/spell_list.dart';
-import 'package:dnd_spells_flutter/models/spellview.dart';
 import 'package:dnd_spells_flutter/screens/charcterlistscreenpages/allspellspage.dart';
 import 'package:dnd_spells_flutter/screens/charcterlistscreenpages/knownspellspage.dart';
 import 'package:dnd_spells_flutter/screens/charcterlistscreenpages/preparedspellspage.dart';
 import 'package:dnd_spells_flutter/screens/charcterlistscreenpages/spellslotpage.dart';
-import 'package:dnd_spells_flutter/screens/spellinfoscreen.dart';
-import 'package:dnd_spells_flutter/services/characteroptionrepository.dart';
-import 'package:dnd_spells_flutter/services/historymanager.dart';
 import 'package:dnd_spells_flutter/services/searchmanager.dart';
-import 'package:dnd_spells_flutter/services/spellsrepository.dart';
 import 'package:dnd_spells_flutter/services/thememanager.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -74,6 +65,8 @@ class _CharacterSpellListScreenState extends State<CharacterSpellListScreen> {
     };
 
     return Scaffold(
+      drawer: SettingsDrawer(),
+      drawerEdgeDragWidth: double.infinity,
       appBar: AppBar(
         elevation: 0,
         title: Text(
