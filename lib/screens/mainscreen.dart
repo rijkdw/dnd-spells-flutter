@@ -1,9 +1,8 @@
 import 'package:dnd_spells_flutter/components/confirmclosedialog.dart';
 import 'package:dnd_spells_flutter/components/drawer.dart';
-import 'package:dnd_spells_flutter/main.dart';
-import 'package:dnd_spells_flutter/screens/pages/historypage.dart';
-import 'package:dnd_spells_flutter/screens/pages/listspage.dart';
-import 'package:dnd_spells_flutter/screens/pages/searchpage.dart';
+import 'package:dnd_spells_flutter/screens/mainscreenpages/historypage.dart';
+import 'package:dnd_spells_flutter/screens/mainscreenpages/listspage.dart';
+import 'package:dnd_spells_flutter/screens/mainscreenpages/searchpage.dart';
 import 'package:dnd_spells_flutter/services/searchmanager.dart';
 import 'package:dnd_spells_flutter/services/thememanager.dart';
 import 'package:flutter/material.dart';
@@ -36,13 +35,6 @@ class _MainScreenState extends State<MainScreen> {
       builder: (context) => ConfirmCloseDialog(),
     );
     return result;
-    // do the double-tap thing
-    DateTime now = DateTime.now();
-    if (currentBackPressTime == null || now.difference(currentBackPressTime) > Duration(milliseconds: 300)) {
-      currentBackPressTime = now;
-      return Future.value(false);
-    }
-    return Future.value(true);
   }
 
   List<Widget> children = [
@@ -53,7 +45,10 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
+      drawer: SettingsDrawer(),
+      drawerEdgeDragWidth: double.infinity,
       body: WillPopScope(
         onWillPop: _onWillPop,
         child: IndexedStack(

@@ -59,6 +59,9 @@ class _CharacterSpellListScreenState extends State<CharacterSpellListScreen> {
             for (int level in List.generate(9, (index) => index+1)) {
               widget.spellList.setMaxSlotsAtLevel(level: level, max: 4);
             }
+            widget.spellList.numSpellsPrepared = 0;
+            widget.spellList.spellAttackBonus = 8;
+            widget.spellList.saveDC = 17;
           },
         ),
       ],
@@ -78,50 +81,47 @@ class _CharacterSpellListScreenState extends State<CharacterSpellListScreen> {
         children: pages,
         index: _selectedIndex,
       ),
-      bottomNavigationBar: Material(
-        color: colorPalette.navBarBackgroundColor,
-        child: Theme(
-          data: ThemeData(
-            canvasColor: colorPalette.navBarBackgroundColor,
-          ),
-          child: BottomNavigationBar(
-            elevation: 0,
-            backgroundColor: colorPalette.navBarBackgroundColor,
-            selectedItemColor: colorPalette.navBarSelectedColor,
-            unselectedItemColor: colorPalette.navBarUnselectedColor,
-            currentIndex: _selectedIndex,
-            onTap: _onPageChanged,
-            items: [
-              BottomNavigationBarItem(
-                icon: FaIcon(
-                  FontAwesomeIcons.infinity,
-                  size: 20,
-                ),
-                title: Text('All'),
+      bottomNavigationBar: Theme(
+        data: ThemeData(
+          canvasColor: colorPalette.navBarBackgroundColor,
+        ),
+        child: BottomNavigationBar(
+          elevation: 0,
+          backgroundColor: colorPalette.navBarBackgroundColor,
+          selectedItemColor: colorPalette.navBarSelectedColor,
+          unselectedItemColor: colorPalette.navBarUnselectedColor,
+          currentIndex: _selectedIndex,
+          onTap: _onPageChanged,
+          items: [
+            BottomNavigationBarItem(
+              icon: FaIcon(
+                FontAwesomeIcons.infinity,
+                size: 20,
               ),
-              BottomNavigationBarItem(
-                icon: FaIcon(
-                  FontAwesomeIcons.brain,
-                  size: 20,
-                ),
-                title: Text('Known'),
+              title: Text('All'),
+            ),
+            BottomNavigationBarItem(
+              icon: FaIcon(
+                FontAwesomeIcons.brain,
+                size: 20,
               ),
-              BottomNavigationBarItem(
-                icon: FaIcon(
-                  FontAwesomeIcons.readme,
-                  size: 20,
-                ),
-                title: Text('Prepared'),
+              title: Text('Known'),
+            ),
+            BottomNavigationBarItem(
+              icon: FaIcon(
+                FontAwesomeIcons.readme,
+                size: 20,
               ),
-              BottomNavigationBarItem(
-                icon: FaIcon(
-                  FontAwesomeIcons.lock,
-                  size: 20,
-                ),
-                title: Text('Slots'),
+              title: Text('Prepared'),
+            ),
+            BottomNavigationBarItem(
+              icon: FaIcon(
+                FontAwesomeIcons.lock,
+                size: 20,
               ),
-            ],
-          ),
+              title: Text('Slots'),
+            ),
+          ],
         ),
       ),
 //      body: Consumer<SpellRepository>(

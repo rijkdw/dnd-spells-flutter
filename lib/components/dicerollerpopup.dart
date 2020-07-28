@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 class DiceRollerDialog extends StatefulWidget {
   final String dice;
   DiceRollerDialog({@required this.dice});
-
   @override
   _DiceRollerDialogState createState() => _DiceRollerDialogState();
 }
@@ -84,7 +83,6 @@ class _DiceRollerDialogState extends State<DiceRollerDialog> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-
                 // increment the dice number
                 Container(
                   width: 45,
@@ -130,7 +128,6 @@ class _DiceRollerDialogState extends State<DiceRollerDialog> {
                     ),
                   ),
                 ),
-
               ],
             )
           ],

@@ -38,8 +38,6 @@ class _ListsPageState extends State<ListsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: SettingsDrawer(),
-      drawerEdgeDragWidth: double.infinity,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Provider.of<ThemeManager>(context).colorPalette.appBarBackgroundColor,

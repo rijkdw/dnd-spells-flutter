@@ -1,4 +1,3 @@
-import 'package:dnd_spells_flutter/components/drawer.dart';
 import 'package:dnd_spells_flutter/components/headeredspell_list.dart';
 import 'package:dnd_spells_flutter/components/quicksearchbottomsheet.dart';
 import 'package:dnd_spells_flutter/components/spell_tile.dart';
@@ -21,8 +20,6 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: SettingsDrawer(),
-      drawerEdgeDragWidth: double.infinity,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Provider.of<ThemeManager>(context).colorPalette.appBarBackgroundColor,

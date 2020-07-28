@@ -1,5 +1,4 @@
 import 'package:dnd_spells_flutter/screens/mainscreen.dart';
-import 'package:dnd_spells_flutter/screens/pages/searchpage.dart';
 import 'package:dnd_spells_flutter/services/appstatemanager.dart';
 import 'package:dnd_spells_flutter/services/characteroptionrepository.dart';
 import 'package:dnd_spells_flutter/services/conditionrepository.dart';
@@ -13,7 +12,6 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-//  singletons.initialiseSingletons();
   runApp(DnD5eSpellsApp());
 }
 

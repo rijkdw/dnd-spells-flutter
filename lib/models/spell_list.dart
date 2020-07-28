@@ -82,9 +82,31 @@ class CharacterSpellList extends AbstractSpellList {
   String subraceName;
 
   // spell info
-  int saveDC;
-  int spellAttackBonus;
-  int numberOfSpellsToPrep;
+  int _saveDC;
+  int _spellAttackBonus;
+  int _numSpellsPrepared;
+  
+  set saveDC(int newValue) {
+    _saveDC = newValue;
+    print('Save DC set as $newValue');
+    notifyListeners();
+  }
+  
+  set spellAttackBonus(int newValue) {
+    _spellAttackBonus = newValue;
+    print('Spell bonus set as $newValue');
+    notifyListeners();
+  }
+  
+  set numSpellsPrepared(int newValue) {
+    _numSpellsPrepared = newValue;
+    print('Num spells set as $newValue');
+    notifyListeners();
+  }
+
+  int get saveDC => _saveDC;
+  int get spellAttackBonus => _spellAttackBonus;
+  int get numSpellsPrepared => _numSpellsPrepared;
 
   // spell list
   List<String> _spellNames;
@@ -102,9 +124,9 @@ class CharacterSpellList extends AbstractSpellList {
       this.subclassNames,
       this.raceName,
       this.subraceName,
-      this.saveDC: 8,
-      this.spellAttackBonus: 0,
-      this.numberOfSpellsToPrep: 0,
+      saveDC: 8,
+      spellAttackBonus: 0,
+      numSpellsPrepared: 0,
       List<String> spellNames,
       Map<int, int> maxSpellSlots,
       Map<int, int> currentSpellSlots})
@@ -112,6 +134,9 @@ class CharacterSpellList extends AbstractSpellList {
     this._spellNames = spellNames ?? [];
     this._maxSpellSlots = maxSpellSlots ?? getEmptySpellSlotMap();
     this._currentSpellSlots = currentSpellSlots ?? getEmptySpellSlotMap();
+    this._saveDC = saveDC;
+    this._numSpellsPrepared = numSpellsPrepared;
+    this._spellAttackBonus = spellAttackBonus;
   }
 
   void setName(BuildContext context, String newName) {
@@ -190,6 +215,9 @@ class CharacterSpellList extends AbstractSpellList {
         'subraceName': this.subraceName,
         'maxSpellSlots': _maxSpellSlots.keys.toList().map((key) => _maxSpellSlots[key]).toList(),
         'currentSpellSlots': _currentSpellSlots.keys.toList().map((key) => _currentSpellSlots[key]).toList(),
+        'saveDC': _saveDC.toString(),
+        'attackBonus': _spellAttackBonus.toString(),
+        'numSpellsPrepared': _numSpellsPrepared.toString()
       };
 
   factory CharacterSpellList.fromJson(Map<String, dynamic> json) {
@@ -202,6 +230,9 @@ class CharacterSpellList extends AbstractSpellList {
       subraceName: json['subraceName'],
       currentSpellSlots: listToSpellSlotMap(safeIntListMaker(json['currentSpellSlots'])),
       maxSpellSlots: listToSpellSlotMap(safeIntListMaker(json['maxSpellSlots'])),
+      numSpellsPrepared: int.parse(json['numSpellsPrepared'] ?? '0'),
+      saveDC: int.parse(json['saveDC'] ?? '0'),
+      spellAttackBonus: int.parse(json['attackBonus'] ?? 0),
     );
   }
 }

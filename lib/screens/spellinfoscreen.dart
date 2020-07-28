@@ -253,7 +253,6 @@ class SpellInfoScreen extends StatelessWidget {
     }
 
     ScrollController scrollController = ScrollController();
-    Key key = UniqueKey();
 
     return Scaffold(
       appBar: AppBar(

@@ -1,4 +1,3 @@
-import 'package:dnd_spells_flutter/components/drawer.dart';
 import 'package:dnd_spells_flutter/components/spell_historytile.dart';
 import 'package:dnd_spells_flutter/services/historymanager.dart';
 import 'package:dnd_spells_flutter/services/spellsrepository.dart';
@@ -11,8 +10,6 @@ class HistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: SettingsDrawer(),
-      drawerEdgeDragWidth: double.infinity,
       appBar: AppBar(
         elevation: 0,
 //        title: Text(

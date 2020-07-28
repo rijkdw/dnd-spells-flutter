@@ -64,6 +64,13 @@ String decrementDice(String inputDice) {
 
 // Strings
 
+String sign(int value) {
+  if (value > -1)
+    return '+$value';
+  else
+    return '$value';
+}
+
 String ordinal(int number) {
   switch (number) {
     case 1:
