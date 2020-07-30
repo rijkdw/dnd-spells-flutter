@@ -59,9 +59,6 @@ class _CharacterSpellListScreenState extends State<CharacterSpellListScreen> {
             for (int level in List.generate(9, (index) => index+1)) {
               widget.spellList.setMaxSlotsAtLevel(level: level, max: 4);
             }
-            widget.spellList.numSpellsPrepared = 0;
-            widget.spellList.spellAttackBonus = 8;
-            widget.spellList.saveDC = 17;
           },
         ),
       ],

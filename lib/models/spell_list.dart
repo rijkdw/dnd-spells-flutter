@@ -1,5 +1,5 @@
 import 'package:dnd_spells_flutter/main.dart';
-import 'package:dnd_spells_flutter/models/spell.dart';
+import 'package:dnd_spells_flutter/models/characteroption.dart';
 import 'package:dnd_spells_flutter/services/characteroptionrepository.dart';
 import 'package:dnd_spells_flutter/services/spell_listmanager.dart';
 import 'package:dnd_spells_flutter/utilities/utils.dart';
@@ -85,68 +85,110 @@ class CharacterSpellList extends AbstractSpellList {
   int _saveDC;
   int _spellAttackBonus;
   int _numSpellsPrepared;
-  
-  set saveDC(int newValue) {
-    _saveDC = newValue;
-    print('Save DC set as $newValue');
-    notifyListeners();
-  }
-  
-  set spellAttackBonus(int newValue) {
-    _spellAttackBonus = newValue;
-    print('Spell bonus set as $newValue');
-    notifyListeners();
-  }
-  
-  set numSpellsPrepared(int newValue) {
-    _numSpellsPrepared = newValue;
-    print('Num spells set as $newValue');
-    notifyListeners();
-  }
-
-  int get saveDC => _saveDC;
-  int get spellAttackBonus => _spellAttackBonus;
-  int get numSpellsPrepared => _numSpellsPrepared;
 
   // spell list
   List<String> _spellNames;
+  List<String> get spellNames => _spellNames;
 
   // spell slots
   Map<int, int> _maxSpellSlots;
   Map<int, int> _currentSpellSlots;
 
-  Map<int, int> get maxSpellSlots => _maxSpellSlots;
-  Map<int, int> get currentSpellSlots => _currentSpellSlots;
+  // known and prepared
+  Set<String> _knownSpellNames;
+  Set<String> _preparedSpellNames;
 
-  CharacterSpellList(
-      {String name,
-      this.classNames,
-      this.subclassNames,
-      this.raceName,
-      this.subraceName,
-      saveDC: 8,
-      spellAttackBonus: 0,
-      numSpellsPrepared: 0,
-      List<String> spellNames,
-      Map<int, int> maxSpellSlots,
-      Map<int, int> currentSpellSlots})
-      : super(name: name) {
+  // constructor
+  CharacterSpellList({
+    String name,
+    this.classNames,
+    this.subclassNames,
+    this.raceName,
+    this.subraceName,
+    saveDC: 8,
+    spellAttackBonus: 0,
+    numSpellsPrepared: 0,
+    List<String> spellNames,
+    Map<int, int> maxSpellSlots,
+    Map<int, int> currentSpellSlots,
+    List<String> knownSpellNames,
+    List<String> preparedSpellNames,
+  }) : super(name: name) {
     this._spellNames = spellNames ?? [];
     this._maxSpellSlots = maxSpellSlots ?? getEmptySpellSlotMap();
     this._currentSpellSlots = currentSpellSlots ?? getEmptySpellSlotMap();
     this._saveDC = saveDC;
     this._numSpellsPrepared = numSpellsPrepared;
     this._spellAttackBonus = spellAttackBonus;
+    this._knownSpellNames = (knownSpellNames ?? []).toSet();
+    this._preparedSpellNames = (preparedSpellNames ?? []).toSet();
   }
 
-  void setName(BuildContext context, String newName) {
-    name = newName;
+  List<CharacterOption> get allCharacterOptions {
+    CharacterOptionRepository characterOptionRepository = Provider.of<CharacterOptionRepository>(appKey.currentContext, listen: false);
+    List<CharacterOption> allOptions = [];
+    classNames.forEach((className) {
+      allOptions.add(characterOptionRepository.mapifyClasses()[className]);
+    });
+    subclassNames.forEach((subclassName) {
+      allOptions.add(characterOptionRepository.mapifyClasses()[subclassName]);
+    });
+    return allOptions;
+  }
+
+  List<String> get learnableSpellNames {
+    List<String> learnableSpellNames = [];
+    allCharacterOptions.forEach((characterOption) {
+      learnableSpellNames.addAll(characterOption.learnableSpellNames);
+    });
+    learnableSpellNames.addAll(spellNames);
+    return learnableSpellNames;
+  }
+
+  List<String> get knownSpellNames => _knownSpellNames.toList();
+
+  void learnSpell(String spellName) {
+    this._knownSpellNames.add(spellName);
+    notifyListeners();
+  }
+
+  void unlearnSpell(String spellName) {
+    this._knownSpellNames.remove(spellName);
+    notifyListeners();
+  }
+
+  List<String> get preparedSpellNames {
+    List<String> returnList = _preparedSpellNames.toList();
+    allCharacterOptions.forEach((characterOption) {
+      returnList.addAll(characterOption.alwaysPreparedSpellNames);
+    });
+    return returnList;
+  }
+
+  void prepareSpell(String spellName) {
+    this._preparedSpellNames.add(spellName);
+    notifyListeners();
+  }
+
+  void unprepareSpell(String spellName) {
+    this._preparedSpellNames.remove(spellName);
+    notifyListeners();
+  }
+
+  @override
+  void addSpellToList(String spellName) {
+    if (!_spellNames.contains(spellName)) _spellNames.add(spellName);
+    notifyListeners();
+  }
+
+  void removeSpellFromList(String spellName) {
+    _spellNames.remove(spellName);
     notifyListeners();
   }
 
   // Spell slot methods
-
   bool spendSpellSlotOfLevel(int level) {
+    if (level < 1 || level > 9) return false;
     if (_currentSpellSlots[level] < 1) {
       notifyListeners();
       return false;
@@ -158,7 +200,7 @@ class CharacterSpellList extends AbstractSpellList {
 
   void setMaxSlotsAtLevel({int level, int max}) {
     _maxSpellSlots[level] = max;
-    _currentSpellSlots[level] = max-2; // TODO take this out
+    _currentSpellSlots[level] = max - 2; // TODO take this out
     notifyListeners();
   }
 
@@ -168,10 +210,36 @@ class CharacterSpellList extends AbstractSpellList {
     }
   }
 
-  List<String> get spellNames => _spellNames;
+  // setters
+
+  set saveDC(int newValue) {
+    _saveDC = newValue;
+    print('Save DC set as $newValue');
+    notifyListeners();
+  }
+
+  set spellAttackBonus(int newValue) {
+    _spellAttackBonus = newValue;
+    print('Spell bonus set as $newValue');
+    notifyListeners();
+  }
+
+  set numSpellsPrepared(int newValue) {
+    _numSpellsPrepared = newValue;
+    print('Num spells set as $newValue');
+    notifyListeners();
+  }
+
+  // getters
+
+  int get saveDC => _saveDC;
+  int get spellAttackBonus => _spellAttackBonus;
+  int get numSpellsPrepared => _numSpellsPrepared;
+
+  Map<int, int> get maxSpellSlots => _maxSpellSlots;
+  Map<int, int> get currentSpellSlots => _currentSpellSlots;
 
   String get subtitle {
-    String returnText = '';
     List<String> classTokens = [];
     CharacterOptionRepository characterOptionRepository = Provider.of<CharacterOptionRepository>(appKey.currentContext, listen: false);
     Map<String, List<String>> namesMap = characterOptionRepository.getClassNamesMap();
@@ -185,21 +253,11 @@ class CharacterSpellList extends AbstractSpellList {
       }
       if (!added) classTokens.add(baseClass);
     }
-//    return classTokens.join('  •  ');
     if (subraceName != '' && subraceName != null)
       classTokens.add('$raceName ($subraceName)');
     else
       classTokens.add('$raceName');
     return classTokens.join(' • ');
-  }
-
-  @override
-  void addSpellToList(String spellName) {
-    notifyListeners();
-  }
-
-  void removeSpellFromList(String spellName) {
-    notifyListeners();
   }
 
   // JSON
@@ -217,7 +275,9 @@ class CharacterSpellList extends AbstractSpellList {
         'currentSpellSlots': _currentSpellSlots.keys.toList().map((key) => _currentSpellSlots[key]).toList(),
         'saveDC': _saveDC.toString(),
         'attackBonus': _spellAttackBonus.toString(),
-        'numSpellsPrepared': _numSpellsPrepared.toString()
+        'numSpellsPrepared': _numSpellsPrepared.toString(),
+        'knownSpellNames': _knownSpellNames.toList(),
+        'preparedSpellNames': _preparedSpellNames.toList(),
       };
 
   factory CharacterSpellList.fromJson(Map<String, dynamic> json) {
@@ -233,9 +293,13 @@ class CharacterSpellList extends AbstractSpellList {
       numSpellsPrepared: int.parse(json['numSpellsPrepared'] ?? '0'),
       saveDC: int.parse(json['saveDC'] ?? '0'),
       spellAttackBonus: int.parse(json['attackBonus'] ?? 0),
+      knownSpellNames: safeStrListMaker(json['knownSpellNames']),
+      preparedSpellNames: safeStrListMaker(json['preparedSpellNames']),
     );
   }
 }
+
+// helper methods
 
 List<String> safeStrListMaker(dynamic value) {
   if (value != null) return List<String>.from(value);

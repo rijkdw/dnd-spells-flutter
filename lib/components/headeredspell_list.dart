@@ -64,7 +64,7 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
     return headerToSpellsMap;
   }
 
-  List<_SliverExpandableStickyHeader> getStickyHeaders() {
+  List<Widget> getStickyHeaders() {
     Map<String, List<Spell>> headerToSpellsMap = splitSpells();
     List<String> sortedKeys = headerToSpellsMap.keys.map((e) => e.toString()).toList();
     sortedKeys.sort((a, b) => a.compareTo(b));

@@ -192,10 +192,11 @@ class _CreateListFormState extends State<CreateListForm> {
                             FocusScope.of(context).unfocus();
                           }),
                       suggestionsCallback: (pattern) async {
-                        return [
-                          raceController.text,
-                          ...characterOptionRepository.getRaceNameSuggestions(pattern)
-                        ].toSet().toList();
+                        List<String> suggestions = characterOptionRepository.getRaceNameSuggestions(pattern);
+                        if (raceController.text.isNotEmpty) {
+                          suggestions = [raceController.text, ...suggestions];
+                        }
+                        return suggestions.toSet().toList();
                       },
                       itemBuilder: (context, suggestion) {
                         return ListTile(
@@ -228,8 +229,7 @@ class _CreateListFormState extends State<CreateListForm> {
                       }).toList(),
                     ),
                     ...selectedClasses.toList().map((selectedClass) {
-                      if (subclassOptions.isEmpty ||
-                          characterOptionRepository.subclassesBelongingTo(selectedClass).isEmpty) {
+                      if (subclassOptions.isEmpty || characterOptionRepository.subclassesBelongingTo(selectedClass).isEmpty) {
                         return Container();
                       }
                       return Column(
@@ -247,9 +247,7 @@ class _CreateListFormState extends State<CreateListForm> {
                             physics: NeverScrollableScrollPhysics(),
                             crossAxisCount: gridviewRowCount,
                             childAspectRatio: gridviewRatio,
-                            children:
-                                sortList(characterOptionRepository.getClassNamesMap()[selectedClass].toList())
-                                    .map((subclassName) {
+                            children: sortList(characterOptionRepository.getClassNamesMap()[selectedClass].toList()).map((subclassName) {
                               return _buildFilterChip(
                                 label: subclassName,
                                 set: selectedSubclasses,

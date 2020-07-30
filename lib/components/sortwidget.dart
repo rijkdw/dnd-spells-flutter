@@ -1,5 +1,6 @@
 import 'package:dnd_spells_flutter/components/headeredspell_list.dart';
 import 'package:dnd_spells_flutter/services/thememanager.dart';
+import 'package:dnd_spells_flutter/utilities/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -61,6 +62,7 @@ class _SortWidgetState extends State<SortWidget> {
           ),
           SizedBox(width: 6),
           FloatingActionButton(
+            heroTag: getRandomStringOfLength(20),
             mini: true,
             elevation: 0,
             splashColor: Colors.transparent,

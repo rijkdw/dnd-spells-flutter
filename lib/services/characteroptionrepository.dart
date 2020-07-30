@@ -67,6 +67,14 @@ class CharacterOptionRepository extends ChangeNotifier {
     return list;
   }
 
+  Map<String, CharacterOption> mapifyClasses() {
+    Map<String, CharacterOption> map = {};
+    for (CharacterOption characterOption in listifyClasses()) {
+      map[characterOption.name] = characterOption;
+    }
+    return map;
+  }
+
   List<String> getAllRaceSubraceNameCombinations() {
     List<String> returnList = [];
     for (CharacterOption baseRace in racesToSubracesMap.keys.toList()) {

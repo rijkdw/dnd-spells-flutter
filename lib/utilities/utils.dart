@@ -1,12 +1,10 @@
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
-
 // Maps
 
 Map<int, int> getEmptySpellSlotMap() {
   Map<int, int> emptySpellSlotsMap = {};
-  for (int level in List.generate(9, (index) => index+1)) {
+  for (int level in List.generate(9, (index) => index + 1)) {
     emptySpellSlotsMap[level] = 0;
   }
   return emptySpellSlotsMap;
@@ -15,8 +13,8 @@ Map<int, int> getEmptySpellSlotMap() {
 Map<int, int> listToSpellSlotMap(List<int> list) {
   if (list.isEmpty) return getEmptySpellSlotMap();
   Map<int, int> spellSlotMap = {};
-  for (int level in List.generate(9, (index) => index+1)) {
-    spellSlotMap[level] = list[level-1];
+  for (int level in List.generate(9, (index) => index + 1)) {
+    spellSlotMap[level] = list[level - 1];
   }
   return spellSlotMap;
 }
@@ -35,6 +33,14 @@ bool doesListContainDuplicates(List<dynamic> list) {
 List<dynamic> sortList(List<dynamic> inputList) {
   inputList.sort((a, b) => a.compareTo(b));
   return inputList;
+}
+
+List<dynamic> intersection(List<List<dynamic>> lists) {
+  List<dynamic> returnList = lists[0].map((e) => e).toList();
+  for (int i = 1; i < lists.length; i++) {
+    returnList.removeWhere((e) => !lists[i].contains(e));
+  }
+  return returnList;
 }
 
 // Dice
@@ -63,6 +69,13 @@ String decrementDice(String inputDice) {
 }
 
 // Strings
+
+String getRandomStringOfLength(int length) {
+  const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+  Random _rnd = Random();
+
+  return String.fromCharCodes(Iterable.generate(length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+}
 
 String sign(int value) {
   if (value > -1)
