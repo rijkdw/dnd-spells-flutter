@@ -11,8 +11,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AllSpellsPage extends StatelessWidget {
+  ScrollController scrollController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
+    //
     return Consumer2<CharacterSpellList, SpellRepository>(
       builder: (context, characterSpellList, spellRepository, child) {
         //
@@ -49,12 +52,14 @@ class AllSpellsPage extends StatelessWidget {
                   highlightColor: Colors.transparent,
                   hoverColor: Colors.transparent,
                   onTap: () {
-                    if (spellIsKnown) { // if it's known
+                    if (spellIsKnown) {
+                      // if it's known
                       if (spell.level == 0) // if it's a cantrip
                         characterSpellList.unprepareSpell(spell.name);
                       else // if it's a spell of level 1+
                         characterSpellList.unlearnSpell(spell.name);
-                    } else { // if it's not known
+                    } else {
+                      // if it's not known
                       if (spell.level == 0) // if it's a cantrip
                         characterSpellList.prepareSpell(spell.name);
                       else // if it's a spell of level 1+
@@ -91,6 +96,8 @@ class AllSpellsPage extends StatelessWidget {
         List<String> learnableSpellNames = characterSpellList.learnableSpellNames;
         List<Spell> learnableSpells = learnableSpellNames.map((spellName) => spellRepository.getSpellFromName(spellName)).toList();
         return HeaderedSpellList(
+          scrollController: scrollController,
+          key: PageStorageKey<String>('all'),
           spells: learnableSpells,
           spellTileBuilder: learnableSpellTileBuilder,
         );

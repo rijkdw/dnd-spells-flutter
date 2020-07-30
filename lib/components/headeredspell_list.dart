@@ -1,7 +1,5 @@
 import 'package:dnd_spells_flutter/components/sortwidget.dart';
-import 'package:dnd_spells_flutter/components/spell_tile.dart';
 import 'package:dnd_spells_flutter/models/spell.dart';
-import 'package:dnd_spells_flutter/services/searchmanager.dart';
 import 'package:dnd_spells_flutter/services/thememanager.dart';
 import 'package:dnd_spells_flutter/utilities/utils.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +14,11 @@ typedef Widget SpellTileBuilder(Spell spell);
 class HeaderedSpellList extends StatefulWidget {
   final List<Spell> spells;
   final SpellTileBuilder spellTileBuilder;
+  ScrollController scrollController;
 
-  HeaderedSpellList({@required this.spells, this.spellTileBuilder, Key key}) : assert(spellTileBuilder != null), super(key: key ?? UniqueKey()); // : super(key: UniqueKey()); (why?)
+  HeaderedSpellList({@required this.spells, this.spellTileBuilder, this.scrollController, Key key})
+      : assert(spellTileBuilder != null),
+        super(key: key ?? UniqueKey()); // : super(key: UniqueKey()); (why?)
 
   @override
   _HeaderedSpellListState createState() => _HeaderedSpellListState();
@@ -28,7 +29,7 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
 //  Map<String, bool> headerToExpandedMap = {};
   bool showUpButton;
   OrderBy orderBy;
-
+  ScrollController scrollController;
 
   @override
   initState() {
@@ -36,21 +37,21 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
     orderBy = OrderBy.name;
 //    initialiseExpandedMap();
     showUpButton = true;
+    scrollController = widget.scrollController ?? ScrollController();
+    scrollController.addListener(() {
+      if (scrollController.position.userScrollDirection == ScrollDirection.reverse) {
+        if (this.showUpButton)
+          setState(() {
+            this.showUpButton = false;
+          });
+      } else if (scrollController.position.userScrollDirection == ScrollDirection.forward || scrollController.position.pixels == 0) {
+        if (!this.showUpButton)
+          setState(() {
+            this.showUpButton = true;
+          });
+      }
+    });
   }
-
-//  void initialiseExpandedMap() {
-//    List<String> sortedKeys = splitSpells().keys.map((e) => e.toString()).toList();
-//    sortedKeys.sort((a, b) => a.compareTo(b));
-//
-//    // prepare the booleans
-//    sortedKeys.forEach((headerName) {
-//      headerToExpandedMap[headerName] = true;
-//    });
-//  }
-
-//  void invertMapAt(String headerName) {
-//    setState(() => headerToExpandedMap[headerName] = !headerToExpandedMap[headerName]);
-//  }
 
   Map<String, List<Spell>> splitSpells() {
     // make the sticky headers
@@ -141,21 +142,6 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
 
   @override
   Widget build(BuildContext context) {
-    ScrollController scrollController = ScrollController();
-    scrollController.addListener(() {
-      if (scrollController.position.userScrollDirection == ScrollDirection.reverse) {
-        if (this.showUpButton)
-          setState(() {
-            this.showUpButton = false;
-          });
-      } else if (scrollController.position.userScrollDirection == ScrollDirection.forward || scrollController.position.pixels == 0) {
-        if (!this.showUpButton)
-          setState(() {
-            this.showUpButton = true;
-          });
-      }
-    });
-
     return Stack(
       children: <Widget>[
         // the list
@@ -201,12 +187,6 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
             secondChild: SizedBox(width: double.infinity),
           ),
         ),
-
-//          AnimatedOpacity(
-//            opacity: this.showUpButton ? 1 : 0,
-//            duration: Duration(milliseconds: 300),
-//            //child:
-//          ),
       ],
     );
   }

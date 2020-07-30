@@ -10,6 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PreparedSpellsPage extends StatelessWidget {
+
+  ScrollController scrollController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     return Consumer2<CharacterSpellList, SpellRepository>(
@@ -67,6 +70,8 @@ class PreparedSpellsPage extends StatelessWidget {
         List<String> preparedSpellNames = characterSpellList.preparedSpellNames;
         List<Spell> preparedSpells = preparedSpellNames.map((spellName) => spellRepository.getSpellFromName(spellName)).toList();
         return HeaderedSpellList(
+          scrollController: scrollController,
+          key: PageStorageKey<String>('prep'),
           spells: preparedSpells,
           spellTileBuilder: preparedSpellTileBuilder,
         );
