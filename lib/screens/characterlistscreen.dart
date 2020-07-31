@@ -109,6 +109,10 @@ class _CharacterSpellListScreenState extends State<CharacterSpellListScreen> {
       drawer: SettingsDrawer(),
       drawerEdgeDragWidth: double.infinity,
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context),
+        ),
         elevation: 0,
         title: Text(
           widget.spellList.name,

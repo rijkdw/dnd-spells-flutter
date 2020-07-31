@@ -4,6 +4,7 @@ import 'package:dnd_spells_flutter/models/spell_list.dart';
 import 'package:dnd_spells_flutter/services/thememanager.dart';
 import 'package:dnd_spells_flutter/utilities/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:provider/provider.dart';
 
 class SpellSlotPage extends StatefulWidget {
@@ -128,17 +129,20 @@ class _CharacterStatsWidget extends StatelessWidget {
     return Consumer<CharacterSpellList>(
       builder: (context, spellList, child) {
         ColorPalette colorPalette = Provider.of<ThemeManager>(context).colorPalette;
+        //
         Widget buildValueScroller({VoidCallback onUp, VoidCallback onDown, String heading, String value}) {
-          InkWell buildButton(String text, VoidCallback onTap, {double fontsize: 24}) {
+          //
+          InkWell buildButton(String text, VoidCallback onTap, {double fontSize: 24}) {
             return InkWell(
               child: Container(
-                width: 24,
-                height: 30,
+//                width: 24,
+//                height: 30,
+                padding: EdgeInsets.symmetric(horizontal: 10),
                 child: Center(
                   child: Text(
                     text,
                     style: TextStyle(
-                      fontSize: fontsize,
+                      fontSize: fontSize,
                       color: colorPalette.clickableTextLinkColor,
                     ),
                   ),
@@ -173,7 +177,7 @@ class _CharacterStatsWidget extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           buildButton('+', onUp),
-                          buildButton('-', onDown, fontsize: 30),
+                          buildButton('—', onDown),
                         ],
                       )
                     ],

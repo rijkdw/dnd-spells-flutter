@@ -1,9 +1,12 @@
+import 'dart:math';
+
 import 'package:dnd_spells_flutter/models/colorpalette.dart';
 import 'package:dnd_spells_flutter/models/spell_list.dart';
 import 'package:dnd_spells_flutter/services/thememanager.dart';
 import 'package:dnd_spells_flutter/utilities/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class EditMaxSpellSlotsPage extends StatelessWidget {
@@ -34,6 +37,25 @@ class _EditMaxSpellSlotsFormState extends State<EditMaxSpellSlotsForm> {
     textEditingControllers = [];
 
     Widget buildEditRow(int level) {
+      //
+      Widget buildButton({IconData iconData, VoidCallback onTap, double size: 20}) {
+        return InkWell(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          hoverColor: Colors.transparent,
+          focusColor: Colors.transparent,
+          child: Container(
+            padding: EdgeInsets.all(10),
+            child: Icon(
+              iconData,
+              color: colorPalette.clickableTextLinkColor,
+              size: size,
+            ),
+          ),
+          onTap: onTap,
+        );
+      }
+
       TextEditingController textEditingController = TextEditingController();
       textEditingController.text = characterSpellList.maxSpellSlots[level].toString();
       textEditingControllers.add(textEditingController);
@@ -50,6 +72,16 @@ class _EditMaxSpellSlotsFormState extends State<EditMaxSpellSlotsForm> {
             SizedBox(
               width: 25,
             ),
+            buildButton(
+              iconData: FontAwesomeIcons.minus,
+              onTap: () {
+                int newValue = int.parse(textEditingControllers[level - 1].text) - 1;
+                textEditingControllers[level - 1].text = '${max(newValue, 0)}';
+              },
+            ),
+            SizedBox(
+              width: 8,
+            ),
             Expanded(
               child: TextField(
                 style: TextStyle(
@@ -65,14 +97,26 @@ class _EditMaxSpellSlotsFormState extends State<EditMaxSpellSlotsForm> {
                     borderSide: BorderSide(
                       color: colorPalette.tableLineColor,
                     ),
+                    borderRadius: BorderRadius.circular(100),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(
                       color: colorPalette.clickableTextLinkColor,
                     ),
+                    borderRadius: BorderRadius.circular(100),
                   ),
                 ),
               ),
+            ),
+            SizedBox(
+              width: 8,
+            ),
+            buildButton(
+              iconData: FontAwesomeIcons.plus,
+              onTap: () {
+                int newValue = int.parse(textEditingControllers[level - 1].text) + 1;
+                textEditingControllers[level - 1].text = '${min(newValue, 5)}';
+              },
             ),
           ],
         ),

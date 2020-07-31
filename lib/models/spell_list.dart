@@ -217,19 +217,16 @@ class CharacterSpellList extends AbstractSpellList {
 
   set saveDC(int newValue) {
     _saveDC = newValue;
-    print('Save DC set as $newValue');
     notifyListeners();
   }
 
   set spellAttackBonus(int newValue) {
     _spellAttackBonus = newValue;
-    print('Spell bonus set as $newValue');
     notifyListeners();
   }
 
   set numSpellsPrepared(int newValue) {
     _numSpellsPrepared = newValue;
-    print('Num spells set as $newValue');
     notifyListeners();
   }
 
