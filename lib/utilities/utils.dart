@@ -30,6 +30,21 @@ bool doesListContainDuplicates(List<dynamic> list) {
   return false;
 }
 
+bool isPositiveIntList(List<dynamic> list) {
+  for (dynamic d in list) {
+    int i;
+    try {
+      i = int.parse(d);
+    } catch (e) {
+      return false;
+    }
+    if (i < 0) {
+      return false;
+    }
+  }
+  return true;
+}
+
 List<dynamic> sortList(List<dynamic> inputList) {
   inputList.sort((a, b) => a.compareTo(b));
   return inputList;

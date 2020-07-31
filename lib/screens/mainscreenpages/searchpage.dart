@@ -83,6 +83,7 @@ class _SearchPageState extends State<SearchPage> {
             children: <Widget>[
               Expanded(
                 child: HeaderedSpellList(
+                  key: PageStorageKey<String>('search'),
                   spellTileBuilder: searchPageSpellTileBuilder,
                   spells: filteredSpells,
                 ),

@@ -1,8 +1,4 @@
-import 'dart:ffi';
-
 import 'package:dnd_spells_flutter/components/headeredspell_list.dart';
-import 'package:dnd_spells_flutter/components/spell_tile.dart';
-import 'package:dnd_spells_flutter/main.dart';
 import 'package:dnd_spells_flutter/models/colorpalette.dart';
 import 'package:dnd_spells_flutter/models/spell_list.dart';
 import 'package:dnd_spells_flutter/services/thememanager.dart';
@@ -35,8 +31,8 @@ class _SpellSlotPageState extends State<SpellSlotPage> {
         height: 36,
         width: 24,
         decoration: BoxDecoration(
-//          color: active ? colorPalette.navBarSelectedColor : colorPalette.stickyHeaderBackgroundColor,
-          gradient: active ? activeGradient : inactiveGradient,
+          color: active ? colorPalette.navBarSelectedColor : colorPalette.stickyHeaderBackgroundColor,
+//          gradient: active ? activeGradient : inactiveGradient,
           borderRadius: BorderRadius.circular(100),
         ),
       ),
@@ -57,11 +53,13 @@ class _SpellSlotPageState extends State<SpellSlotPage> {
       dots.add(_buildDot(false));
     }
 
+    if (maxSlots == 0) return Container();
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Text(
-          'Level $level',
+          'LEVEL $level',
           style: TextStyle(
             fontSize: 18,
           ),
@@ -77,7 +75,7 @@ class _SpellSlotPageState extends State<SpellSlotPage> {
           child: Text(
             'USE',
             style: TextStyle(
-              color: colorPalette.mainTextColor,
+              color: colorPalette.clickableTextLinkColor,
               fontSize: 18,
             ),
           ),

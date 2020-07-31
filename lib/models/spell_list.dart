@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:dnd_spells_flutter/main.dart';
 import 'package:dnd_spells_flutter/models/characteroption.dart';
 import 'package:dnd_spells_flutter/services/characteroptionrepository.dart';
@@ -198,16 +200,17 @@ class CharacterSpellList extends AbstractSpellList {
     return true;
   }
 
-  void setMaxSlotsAtLevel({int level, int max}) {
+  void setMaxSlotsOfLevel({int level, int max}) {
     _maxSpellSlots[level] = max;
-    _currentSpellSlots[level] = max - 2; // TODO take this out
+    _currentSpellSlots[level] = min(max, _currentSpellSlots[level]);
     notifyListeners();
   }
 
   void resetSpellSlots() {
-    for (int level in List.generate(9, (index) => index)) {
+    for (int level in List.generate(9, (index) => index + 1)) {
       _currentSpellSlots[level] = _maxSpellSlots[level];
     }
+    notifyListeners();
   }
 
   // setters

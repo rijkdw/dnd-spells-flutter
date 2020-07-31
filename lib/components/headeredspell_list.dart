@@ -14,9 +14,11 @@ typedef Widget SpellTileBuilder(Spell spell);
 class HeaderedSpellList extends StatefulWidget {
   final List<Spell> spells;
   final SpellTileBuilder spellTileBuilder;
-  ScrollController scrollController;
+  final ScrollController scrollController;
+  final OrderBy orderBy;
+  final Function(OrderBy) onOrderChange;
 
-  HeaderedSpellList({@required this.spells, this.spellTileBuilder, this.scrollController, Key key})
+  HeaderedSpellList({@required this.spells, this.spellTileBuilder, this.scrollController, this.onOrderChange, this.orderBy, Key key})
       : assert(spellTileBuilder != null),
         super(key: key ?? UniqueKey()); // : super(key: UniqueKey()); (why?)
 
@@ -34,7 +36,7 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
   @override
   initState() {
     super.initState();
-    orderBy = OrderBy.name;
+    orderBy = widget.orderBy ?? OrderBy.name;
 //    initialiseExpandedMap();
     showUpButton = true;
     scrollController = widget.scrollController ?? ScrollController();
@@ -179,6 +181,9 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
                 setState(() {
                   this.orderBy = newOrderBy;
                 });
+                try {
+                  widget.onOrderChange(this.orderBy);
+                } catch (e) {}
               },
               onButtonTap: () {
                 scrollController.jumpTo(0);

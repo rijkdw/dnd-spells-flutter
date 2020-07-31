@@ -3,6 +3,7 @@ import 'package:dnd_spells_flutter/components/spell_tile.dart';
 import 'package:dnd_spells_flutter/models/spell.dart';
 import 'package:dnd_spells_flutter/models/spell_list.dart';
 import 'package:dnd_spells_flutter/models/spellview.dart';
+import 'package:dnd_spells_flutter/screens/characterlistscreen.dart';
 import 'package:dnd_spells_flutter/screens/spellinfoscreen.dart';
 import 'package:dnd_spells_flutter/services/historymanager.dart';
 import 'package:dnd_spells_flutter/services/spellsrepository.dart';
@@ -15,8 +16,8 @@ class PreparedSpellsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<CharacterSpellList, SpellRepository>(
-      builder: (context, characterSpellList, spellRepository, child) {
+    return Consumer3<CharacterSpellList, SpellRepository, OrderByContainer>(
+      builder: (context, characterSpellList, spellRepository, orderByContainer, child) {
         //
         Widget preparedSpellTileBuilder(Spell spell) {
           return InkWell(
@@ -72,6 +73,11 @@ class PreparedSpellsPage extends StatelessWidget {
         return HeaderedSpellList(
           scrollController: scrollController,
           key: PageStorageKey<String>('prep'),
+          orderBy: orderByContainer.orderBy,
+          onOrderChange: (orderBy) {
+            print('Prepared spells sorted by $orderBy');
+            orderByContainer.orderBy = orderBy;
+          },
           spells: preparedSpells,
           spellTileBuilder: preparedSpellTileBuilder,
         );

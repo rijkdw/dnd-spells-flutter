@@ -3,8 +3,10 @@ import 'package:dnd_spells_flutter/components/spell_tile.dart';
 import 'package:dnd_spells_flutter/models/spell.dart';
 import 'package:dnd_spells_flutter/models/spell_list.dart';
 import 'package:dnd_spells_flutter/models/spellview.dart';
+import 'package:dnd_spells_flutter/screens/characterlistscreen.dart';
 import 'package:dnd_spells_flutter/screens/spellinfoscreen.dart';
 import 'package:dnd_spells_flutter/services/historymanager.dart';
+import 'package:dnd_spells_flutter/services/searchmanager.dart';
 import 'package:dnd_spells_flutter/services/spellsrepository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,8 +17,8 @@ class KnownSpellsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<CharacterSpellList, SpellRepository>(
-      builder: (context, characterSpellList, spellRepository, child) {
+    return Consumer3<CharacterSpellList, SpellRepository, OrderByContainer>(
+      builder: (context, characterSpellList, spellRepository, orderByContainer, child) {
         //
         Widget knownSpellTileBuilder(Spell spell) {
           bool spellIsPrepared = characterSpellList.preparedSpellNames.contains(spell.name);
@@ -85,6 +87,11 @@ class KnownSpellsPage extends StatelessWidget {
         return HeaderedSpellList(
           scrollController: scrollController,
           key: PageStorageKey<String>('known'),
+          orderBy: orderByContainer.orderBy,
+          onOrderChange: (orderBy) {
+            print('Known spells sorted by $orderBy');
+            orderByContainer.orderBy = orderBy;
+          },
           spells: knownSpells,
           spellTileBuilder: knownSpellTileBuilder,
         );

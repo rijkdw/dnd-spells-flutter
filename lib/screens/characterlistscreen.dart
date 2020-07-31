@@ -1,4 +1,6 @@
 import 'package:dnd_spells_flutter/components/drawer.dart';
+import 'package:dnd_spells_flutter/components/yesnodialog.dart';
+import 'package:dnd_spells_flutter/screens/charcterlistscreenpages/editmaxspellslotpage.dart';
 import 'package:dnd_spells_flutter/components/headeredspell_list.dart';
 import 'package:dnd_spells_flutter/models/colorpalette.dart';
 import 'package:dnd_spells_flutter/models/spell_list.dart';
@@ -6,11 +8,24 @@ import 'package:dnd_spells_flutter/screens/charcterlistscreenpages/allspellspage
 import 'package:dnd_spells_flutter/screens/charcterlistscreenpages/knownspellspage.dart';
 import 'package:dnd_spells_flutter/screens/charcterlistscreenpages/preparedspellspage.dart';
 import 'package:dnd_spells_flutter/screens/charcterlistscreenpages/spellslotpage.dart';
-import 'package:dnd_spells_flutter/services/searchmanager.dart';
 import 'package:dnd_spells_flutter/services/thememanager.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+
+class OrderByContainer extends ChangeNotifier {
+  OrderBy _orderBy;
+  OrderByContainer({@required OrderBy orderBy}) {
+    this._orderBy = orderBy;
+  }
+
+  OrderBy get orderBy => _orderBy;
+  set orderBy(OrderBy newOrderBy) {
+    this._orderBy = newOrderBy;
+    print('Notifying orderByContainer\'s listeners');
+    notifyListeners();
+  }
+}
 
 class CharacterSpellListScreen extends StatefulWidget {
   final CharacterSpellList spellList;
@@ -21,13 +36,11 @@ class CharacterSpellListScreen extends StatefulWidget {
 }
 
 class _CharacterSpellListScreenState extends State<CharacterSpellListScreen> {
-  OrderBy orderBy;
   int _selectedIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    orderBy = Provider.of<SearchManager>(context, listen: false).orderBy;
   }
 
   void _onPageChanged(int page) {
@@ -40,12 +53,28 @@ class _CharacterSpellListScreenState extends State<CharacterSpellListScreen> {
   Widget build(BuildContext context) {
     ColorPalette colorPalette = Provider.of<ThemeManager>(context).colorPalette;
 
-    List<Widget> pages = [
-      AllSpellsPage(),
-      KnownSpellsPage(),
-      PreparedSpellsPage(),
-      SpellSlotPage(),
-    ];
+    Route createEditSpellSlotRoute() {
+      return PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) {
+          return ChangeNotifierProvider.value(
+            value: widget.spellList,
+            child: EditMaxSpellSlotsPage(),
+          );
+        },
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          var begin = Offset(0.0, 1.0);
+          var end = Offset.zero;
+          var curve = Curves.ease;
+
+          var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+          return SlideTransition(
+            position: animation.drive(tween),
+            child: child,
+          );
+        },
+      );
+    }
 
     Map<int, List<Widget>> actions = {
       3: [
@@ -54,11 +83,23 @@ class _CharacterSpellListScreenState extends State<CharacterSpellListScreen> {
             FontAwesomeIcons.bed,
             size: 20,
           ),
+          onPressed: () async {
+            final result = await showDialog(
+              context: context,
+              builder: (context) => YesNoDialog(
+                text: 'Regain all expended spell slots?',
+              ),
+            );
+            if (result) widget.spellList.resetSpellSlots();
+          },
+        ),
+        IconButton(
+          icon: Icon(
+            FontAwesomeIcons.edit,
+            size: 20,
+          ),
           onPressed: () {
-            print('reset spell slots');
-            for (int level in List.generate(9, (index) => index+1)) {
-              widget.spellList.setMaxSlotsAtLevel(level: level, max: 4);
-            }
+            Navigator.of(context).push(createEditSpellSlotRoute());
           },
         ),
       ],
@@ -74,9 +115,19 @@ class _CharacterSpellListScreenState extends State<CharacterSpellListScreen> {
         ),
         actions: actions[_selectedIndex],
       ),
-      body: IndexedStack(
-        children: pages,
-        index: _selectedIndex,
+      body: ChangeNotifierProvider(
+        create: (_) => OrderByContainer(
+          orderBy: OrderBy.name,
+        ),
+        child: IndexedStack(
+          children: [
+            AllSpellsPage(),
+            KnownSpellsPage(),
+            PreparedSpellsPage(),
+            SpellSlotPage(),
+          ],
+          index: _selectedIndex,
+        ),
       ),
       bottomNavigationBar: Theme(
         data: ThemeData(

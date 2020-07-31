@@ -81,12 +81,14 @@ class _CharacterSpellListTile extends StatelessWidget {
 
   Route _characterListScreenRoute() {
     return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => ChangeNotifierProvider<CharacterSpellList>.value(
-        value: spellList,
-        child: CharacterSpellListScreen(
-          spellList: spellList,
-        ),
-      ),
+      pageBuilder: (context, animation, secondaryAnimation) {
+        return ChangeNotifierProvider<CharacterSpellList>.value(
+          value: spellList,
+          child: CharacterSpellListScreen(
+            spellList: spellList,
+          ),
+        );
+      },
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         var begin = Offset(0.0, 1.0);
         var end = Offset.zero;

@@ -26,13 +26,6 @@ class GenericSpellListScreen extends StatefulWidget {
 }
 
 class _GenericSpellListScreenState extends State<GenericSpellListScreen> {
-  OrderBy orderBy;
-
-  @override
-  void initState() {
-    super.initState();
-    orderBy = Provider.of<SearchManager>(context, listen: false).orderBy;
-  }
 
   @override
   Widget build(BuildContext context) {
