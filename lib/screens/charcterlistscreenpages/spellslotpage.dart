@@ -56,6 +56,7 @@ class _SpellSlotPageState extends State<SpellSlotPage> {
 
     if (maxSlots == 0) return Container();
 
+    CharacterSpellList spellList = Provider.of<CharacterSpellList>(context, listen: false);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
@@ -76,12 +77,11 @@ class _SpellSlotPageState extends State<SpellSlotPage> {
           child: Text(
             'USE',
             style: TextStyle(
-              color: colorPalette.clickableTextLinkColor,
+              color: spellList.currentSpellSlots[level] > 0 ? colorPalette.clickableTextLinkColor : colorPalette.navBarBackgroundColor,
               fontSize: 18,
             ),
           ),
           onTap: () {
-            CharacterSpellList spellList = Provider.of<CharacterSpellList>(context, listen: false);
             spellList.spendSpellSlotOfLevel(level);
           },
         )

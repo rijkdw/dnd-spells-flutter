@@ -1,5 +1,6 @@
 import 'package:dnd_spells_flutter/components/sortwidget.dart';
 import 'package:dnd_spells_flutter/models/spell.dart';
+import 'package:dnd_spells_flutter/services/searchmanager.dart';
 import 'package:dnd_spells_flutter/services/thememanager.dart';
 import 'package:dnd_spells_flutter/utilities/utils.dart';
 import 'package:flutter/material.dart';
@@ -176,11 +177,12 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
             duration: Duration(milliseconds: 200),
             crossFadeState: this.showUpButton ? CrossFadeState.showFirst : CrossFadeState.showSecond,
             firstChild: SortWidget(
-              toCheck: this.orderBy,
+              toCheck: Provider.of<SearchManager>(context).orderBy, //this.orderBy,
               onSortTap: (newOrderBy) {
                 setState(() {
                   this.orderBy = newOrderBy;
                 });
+                Provider.of<SearchManager>(context, listen: false).orderBy = newOrderBy;
                 try {
                   widget.onOrderChange(this.orderBy);
                 } catch (e) {}
