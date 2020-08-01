@@ -30,6 +30,16 @@ bool doesListContainDuplicates(List<dynamic> list) {
   return false;
 }
 
+bool listsContainSameElements(List<dynamic> a, List<dynamic> b) {
+  if (a.length != b.length) return false;
+  a.sort();
+  b.sort();
+  for (int i = 0; i < a.length; i++) {
+    if (a[i] != b[i]) return false;
+  }
+  return true;
+}
+
 bool isPositiveIntList(List<dynamic> list) {
   for (dynamic d in list) {
     int i;

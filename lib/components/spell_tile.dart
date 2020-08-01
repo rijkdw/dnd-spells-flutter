@@ -1,6 +1,6 @@
 import 'package:dnd_spells_flutter/components/add_to_spell_list_dialog.dart';
 import 'package:dnd_spells_flutter/components/dialogmenu.dart';
-import 'package:dnd_spells_flutter/models/colorpalette.dart';
+import 'package:dnd_spells_flutter/models/characteroption.dart';
 import 'package:dnd_spells_flutter/models/spell.dart';
 import 'package:dnd_spells_flutter/models/spellview.dart';
 import 'package:dnd_spells_flutter/screens/spellinfoscreen.dart';
@@ -93,6 +93,56 @@ class SpellTile extends StatelessWidget {
   }
 }
 
+class CustomSpellTile extends StatelessWidget {
+  final Spell spell;
+  final List<Widget> children;
+  final double height;
+
+  CustomSpellTile({this.spell, this.children, this.height: 55});
+
+  Route _spellScreenRoute() {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) {
+        return SpellInfoScreen(
+          spell: spell,
+        );
+      },
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        var begin = Offset(0.0, 1.0);
+        var end = Offset.zero;
+        var curve = Curves.ease;
+
+        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        Provider.of<HistoryManager>(context, listen: false).addToHistory(SpellView.now(spellName: spell.name));
+        return Navigator.of(context).push(_spellScreenRoute());
+      },
+      child: Container(
+        width: double.infinity,
+        height: height,
+        padding: EdgeInsets.only(left: 10, right: 3),
+        decoration: spellTileDecoration,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: this.children,
+        ),
+      ),
+    );
+  }
+}
+
 class NameSubtitleColumn extends StatelessWidget {
   final Spell spell;
   NameSubtitleColumn(this.spell);
@@ -101,6 +151,7 @@ class NameSubtitleColumn extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text(
           spell.name,
@@ -140,6 +191,43 @@ class _LongPressMenuDialog extends StatelessWidget {
           ),
         )
       ],
+    );
+  }
+}
+
+class SpellTileLeading extends StatelessWidget {
+  final Spell spell;
+
+  SpellTileLeading({this.spell});
+
+  @override
+  Widget build(BuildContext context) {
+    IconData iconData = {
+      CharacterOptionType.class_: FontAwesomeIcons.hatWizard,
+      CharacterOptionType.subclass: FontAwesomeIcons.hatWizard,
+      CharacterOptionType.race: FontAwesomeIcons.child,
+      CharacterOptionType.subrace: FontAwesomeIcons.child,
+      null: FontAwesomeIcons.question
+    }[spell.characterOptionType];
+    double iconSize = {
+      CharacterOptionType.class_: 20.0,
+      CharacterOptionType.subclass: 20.0,
+      CharacterOptionType.race: 20.0,
+      CharacterOptionType.subrace: 20.0,
+      null: 20.0
+    }[spell.characterOptionType];
+
+    return InkWell(
+      splashColor: Colors.transparent,
+      focusColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+      hoverColor: Colors.transparent,
+      onTap: () {},
+      child: Icon(
+        iconData,
+        size: iconSize,
+        color: Provider.of<ThemeManager>(context).colorPalette.buttonColor,
+      ),
     );
   }
 }

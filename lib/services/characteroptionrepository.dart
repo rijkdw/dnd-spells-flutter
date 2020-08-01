@@ -56,6 +56,25 @@ class CharacterOptionRepository extends ChangeNotifier {
     return reverseMap;
   }
 
+  List<CharacterOption> listifyRaces() {
+    List<CharacterOption> list = [];
+    for (CharacterOption key in racesToSubracesMap.keys.toList()) {
+      list.add(key);
+      for (CharacterOption value in racesToSubracesMap[key]) {
+        list.add(value);
+      }
+    }
+    return list;
+  }
+
+  Map<String, CharacterOption> mapifyRaces() {
+    Map<String, CharacterOption> map = {};
+    for (CharacterOption characterOption in listifyRaces()) {
+      map[characterOption.name] = characterOption;
+    }
+    return map;
+  }
+
   List<CharacterOption> listifyClasses() {
     List<CharacterOption> list = [];
     for (CharacterOption key in classesToSubclassesMap.keys.toList()) {

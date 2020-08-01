@@ -135,6 +135,10 @@ class CharacterSpellList extends AbstractSpellList {
     subclassNames.forEach((subclassName) {
       allOptions.add(characterOptionRepository.mapifyClasses()[subclassName]);
     });
+
+    allOptions.add(characterOptionRepository.mapifyRaces()[raceName]);
+    if (subraceName.trim() != '') allOptions.add(characterOptionRepository.mapifyRaces()[subraceName]);
+
     return allOptions;
   }
 

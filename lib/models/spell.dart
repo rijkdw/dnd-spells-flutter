@@ -1,10 +1,12 @@
+import 'package:dnd_spells_flutter/models/characteroption.dart';
 import 'package:dnd_spells_flutter/utilities/utils.dart';
 
 class Spell {
   Map<dynamic, dynamic> map;
   String descriptionBodyToSearch;
+  CharacterOptionType characterOptionType;
 
-  Spell(Map<dynamic, dynamic> map) {
+  Spell(Map<dynamic, dynamic> map, {CharacterOptionType characterOptionType}) {
     this.map = map;
     this.descriptionBodyToSearch = generateDescriptionBodyToSearch();
   }

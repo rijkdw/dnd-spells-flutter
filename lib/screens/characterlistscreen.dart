@@ -1,31 +1,17 @@
 import 'package:dnd_spells_flutter/components/drawer.dart';
 import 'package:dnd_spells_flutter/components/yesnodialog.dart';
-import 'package:dnd_spells_flutter/screens/charcterlistscreenpages/editmaxspellslotpage.dart';
-import 'package:dnd_spells_flutter/components/headeredspell_list.dart';
 import 'package:dnd_spells_flutter/models/colorpalette.dart';
 import 'package:dnd_spells_flutter/models/spell_list.dart';
 import 'package:dnd_spells_flutter/screens/charcterlistscreenpages/allspellspage.dart';
+import 'package:dnd_spells_flutter/screens/charcterlistscreenpages/editmaxspellslotpage.dart';
 import 'package:dnd_spells_flutter/screens/charcterlistscreenpages/knownspellspage.dart';
 import 'package:dnd_spells_flutter/screens/charcterlistscreenpages/preparedspellspage.dart';
 import 'package:dnd_spells_flutter/screens/charcterlistscreenpages/spellslotpage.dart';
 import 'package:dnd_spells_flutter/services/thememanager.dart';
+import 'package:dnd_spells_flutter/utilities/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-
-class OrderByContainer extends ChangeNotifier {
-  OrderBy _orderBy;
-  OrderByContainer({@required OrderBy orderBy}) {
-    this._orderBy = orderBy;
-  }
-
-  OrderBy get orderBy => _orderBy;
-  set orderBy(OrderBy newOrderBy) {
-    this._orderBy = newOrderBy;
-    print('Notifying orderByContainer\'s listeners');
-    notifyListeners();
-  }
-}
 
 class CharacterSpellListScreen extends StatefulWidget {
   final CharacterSpellList spellList;
@@ -77,6 +63,44 @@ class _CharacterSpellListScreenState extends State<CharacterSpellListScreen> {
     }
 
     Map<int, List<Widget>> actions = {
+      0: [
+        Consumer<CharacterSpellList>(
+          builder: (context, characterSpellList, child) {
+            bool allLearnableSpellsAreKnown = listsContainSameElements(characterSpellList.learnableSpellNames, characterSpellList.knownSpellNames);
+            return IconButton(
+              icon: Icon(
+                !allLearnableSpellsAreKnown ? FontAwesomeIcons.check : FontAwesomeIcons.times,
+                size: 20,
+              ),
+              onPressed: () async {
+                if (!allLearnableSpellsAreKnown) {
+                  final result = await showDialog(
+                    context: context,
+                    builder: (context) => YesNoDialog(
+                      text: 'Learn all spells?',
+                    ),
+                  );
+                  if (result ?? false)
+                    characterSpellList.learnableSpellNames.forEach((spellName) {
+                      characterSpellList.learnSpell(spellName);
+                    });
+                } else {
+                  final result = await showDialog(
+                    context: context,
+                    builder: (context) => YesNoDialog(
+                      text: 'Unlearn all spells?',
+                    ),
+                  );
+                  if (result ?? false)
+                    characterSpellList.learnableSpellNames.forEach((spellName) {
+                      characterSpellList.unlearnSpell(spellName);
+                    });
+                }
+              },
+            );
+          },
+        ),
+      ],
       3: [
         IconButton(
           icon: Icon(
@@ -119,19 +143,14 @@ class _CharacterSpellListScreenState extends State<CharacterSpellListScreen> {
         ),
         actions: actions[_selectedIndex],
       ),
-      body: ChangeNotifierProvider(
-        create: (_) => OrderByContainer(
-          orderBy: OrderBy.name,
-        ),
-        child: IndexedStack(
-          children: [
-            AllSpellsPage(),
-            KnownSpellsPage(),
-            PreparedSpellsPage(),
-            SpellSlotPage(),
-          ],
-          index: _selectedIndex,
-        ),
+      body: IndexedStack(
+        children: [
+          AllSpellsPage(),
+          KnownSpellsPage(),
+          PreparedSpellsPage(),
+          SpellSlotPage(),
+        ],
+        index: _selectedIndex,
       ),
       bottomNavigationBar: Theme(
         data: ThemeData(
