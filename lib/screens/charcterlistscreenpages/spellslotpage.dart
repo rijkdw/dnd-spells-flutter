@@ -13,28 +13,23 @@ class SpellSlotPage extends StatefulWidget {
 }
 
 class _SpellSlotPageState extends State<SpellSlotPage> {
-  Widget _buildDot(bool active) {
+  Widget _buildDot({bool active, int index, int level}) {
     ColorPalette colorPalette = Provider.of<ThemeManager>(context).colorPalette;
-
-    LinearGradient activeGradient = LinearGradient(
-        colors: [colorPalette.navBarSelectedColor, colorPalette.navBarSelectedColor.withOpacity(0.7)],
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter);
-
-    LinearGradient inactiveGradient = LinearGradient(
-        colors: [colorPalette.stickyHeaderBackgroundColor, colorPalette.stickyHeaderBackgroundColor],
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter);
 
     return Container(
       padding: EdgeInsets.only(left: 8),
-      child: Container(
-        height: 36,
-        width: 24,
-        decoration: BoxDecoration(
-          color: active ? colorPalette.navBarSelectedColor : colorPalette.stickyHeaderBackgroundColor,
-//          gradient: active ? activeGradient : inactiveGradient,
-          borderRadius: BorderRadius.circular(100),
+      child: InkWell(
+        onTap: () {
+          CharacterSpellList spellList = Provider.of<CharacterSpellList>(context, listen: false);
+          spellList.setCurrentSpellSlotAtLevel(level: level, count: index + 1);
+        },
+        child: Container(
+          height: 36,
+          width: 24,
+          decoration: BoxDecoration(
+            color: active ? colorPalette.navBarSelectedColor : colorPalette.stickyHeaderBackgroundColor,
+            borderRadius: BorderRadius.circular(100),
+          ),
         ),
       ),
 //      child: CircleAvatar(
@@ -48,10 +43,18 @@ class _SpellSlotPageState extends State<SpellSlotPage> {
     ColorPalette colorPalette = Provider.of<ThemeManager>(context).colorPalette;
     List<Widget> dots = [];
     for (int i = 0; i < currentSlots; i++) {
-      dots.add(_buildDot(true));
+      dots.add(_buildDot(
+        active: true,
+        index: i,
+        level: level,
+      ));
     }
     for (int i = currentSlots; i < maxSlots; i++) {
-      dots.add(_buildDot(false));
+      dots.add(_buildDot(
+        active: false,
+        index: i,
+        level: level,
+      ));
     }
 
     if (maxSlots == 0) return Container();

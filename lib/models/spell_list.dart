@@ -243,6 +243,11 @@ class CharacterSpellList extends AbstractSpellList {
   Map<int, int> get maxSpellSlots => _maxSpellSlots;
   Map<int, int> get currentSpellSlots => _currentSpellSlots;
 
+  void setCurrentSpellSlotAtLevel({int level, int count}) {
+    currentSpellSlots[level] = count;
+    notifyListeners();
+  }
+
   String get subtitle {
     List<String> classTokens = [];
     CharacterOptionRepository characterOptionRepository = Provider.of<CharacterOptionRepository>(appKey.currentContext, listen: false);
