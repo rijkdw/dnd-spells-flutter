@@ -49,15 +49,6 @@ class _SearchPageState extends State<SearchPage> {
               ));
             },
           ),
-          IconButton(
-            icon: FaIcon(
-              FontAwesomeIcons.bug,
-              size: 20,
-            ),
-            onPressed: () {
-              print(Provider.of<CharacterOptionRepository>(context, listen: false).subclassesBelongingTo('Cleric').map((e) => e.name));
-            },
-          ),
         ],
       ),
       body: Consumer2<SpellRepository, SearchManager>(

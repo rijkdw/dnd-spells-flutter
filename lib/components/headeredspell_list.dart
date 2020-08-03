@@ -91,7 +91,7 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
   }
 
   String getHeaderName(Spell spell) {
-    switch (orderBy) {
+    switch (Provider.of<SearchManager>(context).orderBy) {
       case OrderBy.name:
         return spell.name.toUpperCase()[0];
       case OrderBy.level:
@@ -179,13 +179,7 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
             firstChild: SortWidget(
               toCheck: Provider.of<SearchManager>(context).orderBy, //this.orderBy,
               onSortTap: (newOrderBy) {
-                setState(() {
-                  this.orderBy = newOrderBy;
-                });
                 Provider.of<SearchManager>(context, listen: false).orderBy = newOrderBy;
-                try {
-                  widget.onOrderChange(this.orderBy);
-                } catch (e) {}
               },
               onButtonTap: () {
                 scrollController.jumpTo(0);

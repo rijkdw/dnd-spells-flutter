@@ -1,4 +1,3 @@
-import 'package:dnd_spells_flutter/components/clearabletextfield.dart';
 import 'package:dnd_spells_flutter/components/headeredspell_list.dart';
 import 'package:dnd_spells_flutter/models/colorpalette.dart';
 import 'package:dnd_spells_flutter/models/spell_list.dart';
@@ -9,7 +8,6 @@ import 'package:dnd_spells_flutter/utilities/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class CreateListScreen extends StatelessWidget {

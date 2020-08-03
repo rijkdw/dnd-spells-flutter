@@ -91,6 +91,12 @@ class Spell {
         return 'PHB';
       case 'Xanathar\'s Guide to Everything':
         return 'XGTE';
+      case 'Sword Coast Adventurer\'s Guide':
+        return 'SCAG';
+      case 'Guildmaster\'s Guide to Ravnica':
+        return 'GGR';
+      case 'Lost Laboratory of Kwalish':
+        return 'LLK';
       default:
         return source;
     }
@@ -152,6 +158,41 @@ class Spell {
     }
   }
 
+  String get rangeSearchable {
+    String type = map['range']['type'];
+    switch (type) {
+    // if it's a point spell
+      case 'point':
+        String pointType = map['range']['distance']['type'];
+        switch (pointType) {
+          case 'self':
+            return 'Self';
+          case 'touch':
+            return 'Touch';
+          case 'feet':
+            return '${map['range']['distance']['amount']} feet';
+          case 'miles':
+            return '${map['range']['distance']['amount']} miles';
+          case 'sight':
+            return 'Sight';
+          case 'unlimited':
+            return 'Unlimited';
+        }
+        return 'point_undefined';
+      case 'radius':
+      case 'hemisphere':
+      case 'sphere':
+      case 'cone':
+      case 'line':
+      case 'cube':
+        return 'Self';
+      case 'special':
+        return 'Special';
+      default:
+        return '??';
+    }
+  }
+
   String get castingTime {
     bool flagSeeBelow = false;
     List<String> castingTimes = [];
@@ -166,6 +207,17 @@ class Spell {
     if (castingTimes.length > 1) flagSeeBelow = true;
     String clause = flagSeeBelow ? ' (see below)' : '';
     return capitaliseFirst('${castingTimes.join(' or ')}$clause');
+  }
+
+  List<String> get castingTimesSearchables {
+    List<String> returnList = [];
+    map['time'].forEach((time) {
+      String timeUnit = time['unit'];
+      if (timeUnit == 'bonus') timeUnit = 'bonus action';
+      dynamic timeNumber = time['number'];
+      returnList.add('$timeNumber ${plural(timeUnit, timeNumber)}');
+    });
+    return returnList;
   }
 
   String get duration {
@@ -196,6 +248,32 @@ class Spell {
     if (durations.length > 1) flagSeeBelow = true;
     String clause = flagSeeBelow ? ' (see below)' : '';
     return capitaliseFirst('${durations.join(' or ')}$clause');
+  }
+
+  List<String> get durationSearchables {
+    List<String> durations = [];
+    map['duration'].forEach((dur) {
+      switch (dur['type']) {
+        case 'instant':
+          durations.add('instantaneous');
+          break;
+        case 'permanent':
+          durations.add('permanent');
+          break;
+        case 'timed':
+          String durUnits = dur['duration']['type'];
+          dynamic durNumber = dur['duration']['amount'];
+          durations.add('$durNumber ${plural(durUnits, durNumber)}');
+          break;
+        case 'special':
+          durations.add('special');
+          break;
+        default:
+          durations.add('??');
+          break;
+      }
+    });
+    return durations;
   }
 
   bool get isConcentration {

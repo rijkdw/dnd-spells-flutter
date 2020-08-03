@@ -126,6 +126,14 @@ String capitaliseFirst(String input) {
   return input[0].toUpperCase() + input.substring(1);
 }
 
+String titlecase(String input) {
+  List<String> list = input.split(' ');
+  for (int i = 0; i < list.length; i++) {
+    list[i] = capitaliseFirst(list[i]);
+  }
+  return list.join(' ');
+}
+
 String plural(String item, int count, {String suffix: 's'}) {
   if (count == 1) return item;
   return item + suffix;
