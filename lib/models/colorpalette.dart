@@ -18,10 +18,15 @@ class ColorPalette {
   Color appBarBackgroundColor;
 
   // chip colors
-  Color chipUnselectedColor;
-  Color chipUnselectedTextColor;
-  Color chipSelectedColor;
-  Color chipSelectedTextColor;
+  Color chipUnselectedColor1;
+  Color chipUnselectedTextColor1;
+  Color chipSelectedColor1;
+  Color chipSelectedTextColor1;
+
+  Color chipUnselectedColor2;
+  Color chipUnselectedTextColor2;
+  Color chipSelectedColor2;
+  Color chipSelectedTextColor2;
 
   // list colors
   Color stickyHeaderBackgroundColor;
@@ -55,13 +60,13 @@ class ColorPalette {
     this.drawerSecondary: Colors.green,
     this.buttonColor: Colors.purple,
     this.subTextColor: Colors.green,
-    this.chipSelectedColor: Colors.purple,
-    this.chipSelectedTextColor: Colors.green,
-    this.chipUnselectedColor: Colors.black,
+    this.chipSelectedColor1: Colors.purple,
+    this.chipSelectedTextColor1: Colors.green,
+    this.chipUnselectedColor1: Colors.black,
     this.dialogBackgroundColor: Colors.purple,
     this.emphasisTextColor: Colors.purple,
     this.buttonTextColor: Colors.green,
-    this.chipUnselectedTextColor: Colors.purple,
+    this.chipUnselectedTextColor1: Colors.purple,
     this.tableLineColor = Colors.green,
     this.radioSelectedColor = Colors.red,
     this.radioUnselectedColor = Colors.blue,

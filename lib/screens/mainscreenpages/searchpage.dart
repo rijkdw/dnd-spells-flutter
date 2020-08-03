@@ -59,8 +59,8 @@ class _SearchPageState extends State<SearchPage> {
             );
           }
 
-          List<Spell> filteredSpells = searchManager.filterSpells(spellRepository.allSpells);
-          if (filteredSpells.isEmpty)
+          List<Spell> spells = spellRepository.searchResults;
+          if (spells.isEmpty)
             return Column(
               children: <Widget>[
                 Expanded(
@@ -76,7 +76,7 @@ class _SearchPageState extends State<SearchPage> {
                 child: HeaderedSpellList(
                   key: PageStorageKey<String>('search'),
                   spellTileBuilder: searchPageSpellTileBuilder,
-                  spells: filteredSpells,
+                  spells: spells,
                 ),
               ),
             ],

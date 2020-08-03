@@ -46,11 +46,11 @@ class DnD5eSpellsApp extends StatelessWidget {
               ),
               dividerColor: themeManager.colorPalette.tableLineColor,
               chipTheme: ChipTheme.of(context).copyWith(
-                backgroundColor: themeManager.colorPalette.chipUnselectedColor,
-                selectedColor: themeManager.colorPalette.chipSelectedColor,
-                labelStyle: TextStyle(color: themeManager.colorPalette.chipUnselectedTextColor),
-                secondaryLabelStyle: TextStyle(color: themeManager.colorPalette.chipSelectedTextColor),
-                secondarySelectedColor: themeManager.colorPalette.chipSelectedColor,
+                backgroundColor: themeManager.colorPalette.chipUnselectedColor1,
+                selectedColor: themeManager.colorPalette.chipSelectedColor1,
+                labelStyle: TextStyle(color: themeManager.colorPalette.chipUnselectedTextColor1),
+                secondaryLabelStyle: TextStyle(color: themeManager.colorPalette.chipSelectedTextColor1),
+                secondarySelectedColor: themeManager.colorPalette.chipSelectedColor1,
                 checkmarkColor: themeManager.colorPalette.mainTextColor,
               ),
               buttonTheme: ButtonThemeData(

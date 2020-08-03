@@ -114,11 +114,17 @@ class _CreateListFormState extends State<CreateListForm> {
       return Container(
         margin: EdgeInsets.symmetric(horizontal: 3),
         child: FilterChip(
+          checkmarkColor: colorPalette.chipSelectedTextColor1,
           selected: set.contains(label),
           label: Row(
             children: <Widget>[
               Expanded(
-                child: Text(label),
+                child: Text(
+                  label,
+                  style: TextStyle(
+                    color: set.contains(label) ? colorPalette.chipSelectedTextColor1 : colorPalette.chipUnselectedTextColor1,
+                  ),
+                ),
               ),
             ],
           ),

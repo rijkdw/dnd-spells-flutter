@@ -10,7 +10,16 @@ class SpellRepository extends ChangeNotifier {
   List<Spell> _allSpells = [];
   Map<String, Spell> _nameToSpellMap = {};
 
+  List<Spell> _searchResults = [];
+
   List<Spell> get allSpells => _allSpells.map((e) => e).toList();
+
+  set searchResults(List<Spell> results) {
+    this._searchResults = results;
+    notifyListeners();
+  }
+
+  List<Spell> get searchResults => _searchResults;
 
   Spell getSpellFromName(String spellName) => _nameToSpellMap[spellName];
 
@@ -59,6 +68,7 @@ class SpellRepository extends ChangeNotifier {
     List<dynamic> jsonList = json.decode(jsonString);
     _allSpells = jsonList.map((map) => Spell(map)).toList();
     _allSpells.forEach((spell) => _nameToSpellMap[spell.name] = spell);
+    _searchResults = _allSpells.map((e) => e).toList();
     notifyListeners();
   }
 

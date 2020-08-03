@@ -52,6 +52,11 @@ class Spell {
 
   int get level => map['level'];
 
+  String get levelSearchable {
+    if (level == 0) return 'Cantrip';
+    return level.toString();
+  }
+
   String get levelAsString {
     if (level == 0)
       return 'cantrip';
@@ -161,7 +166,7 @@ class Spell {
   String get rangeSearchable {
     String type = map['range']['type'];
     switch (type) {
-    // if it's a point spell
+      // if it's a point spell
       case 'point':
         String pointType = map['range']['distance']['type'];
         switch (pointType) {
@@ -310,6 +315,7 @@ class Spell {
     List allClassesAndSubclasses = [];
     allClassesAndSubclasses.addAll(classesList);
     allClassesAndSubclasses.addAll(subclassesList);
+    print(allClassesAndSubclasses);
     return List<String>.from(allClassesAndSubclasses).toSet().toList();
   }
 
@@ -319,7 +325,9 @@ class Spell {
     map['classes']['fromClassList'].forEach((classMap) {
       allClasses.add(classMap['name'].toString());
     });
-    return List<String>.from(allClasses).toSet().toList();
+    List<String> returnList = List<String>.from(allClasses).toSet().toList();
+    returnList.removeWhere((c) => c.toLowerCase().contains('(revised)'));
+    return returnList;
   }
 
   /// Get the name of all the subclasses in format "class (subclass)"
@@ -337,7 +345,9 @@ class Spell {
         allSubclasses.add('$className ($subclassName)');
       }
     });
-    return List<String>.from(allSubclasses).toSet().toList();
+    List<String> returnList = List<String>.from(allSubclasses).toSet().toList();
+    returnList.removeWhere((c) => c.toLowerCase().contains('(revised)'));
+    return returnList;
   }
 
   bool get belongsToRaces => map.keys.contains('races');

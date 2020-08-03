@@ -21,6 +21,21 @@ Map<int, int> listToSpellSlotMap(List<int> list) {
 
 // Lists
 
+bool isSubset(List<dynamic> superlist, List<dynamic> sublist) {
+  print('superlist: $superlist');
+  print('sublist: $sublist');
+  Set<dynamic> superset = superlist.toSet();
+  Set<dynamic> subset = sublist.toSet();
+  for (dynamic item in subset) {
+    if (!superset.contains(item)) {
+      print('superset does not contain ${item.toString()}');
+      return false;
+    }
+  }
+  print('all items are in superset');
+  return true;
+}
+
 bool doesListContainDuplicates(List<dynamic> list) {
   for (int i = 0; i < list.length; i++) {
     for (int j = i + 1; j < list.length; j++) {
