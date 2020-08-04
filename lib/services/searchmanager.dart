@@ -39,6 +39,20 @@ class SearchManager extends ChangeNotifier {
           return spell.school;
         case 'level':
           return spell.levelSearchable;
+        case 'range':
+          return spell.rangeSearchable;
+        case 'source':
+          return spell.shortSource;
+        case 'duration':
+          return spell.durationSearchables;
+        case 'casting time':
+          return spell.castingTimesSearchables;
+        case 'components':
+          return spell.vsmList;
+        case 'concentration':
+          return spell.concentrationSearchable;
+        case 'ritual':
+          return spell.ritualSearchable;
       }
     }
 
@@ -48,24 +62,33 @@ class SearchManager extends ChangeNotifier {
       return [];
     }
 
-    List<Spell> results = spells.map((e) => e).toList();
-    results.retainWhere((spell) {
-      print(spell.name);
-      List<bool> results = [];
-      List<String> keys = searchParametersMap.keys.where((key) => searchParametersMap[key].length > 0).toList();
-      print(keys);
+    List<Spell> filterResults = spells.map((e) => e).toList();
+    List<String> keys = searchParametersMap.keys.where((key) => searchParametersMap[key].length > 0).toList();
+    String nameToken = searchParametersMap['name'][0] ?? '';
+    String descToken = searchParametersMap['description'][0] ?? '';
+    keys.remove('name');
+    keys.remove('description');
+    filterResults.retainWhere((spell) {
+//      print(spell.name);
+      List<bool> boolResults = [];
+
+      // name and description
+      boolResults.add(spell.name.toLowerCase().contains(nameToken.toLowerCase()));
+      boolResults.add(spell.doesDescriptionContain(descToken.toLowerCase()));
+
+//      print(keys);
       for (String key in keys) {
         List<String> searchParameters = searchParametersMap[key];
-        print(searchParameters);
+//        print(searchParameters);
         List<String> spellValues = toList(searchParameterKeyToSpellField(spell, key));
-        print(spellValues);
+//        print(spellValues);
         List<String> intersect = List<String>.from(intersection([searchParameters, spellValues]));
-        print('Intersection: $intersect');
-        results.add(intersect.length > 0);
+//        print('Intersection: $intersect');
+        boolResults.add(intersect.length > 0);
       }
-      return !results.contains(false);
+      return !boolResults.contains(false);
     });
-    return results;
+    return filterResults;
   }
 
   Map<String, List<String>> get allSearchOptions {
@@ -123,15 +146,28 @@ class SearchManager extends ChangeNotifier {
   QuickSearchSelection _lastSelection = QuickSearchSelection.name;
   QuickSearchSelection get lastSelection => _lastSelection;
 
-  bool get isFiltered => _nameToken.isNotEmpty || _descriptionToken.isNotEmpty;
+  bool get isFiltered {
+    if (_nameToken.isNotEmpty) return true;
+    if (_descriptionToken.isNotEmpty) return true;
+    for (String key in _currentSearchParameters.keys) {
+//      print(_currentSearchParameters[key]);
+      if (_currentSearchParameters[key].isNotEmpty) return true;
+    }
+    return false;
+  }
 
   void clearFilters() {
     _nameToken = '';
     _descriptionToken = '';
+    SpellRepository spellRepository = Provider.of<SpellRepository>(appKey.currentContext, listen: false);
+    spellRepository.searchResults = spellRepository.allSpells;
+    for (String key in _currentSearchParameters.keys) {
+      _currentSearchParameters[key] = [];
+    }
     notifyListeners();
   }
 
-  void quickSearch(String token, QuickSearchSelection selection) {
+  void quickSearch(List<Spell> spells, String token, QuickSearchSelection selection) {
     token = token.trim();
     print('SearchManager quicksearching for \"$token\" as ${selection.toString()}');
     // determine which changed:  token or selection (can only be one)

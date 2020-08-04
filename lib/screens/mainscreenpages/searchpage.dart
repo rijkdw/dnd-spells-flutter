@@ -3,7 +3,6 @@ import 'package:dnd_spells_flutter/components/quicksearchbottomsheet.dart';
 import 'package:dnd_spells_flutter/components/spell_tile.dart';
 import 'package:dnd_spells_flutter/models/spell.dart';
 import 'package:dnd_spells_flutter/screens/filterscreen.dart';
-import 'package:dnd_spells_flutter/services/characteroptionrepository.dart';
 import 'package:dnd_spells_flutter/services/searchmanager.dart';
 import 'package:dnd_spells_flutter/services/spellsrepository.dart';
 import 'package:dnd_spells_flutter/services/thememanager.dart';
@@ -17,6 +16,25 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+
+  Route filterScreenRoute() {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => FilterScreen(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        var begin = Offset(0.0, 1.0);
+        var end = Offset.zero;
+        var curve = Curves.ease;
+
+        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,9 +62,7 @@ class _SearchPageState extends State<SearchPage> {
               size: 20,
             ),
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => FilterScreen(),
-              ));
+              Navigator.of(context).push(filterScreenRoute());
             },
           ),
         ],
@@ -65,11 +81,16 @@ class _SearchPageState extends State<SearchPage> {
               children: <Widget>[
                 Expanded(
                   child: Center(
-                    child: CircularProgressIndicator(),
+                    child: Text('No spells'),
                   ),
                 ),
               ],
             );
+          return HeaderedSpellList(
+//            key: PageStorageKey<String>('search'),
+            spellTileBuilder: searchPageSpellTileBuilder,
+            spells: spells,
+          );
           return Column(
             children: <Widget>[
               Expanded(

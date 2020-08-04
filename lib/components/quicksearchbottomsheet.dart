@@ -1,6 +1,7 @@
 import 'package:dnd_spells_flutter/components/clearabletextfield.dart';
 import 'package:dnd_spells_flutter/components/headeredspell_list.dart';
 import 'package:dnd_spells_flutter/services/searchmanager.dart';
+import 'package:dnd_spells_flutter/services/spellsrepository.dart';
 import 'package:dnd_spells_flutter/services/thememanager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -54,7 +55,8 @@ class _QuickSearchFormState extends State<QuickSearchForm> {
   void _handleSelection(QuickSearchSelection newSelection) {
     setState(() => selection = newSelection);
     print('The quick search selection changed!');
-    Provider.of<SearchManager>(context, listen: false).quickSearch(queryController.text, selection);
+    SpellRepository spellRepository = Provider.of<SpellRepository>(context, listen: false);
+    Provider.of<SearchManager>(context, listen: false).quickSearch(spellRepository.allSpells, queryController.text, selection);
   }
 
   String _getHintText() {
@@ -81,10 +83,12 @@ class _QuickSearchFormState extends State<QuickSearchForm> {
           autofocus: true,
           onChanged: (newValue) {
             print('The quick search token changed!');
-            Provider.of<SearchManager>(context, listen: false).quickSearch(queryController.text, selection);
+            SpellRepository spellRepository = Provider.of<SpellRepository>(context, listen: false);
+            Provider.of<SearchManager>(context, listen: false).quickSearch(spellRepository.allSpells, queryController.text, selection);
           },
           onCleared: () {
-            Provider.of<SearchManager>(context, listen: false).quickSearch(queryController.text, selection);
+            SpellRepository spellRepository = Provider.of<SpellRepository>(context, listen: false);
+            Provider.of<SearchManager>(context, listen: false).quickSearch(spellRepository.allSpells, queryController.text, selection);
           },
           controller: queryController,
           hintText: _getHintText(),

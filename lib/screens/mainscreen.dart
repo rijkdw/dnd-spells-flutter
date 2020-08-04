@@ -4,6 +4,7 @@ import 'package:dnd_spells_flutter/screens/mainscreenpages/historypage.dart';
 import 'package:dnd_spells_flutter/screens/mainscreenpages/listspage.dart';
 import 'package:dnd_spells_flutter/screens/mainscreenpages/searchpage.dart';
 import 'package:dnd_spells_flutter/services/searchmanager.dart';
+import 'package:dnd_spells_flutter/services/spellsrepository.dart';
 import 'package:dnd_spells_flutter/services/thememanager.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

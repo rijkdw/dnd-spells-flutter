@@ -286,20 +286,30 @@ class Spell {
     return false;
   }
 
+  String get concentrationSearchable => {
+    true: 'yes',
+    false: 'no',
+  }[isConcentration];
+
   bool get isRitual {
     if (!map.keys.contains('meta')) return false;
     if (map['meta'].keys.contains('ritual')) return map['meta']['ritual'] == true;
     return false;
   }
 
+  String get ritualSearchable => {
+    true: 'yes',
+    false: 'no',
+  }[isRitual];
+
   String get durationAndConcentration {
     if (isConcentration) return duration + ' (concentration)';
     return duration;
   }
 
-  String get vsm {
-    return map['components'].keys.toList().join(', ').toUpperCase();
-  }
+  List<String> get vsmList => map['components'].keys.toList();
+
+  String get vsm => vsmList.join(', ').toUpperCase();
 
   String get materialComponents {
     if (map['components']['m'].runtimeType == String) return map['components']['m'] ?? 'no material components';

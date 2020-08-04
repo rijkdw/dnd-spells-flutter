@@ -130,14 +130,36 @@ class CharacterSpellList extends AbstractSpellList {
     CharacterOptionRepository characterOptionRepository = Provider.of<CharacterOptionRepository>(appKey.currentContext, listen: false);
     List<CharacterOption> allOptions = [];
     classNames.forEach((className) {
-      allOptions.add(characterOptionRepository.mapifyClasses()[className]);
+      CharacterOption classCharacterOption = characterOptionRepository.mapifyClasses()[className] ??
+          CharacterOption(
+            name: className,
+            characterOptionType: CharacterOptionType.class_,
+          );
+      allOptions.add(classCharacterOption);
     });
     subclassNames.forEach((subclassName) {
-      allOptions.add(characterOptionRepository.mapifyClasses()[subclassName]);
+      CharacterOption subclassCharacterOption = characterOptionRepository.mapifyClasses()[subclassName] ??
+          CharacterOption(
+            name: subclassName,
+            characterOptionType: CharacterOptionType.subclass,
+          );
+      allOptions.add(subclassCharacterOption);
     });
 
-    allOptions.add(characterOptionRepository.mapifyRaces()[raceName]);
-    if (subraceName.trim() != '') allOptions.add(characterOptionRepository.mapifyRaces()[subraceName]);
+    CharacterOption raceCharOp = characterOptionRepository.mapifyRaces()[raceName] ??
+        CharacterOption(
+          name: raceName,
+          characterOptionType: CharacterOptionType.race,
+        );
+    allOptions.add(raceCharOp);
+    if (subraceName.trim() != '') {
+      CharacterOption subraceCharOp = characterOptionRepository.mapifyRaces()[subraceName] ??
+          CharacterOption(
+            name: subraceName,
+            characterOptionType: CharacterOptionType.subrace,
+          );
+      allOptions.add(subraceCharOp);
+    }
 
     return allOptions;
   }

@@ -40,20 +40,6 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
     orderBy = widget.orderBy ?? OrderBy.name;
 //    initialiseExpandedMap();
     showUpButton = true;
-    scrollController = widget.scrollController ?? ScrollController();
-    scrollController.addListener(() {
-      if (scrollController.position.userScrollDirection == ScrollDirection.reverse) {
-        if (this.showUpButton)
-          setState(() {
-            this.showUpButton = false;
-          });
-      } else if (scrollController.position.userScrollDirection == ScrollDirection.forward || scrollController.position.pixels == 0) {
-        if (!this.showUpButton)
-          setState(() {
-            this.showUpButton = true;
-          });
-      }
-    });
   }
 
   Map<String, List<Spell>> splitSpells() {
@@ -145,6 +131,20 @@ class _HeaderedSpellListState extends State<HeaderedSpellList> {
 
   @override
   Widget build(BuildContext context) {
+    scrollController = ScrollController();
+    scrollController.addListener(() {
+      if (scrollController.position.userScrollDirection == ScrollDirection.reverse) {
+        if (this.showUpButton)
+          setState(() {
+            this.showUpButton = false;
+          });
+      } else if (scrollController.position.userScrollDirection == ScrollDirection.forward || scrollController.position.pixels == 0) {
+        if (!this.showUpButton)
+          setState(() {
+            this.showUpButton = true;
+          });
+      }
+    });
     return Stack(
       children: <Widget>[
         // the list

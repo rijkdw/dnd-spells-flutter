@@ -28,10 +28,22 @@ class _FilterScreenState extends State<FilterScreen> {
     searchManager.allSearchOptions.keys.forEach((key) {
       selectedOptions[key] = (searchManager.currentSearchParameters[key] ?? []);
     });
+    try {
+      _nameController.text = searchManager.currentSearchParameters['name'][0];
+    } catch (e) {
+      _nameController.text = '';
+    }
+    try {
+      _descController.text = searchManager.currentSearchParameters['description'][0];
+    } catch (e) {
+      _descController.text = '';
+    }
+
   }
 
   void _clearAll() {
     print('Clear ALL filters');
+    FocusScope.of(context).unfocus();
     setState(() {
       _nameController.clear();
       _descController.clear();
@@ -40,18 +52,22 @@ class _FilterScreenState extends State<FilterScreen> {
       searchManager.allSearchOptions.keys.forEach((key) {
         selectedOptions[key] = [];
       });
-      _search();
+      SpellRepository spellRepository = Provider.of(context, listen: false);
+      spellRepository.searchResults = spellRepository.allSpells;
     });
   }
 
   void _search() {
+    // add name and description
+    selectedOptions['name'] = [_nameController.text];
+    selectedOptions['description'] = [_descController.text];
     SpellRepository spellRepository = Provider.of(context, listen: false);
     spellRepository.searchResults = Provider.of<SearchManager>(context, listen: false).filterSpells(spellRepository.allSpells, selectedOptions);
   }
 
-  void selectUnselectOption({String key, String option, bool addBool}) {
+  void selectUnselectOption({String key, String option, bool select}) {
     setState(() {
-      if (addBool) {
+      if (select) {
         selectedOptions[key].add(option);
         selectedOptions[key] = selectedOptions[key].toSet().toList();
       } else
@@ -91,19 +107,33 @@ class _FilterScreenState extends State<FilterScreen> {
               behavior: NoGlowScrollBehavior(),
               child: SingleChildScrollView(
                 child: Container(
-                  padding: const EdgeInsets.all(12),
+                  padding: const EdgeInsets.all(4),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      ClearableTextField(
-                        hintText: 'Name',
-                        controller: _nameController,
-                        onCleared: () {},
+                      Container(
+                        padding: EdgeInsets.only(left: 12, right: 4),
+                        child: ClearableTextField(
+                          hintText: 'Name',
+                          controller: _nameController,
+                          onCleared: () {
+                            setState(() {
+                              _nameController.text = '';
+                            });
+                          },
+                        ),
                       ),
-                      ClearableTextField(
-                        hintText: 'Description',
-                        controller: _descController,
-                        onCleared: () {},
+                      Container(
+                        padding: EdgeInsets.only(left: 12, right: 4),
+                        child: ClearableTextField(
+                          hintText: 'Description',
+                          controller: _descController,
+                          onCleared: () {
+                            setState(() {
+                              _descController.text = '';
+                            });
+                          },
+                        ),
                       ),
                       ...allSearchOptions.keys.map((key) {
                         List<Widget> childrenOfThisKey = allSearchOptions[key].map((option) {
@@ -115,7 +145,7 @@ class _FilterScreenState extends State<FilterScreen> {
                                 children: <Widget>[
                                   Expanded(
                                     child: Text(
-                                      option,
+                                      capitaliseFirst(option),
                                       style: TextStyle(
                                         color: (selectedOptions[key] ?? []).contains(option)
                                             ? colorPalette.chipSelectedTextColor1
@@ -127,7 +157,7 @@ class _FilterScreenState extends State<FilterScreen> {
                               ),
                               onSelected: (newValue) {
                                 FocusScope.of(context).unfocus();
-                                selectUnselectOption(addBool: newValue, key: key, option: option);
+                                selectUnselectOption(select: newValue, key: key, option: option);
                               },
                               selected: (selectedOptions[key] ?? []).contains(option),
                             ),
@@ -137,15 +167,17 @@ class _FilterScreenState extends State<FilterScreen> {
                           data: Theme.of(context).copyWith(
                             unselectedWidgetColor: colorPalette.mainTextColor,
                             accentColor: colorPalette.clickableTextLinkColor,
+                            dividerColor: Colors.transparent,
                           ),
                           child: ExpansionTile(
                             title: Row(
                               children: <Widget>[
                                 Expanded(
                                   child: Text(
-                                    '${titlecase(key)}',
+                                    '${key.toUpperCase()}',
                                     style: TextStyle(
-                                      fontSize: 20,
+                                      fontSize: 18,
+                                      letterSpacing: 1.2,
                                       color: colorPalette.mainTextColor,
                                     ),
                                   ),
@@ -161,7 +193,7 @@ class _FilterScreenState extends State<FilterScreen> {
                             ),
                             children: [
                               Container(
-                                padding: EdgeInsets.only(bottom: 8),
+                                padding: EdgeInsets.only(bottom: 8, left: 12, right: 12),
                                 child: GridView.count(
                                   shrinkWrap: true,
                                   physics: NeverScrollableScrollPhysics(),
