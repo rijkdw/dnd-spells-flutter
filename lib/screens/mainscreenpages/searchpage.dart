@@ -45,17 +45,17 @@ class _SearchPageState extends State<SearchPage> {
 //          '${Provider.of<SearchManager>(context).filterSpells(Provider.of<SpellRepository>(context).allSpells).length} spells',
 //        ),
         actions: <Widget>[
-          IconButton(
-            icon: FaIcon(
-              FontAwesomeIcons.search,
-              size: 20,
-            ),
-            onPressed: () => showModalBottomSheet(
-              context: context,
-//              isScrollControlled: true,
-              builder: (context) => QuickSearchBottomSheet(),
-            ),
-          ),
+//          IconButton(
+//            icon: FaIcon(
+//              FontAwesomeIcons.search,
+//              size: 20,
+//            ),
+//            onPressed: () => showModalBottomSheet(
+//              context: context,
+////              isScrollControlled: true,
+//              builder: (context) => QuickSearchBottomSheet(),
+//            ),
+//          ),
           IconButton(
             icon: FaIcon(
               FontAwesomeIcons.filter,

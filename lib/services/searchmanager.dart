@@ -167,26 +167,20 @@ class SearchManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  void quickSearch(List<Spell> spells, String token, QuickSearchSelection selection) {
+  List<Spell> quickSearch(List<Spell> spells, String token, QuickSearchSelection selection) {
     token = token.trim();
     print('SearchManager quicksearching for \"$token\" as ${selection.toString()}');
-    // determine which changed:  token or selection (can only be one)
-    if (_lastSelection != selection) {
-      // selection changed
-      // reset both values without notifying listeners
-      _nameToken = '';
-      _descriptionToken = '';
-      _lastSelection = selection;
-    }
-
+    Map<String, List<String>> searchParametersMap = {};
     switch (selection) {
       case QuickSearchSelection.name:
-        nameToken = token;
+        searchParametersMap['name'] = [token];
         break;
       case QuickSearchSelection.description:
-        descriptionToken = token;
+        searchParametersMap['description'] = [token];
         break;
     }
+    print(searchParametersMap);
+    return filterSpells(spells, searchParametersMap);
   }
 
   List<Spell> quickSearchSpells(List<Spell> spellsToFilter) {

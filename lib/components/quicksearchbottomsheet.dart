@@ -56,7 +56,8 @@ class _QuickSearchFormState extends State<QuickSearchForm> {
     setState(() => selection = newSelection);
     print('The quick search selection changed!');
     SpellRepository spellRepository = Provider.of<SpellRepository>(context, listen: false);
-    Provider.of<SearchManager>(context, listen: false).quickSearch(spellRepository.allSpells, queryController.text, selection);
+    SearchManager searchManager = Provider.of<SearchManager>(context, listen: false);
+    spellRepository.searchResults = searchManager.quickSearch(spellRepository.allSpells, queryController.text, selection);
   }
 
   String _getHintText() {
@@ -84,10 +85,14 @@ class _QuickSearchFormState extends State<QuickSearchForm> {
           onChanged: (newValue) {
             print('The quick search token changed!');
             SpellRepository spellRepository = Provider.of<SpellRepository>(context, listen: false);
+            SearchManager searchManager = Provider.of<SearchManager>(context, listen: false);
+            spellRepository.searchResults = searchManager.quickSearch(spellRepository.allSpells, queryController.text, selection);
             Provider.of<SearchManager>(context, listen: false).quickSearch(spellRepository.allSpells, queryController.text, selection);
           },
           onCleared: () {
             SpellRepository spellRepository = Provider.of<SpellRepository>(context, listen: false);
+            SearchManager searchManager = Provider.of<SearchManager>(context, listen: false);
+            spellRepository.searchResults = searchManager.quickSearch(spellRepository.allSpells, queryController.text, selection);
             Provider.of<SearchManager>(context, listen: false).quickSearch(spellRepository.allSpells, queryController.text, selection);
           },
           controller: queryController,
