@@ -29,17 +29,35 @@ class SpellTile extends StatelessWidget {
   final Spell spell;
   SpellTile({@required this.spell});
 
+  Route _spellScreenRoute() {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) {
+        return SpellInfoScreen(
+          spell: spell,
+        );
+      },
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        var begin = Offset(0.0, 1.0);
+        var end = Offset.zero;
+        var curve = Curves.ease;
+
+        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
         Provider.of<HistoryManager>(context, listen: false).addToHistory(SpellView.now(spellName: spell.name));
         Scaffold.of(context).removeCurrentSnackBar();
-        return Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => SpellInfoScreen(
-            spell: spell,
-          ),
-        ));
+        return Navigator.of(context).push(_spellScreenRoute());
       },
 //      onLongPress: () {},
 //      onLongPress: () {

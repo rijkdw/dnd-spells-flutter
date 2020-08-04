@@ -16,7 +16,6 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-
   Route filterScreenRoute() {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => FilterScreen(),
@@ -43,6 +42,28 @@ class _SearchPageState extends State<SearchPage> {
         backgroundColor: Provider.of<ThemeManager>(context).colorPalette.appBarBackgroundColor,
 //        title: Text(
 //          '${Provider.of<SearchManager>(context).filterSpells(Provider.of<SpellRepository>(context).allSpells).length} spells',
+//        ),
+//        title: Container(
+//          padding: EdgeInsets.only(left: 10),
+//          decoration: BoxDecoration(
+//            color: Colors.white,
+//            borderRadius: BorderRadius.circular(100),
+//          ),
+//          child: TextField(
+//            decoration: InputDecoration(
+//              contentPadding: EdgeInsets.all(0),
+//              focusedBorder: OutlineInputBorder(
+//                borderSide: BorderSide(
+//                  color: Colors.transparent,
+//                ),
+//              ),
+//              enabledBorder: OutlineInputBorder(
+//                borderSide: BorderSide(
+//                  color: Colors.transparent,
+//                ),
+//              ),
+//            ),
+//          ),
 //        ),
         actions: <Widget>[
 //          IconButton(

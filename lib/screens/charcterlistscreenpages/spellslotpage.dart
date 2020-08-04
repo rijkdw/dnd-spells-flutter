@@ -27,7 +27,7 @@ class _SpellSlotPageState extends State<SpellSlotPage> {
           height: 36,
           width: 24,
           decoration: BoxDecoration(
-            color: active ? colorPalette.navBarSelectedColor : colorPalette.stickyHeaderBackgroundColor,
+            color: active ? colorPalette.spellSlotActive : colorPalette.spellSlotInactive,
             borderRadius: BorderRadius.circular(100),
           ),
         ),
@@ -80,7 +80,7 @@ class _SpellSlotPageState extends State<SpellSlotPage> {
           child: Text(
             'USE',
             style: TextStyle(
-              color: spellList.currentSpellSlots[level] > 0 ? colorPalette.clickableTextLinkColor : colorPalette.navBarBackgroundColor,
+              color: spellList.currentSpellSlots[level] > 0 ? colorPalette.clickableTextLinkColor : colorPalette.spellSlotInactive,
               fontSize: 18,
             ),
           ),

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dnd_spells_flutter/models/colorpalette.dart';
 import 'package:dnd_spells_flutter/services/thememanager.dart';
 import 'package:dnd_spells_flutter/services/themes.dart';
@@ -89,14 +90,15 @@ class _MenuListTile extends StatelessWidget {
               ),
             ),
             SizedBox(width: 14),
-            Text(
+            AutoSizeText(
               text,
+              maxLines: 1,
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.normal,
                 color: colorPalette.mainTextColor,
               ),
-            )
+            ),
           ],
         ),
       ),

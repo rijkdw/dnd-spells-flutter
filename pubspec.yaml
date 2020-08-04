@@ -18,6 +18,7 @@ dependencies:
   flutter_sticky_header:
   shared_preferences:
   flutter_typeahead:
+  auto_size_text:
 
   cupertino_icons: ^0.1.3
 

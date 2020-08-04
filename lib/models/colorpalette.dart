@@ -47,6 +47,10 @@ class ColorPalette {
   Color radioSelectedColor;
   Color radioUnselectedColor;
 
+  // spell slots
+  Color spellSlotActive;
+  Color spellSlotInactive;
+
   ColorPalette({
     this.brightness: Brightness.light,
     this.mainTextColor: Colors.green,
@@ -63,12 +67,18 @@ class ColorPalette {
     this.chipSelectedColor1: Colors.purple,
     this.chipSelectedTextColor1: Colors.green,
     this.chipUnselectedColor1: Colors.black,
+    this.chipUnselectedTextColor1: Colors.purple,
+    this.chipSelectedColor2: Colors.purple,
+    this.chipSelectedTextColor2: Colors.green,
+    this.chipUnselectedColor2: Colors.black,
+    this.chipUnselectedTextColor2: Colors.purple,
     this.dialogBackgroundColor: Colors.purple,
     this.emphasisTextColor: Colors.purple,
     this.buttonTextColor: Colors.green,
-    this.chipUnselectedTextColor1: Colors.purple,
-    this.tableLineColor = Colors.green,
-    this.radioSelectedColor = Colors.red,
-    this.radioUnselectedColor = Colors.blue,
+    this.tableLineColor: Colors.green,
+    this.radioSelectedColor: Colors.red,
+    this.radioUnselectedColor: Colors.blue,
+    this.spellSlotActive: Colors.red,
+    this.spellSlotInactive: Colors.black,
   });
 }

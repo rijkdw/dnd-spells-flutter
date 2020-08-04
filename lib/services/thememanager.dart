@@ -7,7 +7,7 @@ class ThemeManager extends ChangeNotifier {
   ColorPalette _colorPalette = appColorPalettes[appColorPalettes.keys.toList()[0]];
   String _paletteName = appColorPalettes.keys.toList()[0];
 
-  ColorPalette get colorPalette => _colorPalette;
+  ColorPalette get colorPalette => _colorPalette ?? ColorPalette();
   String get paletteName => _paletteName;
 
   ThemeManager() {

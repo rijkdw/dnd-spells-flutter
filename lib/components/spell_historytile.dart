@@ -1,3 +1,4 @@
+import 'package:dnd_spells_flutter/main.dart';
 import 'package:dnd_spells_flutter/models/spell.dart';
 import 'package:dnd_spells_flutter/models/spellview.dart';
 import 'package:dnd_spells_flutter/screens/spellinfoscreen.dart';
@@ -12,6 +13,29 @@ class SpellHistoryTile extends StatelessWidget {
   final SpellView spellView;
   SpellHistoryTile({@required this.spellView});
 
+  Route _spellScreenRoute() {
+    Spell spell = Provider.of<SpellRepository>(appKey.currentContext, listen: false).getSpellFromName(spellView.spellName);
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) {
+        return SpellInfoScreen(
+          spell: spell,
+        );
+      },
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        var begin = Offset(0.0, 1.0);
+        var end = Offset.zero;
+        var curve = Curves.ease;
+
+        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     Spell spell = Provider.of<SpellRepository>(context).getSpellFromName(spellView.spellName);
@@ -19,12 +43,7 @@ class SpellHistoryTile extends StatelessWidget {
     try {
       return InkWell(
         onTap: () {
-          return Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) =>
-                SpellInfoScreen(
-                  spell: spell,
-                ),
-          ));
+          return Navigator.of(context).push(_spellScreenRoute());
         },
         child: Container(
           width: double.infinity,
