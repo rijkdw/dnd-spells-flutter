@@ -469,6 +469,21 @@
         ]
       },
       {
+        "name": "Order",
+        "alwaysPreparedSpells": [
+          "Command",
+          "Commune",
+          "Compulsion",
+          "Dominate Person",
+          "Heroism",
+          "Hold Person",
+          "Locate Creature",
+          "Mass Healing Word",
+          "Slow",
+          "Zone of Truth"
+        ]
+      },
+      {
         "name": "War",
         "alwaysPreparedSpells": [
           "Crusader's Mantle",
@@ -645,6 +660,7 @@
         "name": "Wildfire",
         "alwaysPreparedSpells": [
           "Aura of Life",
+          "Fire Bolt",
           "Fire Shield",
           "Fireball",
           "Flame Strike",
@@ -1744,6 +1760,99 @@
     ],
     "subclasses": [],
     "ability": "Intelligence"
+  },
+  {
+    "name": "Ranger (Revised)",
+    "learnableSpells": [
+      "Absorb Elements",
+      "Alarm",
+      "Animal Friendship",
+      "Animal Messenger",
+      "Barkskin",
+      "Beast Bond",
+      "Beast Sense",
+      "Commune with Nature",
+      "Conjure Animals",
+      "Conjure Barrage",
+      "Conjure Volley",
+      "Conjure Woodland Beings",
+      "Cordon of Arrows",
+      "Cure Wounds",
+      "Darkvision",
+      "Daylight",
+      "Detect Magic",
+      "Detect Poison and Disease",
+      "Ensnaring Strike",
+      "Find Traps",
+      "Flame Arrows",
+      "Fog Cloud",
+      "Freedom of Movement",
+      "Goodberry",
+      "Grasping Vine",
+      "Guardian of Nature",
+      "Hail of Thorns",
+      "Healing Spirit",
+      "Hunter's Mark",
+      "Jump",
+      "Lesser Restoration",
+      "Lightning Arrow",
+      "Locate Animals or Plants",
+      "Locate Creature",
+      "Locate Object",
+      "Longstrider",
+      "Nondetection",
+      "Pass without Trace",
+      "Plant Growth",
+      "Protection from Energy",
+      "Protection from Poison",
+      "Silence",
+      "Snare",
+      "Speak with Animals",
+      "Speak with Plants",
+      "Spike Growth",
+      "Steel Wind Strike",
+      "Stoneskin",
+      "Swift Quiver",
+      "Tree Stride",
+      "Water Breathing",
+      "Water Walk",
+      "Wind Wall",
+      "Wrath of Nature",
+      "Zephyr Strike"
+    ],
+    "subclasses": [
+      {
+        "name": "Horizon Walker",
+        "alwaysPreparedSpells": [
+          "Banishment",
+          "Haste",
+          "Misty Step",
+          "Protection from Evil and Good",
+          "Teleportation Circle"
+        ]
+      },
+      {
+        "name": "Monster Slayer",
+        "alwaysPreparedSpells": [
+          "Banishment",
+          "Magic Circle",
+          "Planar Binding",
+          "Protection from Evil and Good",
+          "Zone of Truth"
+        ]
+      },
+      {
+        "name": "Gloom Stalker",
+        "alwaysPreparedSpells": [
+          "Disguise Self",
+          "Fear",
+          "Greater Invisibility",
+          "Rope Trick",
+          "Seeming"
+        ]
+      }
+    ],
+    "ability": "Wisdom"
   },
   {
     "name": "Barbarian",
