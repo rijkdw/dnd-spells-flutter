@@ -203,6 +203,9 @@
         ]
       },
       {
+        "name": "Base"
+      },
+      {
         "name": "Half-Wood"
       },
       {
@@ -239,6 +242,9 @@
   {
     "name": "Human",
     "subraces": [
+      {
+        "name": "Base"
+      },
       {
         "name": "Variant"
       }
@@ -388,6 +394,9 @@
           "Invisibility",
           "Minor Illusion"
         ]
+      },
+      {
+        "name": "Base"
       },
       {
         "name": "Feral"
