@@ -752,6 +752,16 @@
       "fromSubclass": [
         {
           "class": {
+            "name": "Druid",
+            "source": "PHB"
+          },
+          "subclass": {
+            "name": "Spores",
+            "source": "GGR"
+          }
+        },
+        {
+          "class": {
             "name": "Cleric",
             "source": "PHB"
           },
@@ -3133,6 +3143,16 @@
       "fromSubclass": [
         {
           "class": {
+            "name": "Druid",
+            "source": "PHB"
+          },
+          "subclass": {
+            "name": "Spores",
+            "source": "GGR"
+          }
+        },
+        {
+          "class": {
             "name": "Cleric",
             "source": "PHB"
           },
@@ -3343,6 +3363,16 @@
         }
       ],
       "fromSubclass": [
+        {
+          "class": {
+            "name": "Druid",
+            "source": "PHB"
+          },
+          "subclass": {
+            "name": "Spores",
+            "source": "GGR"
+          }
+        },
         {
           "class": {
             "name": "Cleric",
@@ -4857,6 +4887,18 @@
           "name": "Wizard",
           "source": "PHB"
         }
+      ],
+      "fromSubclass": [
+        {
+          "class": {
+            "name": "Druid",
+            "source": "PHB"
+          },
+          "subclass": {
+            "name": "Spores",
+            "source": "GGR"
+          }
+        }
       ]
     },
     "source": "Player's Handbook",
@@ -5346,6 +5388,16 @@
         }
       ],
       "fromSubclass": [
+        {
+          "class": {
+            "name": "Druid",
+            "source": "PHB"
+          },
+          "subclass": {
+            "name": "Spores",
+            "source": "GGR"
+          }
+        },
         {
           "class": {
             "name": "Cleric",
@@ -6277,6 +6329,16 @@
       "fromSubclass": [
         {
           "class": {
+            "name": "Druid",
+            "source": "PHB"
+          },
+          "subclass": {
+            "name": "Spores",
+            "source": "GGR"
+          }
+        },
+        {
+          "class": {
             "name": "Cleric",
             "source": "PHB"
           },
@@ -6987,6 +7049,16 @@
         }
       ],
       "fromSubclass": [
+        {
+          "class": {
+            "name": "Druid",
+            "source": "PHB"
+          },
+          "subclass": {
+            "name": "Spores",
+            "source": "GGR"
+          }
+        },
         {
           "class": {
             "name": "Paladin",
@@ -15657,6 +15729,16 @@
             "source": "PHB"
           },
           "subclass": {
+            "name": "Spores",
+            "source": "GGR"
+          }
+        },
+        {
+          "class": {
+            "name": "Druid",
+            "source": "PHB"
+          },
+          "subclass": {
             "name": "Land",
             "source": "PHB",
             "subSubclass": "Underdark"
@@ -15878,6 +15960,16 @@
         }
       ],
       "fromSubclass": [
+        {
+          "class": {
+            "name": "Druid",
+            "source": "PHB"
+          },
+          "subclass": {
+            "name": "Spores",
+            "source": "GGR"
+          }
+        },
         {
           "class": {
             "name": "Cleric",

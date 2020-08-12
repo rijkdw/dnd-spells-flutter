@@ -657,6 +657,20 @@
     ],
     "subclasses": [
       {
+        "name": "Spores",
+        "alwaysPreparedSpells": [
+          "Animate Dead",
+          "Blight",
+          "Blindness/Deafness",
+          "Chill Touch",
+          "Cloudkill",
+          "Confusion",
+          "Contagion",
+          "Gaseous Form",
+          "Gentle Repose"
+        ]
+      },
+      {
         "name": "Wildfire",
         "alwaysPreparedSpells": [
           "Aura of Life",
