@@ -1,11 +1,298 @@
 [
   {
-    "name": "Yuan-ti Pureblood",
+    "name": "Aarakocra"
+  },
+  {
+    "name": "Aasimar",
     "alwaysPreparedSpells": [
-      "Animal Friendship",
-      "Poison Spray",
-      "Suggestion"
+      "Light"
+    ],
+    "subraces": [
+      {
+        "name": "Variant"
+      },
+      {
+        "name": "Protector"
+      },
+      {
+        "name": "Scourge"
+      },
+      {
+        "name": "Fallen"
+      }
     ]
+  },
+  {
+    "name": "Bugbear"
+  },
+  {
+    "name": "Centaur"
+  },
+  {
+    "name": "Changeling"
+  },
+  {
+    "name": "Dragonborn"
+  },
+  {
+    "name": "Dwarf",
+    "subraces": [
+      {
+        "name": "Duergar",
+        "alwaysPreparedSpells": [
+          "Enlarge/Reduce",
+          "Invisibility"
+        ]
+      },
+      {
+        "name": "Hill"
+      },
+      {
+        "name": "Mountain"
+      }
+    ]
+  },
+  {
+    "name": "Elf",
+    "subraces": [
+      {
+        "name": "Eladrin",
+        "alwaysPreparedSpells": [
+          "Chill Touch",
+          "Fire Bolt",
+          "Friends",
+          "Minor Illusion"
+        ]
+      },
+      {
+        "name": "Shadar-kai",
+        "alwaysPreparedSpells": [
+          "Chill Touch",
+          "Spare the Dying",
+          "Thaumaturgy"
+        ]
+      },
+      {
+        "name": "Drow",
+        "alwaysPreparedSpells": [
+          "Dancing Lights",
+          "Darkness",
+          "Faerie Fire"
+        ]
+      },
+      {
+        "name": "High"
+      },
+      {
+        "name": "Wood"
+      },
+      {
+        "name": "Sea Elf"
+      },
+      {
+        "name": "Shadar Kai"
+      },
+      {
+        "name": "Avariel"
+      },
+      {
+        "name": "Grugach"
+      },
+      {
+        "name": "Tajuru"
+      },
+      {
+        "name": "Joraga"
+      },
+      {
+        "name": "Mul Daya"
+      }
+    ]
+  },
+  {
+    "name": "Firbolg",
+    "alwaysPreparedSpells": [
+      "Detect Magic",
+      "Disguise Self"
+    ]
+  },
+  {
+    "name": "Genasi",
+    "subraces": [
+      {
+        "name": "Fire",
+        "alwaysPreparedSpells": [
+          "Burning Hands",
+          "Produce Flame"
+        ]
+      },
+      {
+        "name": "Water",
+        "alwaysPreparedSpells": [
+          "Create or Destroy Water",
+          "Shape Water"
+        ]
+      },
+      {
+        "name": "Air",
+        "alwaysPreparedSpells": [
+          "Levitate"
+        ]
+      },
+      {
+        "name": "Earth",
+        "alwaysPreparedSpells": [
+          "Pass without Trace"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Gith",
+    "subraces": [
+      {
+        "name": "Githzerai",
+        "alwaysPreparedSpells": [
+          "Detect Thoughts",
+          "Mage Hand",
+          "Shield"
+        ]
+      },
+      {
+        "name": "Githyanki",
+        "alwaysPreparedSpells": [
+          "Jump",
+          "Mage Hand",
+          "Misty Step"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Gnome",
+    "subraces": [
+      {
+        "name": "Forest",
+        "alwaysPreparedSpells": [
+          "Minor Illusion"
+        ]
+      },
+      {
+        "name": "Rock"
+      },
+      {
+        "name": "Deep"
+      }
+    ]
+  },
+  {
+    "name": "Goblin"
+  },
+  {
+    "name": "Goliath"
+  },
+  {
+    "name": "Half-Elf",
+    "subraces": [
+      {
+        "name": "Drow Descent",
+        "alwaysPreparedSpells": [
+          "Dancing Lights",
+          "Darkness",
+          "Faerie Fire"
+        ]
+      },
+      {
+        "name": "Half-Wood"
+      },
+      {
+        "name": "Half-Moon/Sun"
+      },
+      {
+        "name": "Half-Drow"
+      },
+      {
+        "name": "Half-Aquatic"
+      }
+    ]
+  },
+  {
+    "name": "Half-Orc"
+  },
+  {
+    "name": "Halfling",
+    "subraces": [
+      {
+        "name": "Lightfoot"
+      },
+      {
+        "name": "Stout"
+      },
+      {
+        "name": "Ghostwise"
+      }
+    ]
+  },
+  {
+    "name": "Hobgoblin"
+  },
+  {
+    "name": "Human",
+    "subraces": [
+      {
+        "name": "Variant"
+      }
+    ]
+  },
+  {
+    "name": "Kalashtar"
+  },
+  {
+    "name": "Kender"
+  },
+  {
+    "name": "Kenku"
+  },
+  {
+    "name": "Kobold"
+  },
+  {
+    "name": "Lizardfolk"
+  },
+  {
+    "name": "Loxodon"
+  },
+  {
+    "name": "Merfolk"
+  },
+  {
+    "name": "Minotaur"
+  },
+  {
+    "name": "Orc"
+  },
+  {
+    "name": "Shifter",
+    "subraces": [
+      {
+        "name": "Beasthide"
+      },
+      {
+        "name": "Longtooth"
+      },
+      {
+        "name": "Swiftstride"
+      },
+      {
+        "name": "Wildhunt"
+      }
+    ]
+  },
+  {
+    "name": "Simic Hybrid"
+  },
+  {
+    "name": "Tabaxi"
   },
   {
     "name": "Tiefling",
@@ -101,122 +388,17 @@
           "Invisibility",
           "Minor Illusion"
         ]
+      },
+      {
+        "name": "Feral"
+      },
+      {
+        "name": "Abyssal"
       }
     ]
   },
   {
-    "name": "Genasi",
-    "subraces": [
-      {
-        "name": "Fire",
-        "alwaysPreparedSpells": [
-          "Burning Hands",
-          "Produce Flame"
-        ]
-      },
-      {
-        "name": "Water",
-        "alwaysPreparedSpells": [
-          "Create or Destroy Water",
-          "Shape Water"
-        ]
-      },
-      {
-        "name": "Air",
-        "alwaysPreparedSpells": [
-          "Levitate"
-        ]
-      },
-      {
-        "name": "Earth",
-        "alwaysPreparedSpells": [
-          "Pass without Trace"
-        ]
-      }
-    ]
-  },
-  {
-    "name": "Elf",
-    "subraces": [
-      {
-        "name": "Eladrin",
-        "alwaysPreparedSpells": [
-          "Chill Touch",
-          "Fire Bolt",
-          "Friends",
-          "Minor Illusion"
-        ]
-      },
-      {
-        "name": "Shadar-kai",
-        "alwaysPreparedSpells": [
-          "Chill Touch",
-          "Spare the Dying",
-          "Thaumaturgy"
-        ]
-      },
-      {
-        "name": "Drow",
-        "alwaysPreparedSpells": [
-          "Dancing Lights",
-          "Darkness",
-          "Faerie Fire"
-        ]
-      }
-    ]
-  },
-  {
-    "name": "Half-Elf",
-    "subraces": [
-      {
-        "name": "Drow Descent",
-        "alwaysPreparedSpells": [
-          "Dancing Lights",
-          "Darkness",
-          "Faerie Fire"
-        ]
-      }
-    ]
-  },
-  {
-    "name": "Firbolg",
-    "alwaysPreparedSpells": [
-      "Detect Magic",
-      "Disguise Self"
-    ]
-  },
-  {
-    "name": "Gith",
-    "subraces": [
-      {
-        "name": "Githzerai",
-        "alwaysPreparedSpells": [
-          "Detect Thoughts",
-          "Mage Hand",
-          "Shield"
-        ]
-      },
-      {
-        "name": "Githyanki",
-        "alwaysPreparedSpells": [
-          "Jump",
-          "Mage Hand",
-          "Misty Step"
-        ]
-      }
-    ]
-  },
-  {
-    "name": "Dwarf",
-    "subraces": [
-      {
-        "name": "Duergar",
-        "alwaysPreparedSpells": [
-          "Enlarge/Reduce",
-          "Invisibility"
-        ]
-      }
-    ]
+    "name": "Tortle"
   },
   {
     "name": "Triton",
@@ -227,20 +409,39 @@
     ]
   },
   {
-    "name": "Aasimar",
-    "alwaysPreparedSpells": [
-      "Light"
+    "name": "Vampire"
+  },
+  {
+    "name": "Vedalken"
+  },
+  {
+    "name": "Warforged",
+    "subraces": [
+      {
+        "name": "Envoy"
+      },
+      {
+        "name": "Juggernaut"
+      },
+      {
+        "name": "Skirmisher"
+      }
     ]
   },
   {
-    "name": "Gnome",
+    "name": "Yuan-Ti Pureblood",
     "subraces": [
       {
-        "name": "Forest",
-        "alwaysPreparedSpells": [
-          "Minor Illusion"
-        ]
+        "name": "(none"
       }
+    ]
+  },
+  {
+    "name": "Yuan-ti Pureblood",
+    "alwaysPreparedSpells": [
+      "Animal Friendship",
+      "Poison Spray",
+      "Suggestion"
     ]
   }
 ]
